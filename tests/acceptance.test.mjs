@@ -16,6 +16,39 @@ const freeze = value => {
   return value;
 };
 
+// Export fixtures cross Node/V8/CPU environments. Only computed motion fields
+// may differ by tiny Math-function rounding; all discrete data stays exact.
+const EXPORT_MOTION_TOLERANCE = 1e-10;
+function assertMotionRecord(actual, expected, path) {
+  const actualOther = {...actual}, expectedOther = {...expected};
+  for (const key of ['x', 'y', 'vx', 'vy']) {
+    assert.ok(Number.isFinite(actual[key]) && Number.isFinite(expected[key]), `${path}.${key} must be finite`);
+    assert.ok(Math.abs(actual[key] - expected[key]) <= EXPORT_MOTION_TOLERANCE,
+      `${path}.${key}: ${actual[key]} versus ${expected[key]} exceeds ${EXPORT_MOTION_TOLERANCE}`);
+    delete actualOther[key];
+    delete expectedOther[key];
+  }
+  assert.deepEqual(actualOther, expectedOther, `${path}: non-motion fields must match exactly`);
+}
+function assertSceneExport(actual, expected) {
+  const {frames: actualFrames, ...actualOther} = actual;
+  const {frames: expectedFrames, ...expectedOther} = expected;
+  assert.deepEqual(actualOther, expectedOther, 'scene metadata, events and structure must match exactly');
+  assert.ok(Array.isArray(actualFrames) && Array.isArray(expectedFrames), 'frames must be arrays');
+  assert.equal(actualFrames.length, expectedFrames.length, 'frame count must match exactly');
+  for (let i = 0; i < expectedFrames.length; i++) {
+    const {players: actualPlayers, ball: actualBall, ...actualFrame} = actualFrames[i];
+    const {players: expectedPlayers, ball: expectedBall, ...expectedFrame} = expectedFrames[i];
+    assert.deepEqual(actualFrame, expectedFrame, `frames[${i}]: time and frame fields must match exactly`);
+    assert.ok(Array.isArray(actualPlayers) && Array.isArray(expectedPlayers), `frames[${i}].players must be arrays`);
+    assert.equal(actualPlayers.length, expectedPlayers.length, `frames[${i}]: player count must match exactly`);
+    for (let j = 0; j < expectedPlayers.length; j++) {
+      assertMotionRecord(actualPlayers[j], expectedPlayers[j], `frames[${i}].players[${j}]`);
+    }
+    assertMotionRecord(actualBall, expectedBall, `frames[${i}].ball`);
+  }
+}
+
 test('acceptance: stationary one-dimensional arrival respects the analytic speed/acceleration bound', () => {
   const p = DEFAULT_PARAMS, reaction = .2;
   for (const distance of [1, 4, 12, 25]) {
@@ -75,10 +108,34 @@ test('acceptance: an irrelevant attacking teammate does not alter the direct tar
   assert.deepEqual(analyzeFrame(frame), baseline);
 });
 
+test('acceptance: export comparison permits only tiny finite motion rounding and rejects corrupted data', () => {
+  const expected = generateScenario('diagonal'), rounded = structuredClone(expected);
+  rounded.frames[0].players[0].vx += 5e-11;
+  rounded.frames[0].ball.x += 5e-11;
+  assertSceneExport(rounded, expected);
+  const corruptions = [
+    ['player displacement', s => { s.frames[0].players[0].x += 1e-7; }],
+    ['ball velocity', s => { s.frames[0].ball.vy += 1e-7; }],
+    ['non-finite player velocity', s => { s.frames[0].players[0].vx = NaN; }],
+    ['non-finite ball position', s => { s.frames[0].ball.x = Infinity; }],
+    ['metadata', s => { s.metadata.seed++; }],
+    ['frame time', s => { s.frames[0].t += 1e-11; }],
+    ['event time', s => { s.events[0].t += 1e-11; }],
+    ['player identity', s => { s.frames[0].players[0].id = 'changed'; }],
+    ['missing coordinate', s => { delete s.frames[0].players[0].y; }],
+    ['player count', s => { s.frames[0].players.pop(); }]
+  ];
+  for (const [label, corrupt] of corruptions) {
+    const damaged = structuredClone(expected);
+    corrupt(damaged);
+    assert.throws(() => assertSceneExport(damaged, expected), label);
+  }
+});
+
 for (const spec of SCENARIOS) {
-  test(`acceptance: ${spec.id} export exactly reproduces its declared generator and has coherent ground passes`, async () => {
+  test(`acceptance: ${spec.id} export reproduces its generator within motion tolerance and has coherent ground passes`, async () => {
     const data = JSON.parse(await readFile(new URL(`../data/${spec.id}.json`, import.meta.url), 'utf8'));
-    assert.deepEqual(data, generateScenario(spec.id, data.metadata.seed));
+    assertSceneExport(data, generateScenario(spec.id, data.metadata.seed));
     assert.equal(data.metadata.synthetic, true);
     assert.equal(data.metadata.labelsAreHypotheses, true);
     const dt = 1 / data.metadata.sampleRate;
