@@ -1,0 +1,3 @@
+import {explain,foundryConfiguration} from '../src/agent.mjs';
+if(!foundryConfiguration(process.env).configured){console.error('Cloud smoke test not run: set AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_API_KEY and AZURE_OPENAI_DEPLOYMENT in the server environment.');process.exitCode=2;}
+else{const result=await explain({scenarioId:'diagonal',question:'Why does the diagonal run change the receiving option?',audience:'analyst'});console.log(JSON.stringify({source:result.source,status:result.status,cloud:result.cloud,toolTrace:result.toolTrace,context:result.context,text:result.text,fallbackReason:result.fallbackReason},null,2));if(!result.cloud.verified)process.exitCode=1;}

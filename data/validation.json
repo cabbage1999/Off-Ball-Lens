@@ -1,0 +1,266 @@
+{
+  "generatedAt": "2026-10-22T12:43:22.223Z",
+  "modelVersion": "receiving-index-v1.3",
+  "data": "Synthetic; independently authored trajectories. Scene hypotheses are not validation labels.",
+  "cloudIntegration": "Not validated by this script; requires the separate cloud smoke check with a configured deployment.",
+  "results": [
+    {
+      "scenario": "diagonal",
+      "frames": 161,
+      "players": 22,
+      "maxSpeed": 4.900000000000001,
+      "maxAcceleration": 3.2000000000000135,
+      "minPlayerSeparation": 3.675421494497386,
+      "comparison": {
+        "meanRun": 36.402260776271405,
+        "meanAlternative": 32.43302571956967,
+        "meanDelta": 3.9692350567017436,
+        "peakRun": 42.485973914915306,
+        "peakAlternative": 32.8470643271712,
+        "peakDelta": 10.339618267398286,
+        "peakTime": 5
+      },
+      "sensitivity": {
+        "results": [
+          {
+            "label": "baseline",
+            "meanDelta": 3.9692350567017436,
+            "params": {}
+          },
+          {
+            "label": "slower ball",
+            "meanDelta": 5.619643095133801,
+            "params": {
+              "ballSpeed": 13.5
+            }
+          },
+          {
+            "label": "faster ball",
+            "meanDelta": 2.2322632477770425,
+            "params": {
+              "ballSpeed": 16.5
+            }
+          },
+          {
+            "label": "quicker reaction",
+            "meanDelta": 3.943014375178066,
+            "params": {
+              "reactionTime": 0.24999999999999997
+            }
+          },
+          {
+            "label": "slower reaction",
+            "meanDelta": 3.9840007330437786,
+            "params": {
+              "reactionTime": 0.44999999999999996
+            }
+          },
+          {
+            "label": "less central preference",
+            "meanDelta": 3.4907336005309313,
+            "params": {
+              "centralityWeight": 0.30000000000000004
+            }
+          },
+          {
+            "label": "more central preference",
+            "meanDelta": 4.447736512872558,
+            "params": {
+              "centralityWeight": 0.5
+            }
+          },
+          {
+            "label": "receiver position -0.25 m",
+            "meanDelta": 4.045210384211896,
+            "params": {
+              "receiverLongitudinalOffset": -0.25
+            }
+          },
+          {
+            "label": "receiver position +0.25 m",
+            "meanDelta": 3.881824261669845,
+            "params": {
+              "receiverLongitudinalOffset": 0.25
+            }
+          }
+        ],
+        "min": 2.2322632477770425,
+        "max": 5.619643095133801,
+        "signStable": true,
+        "label": "One-at-a-time assumption range; not a confidence interval."
+      }
+    },
+    {
+      "scenario": "crowded",
+      "frames": 161,
+      "players": 22,
+      "maxSpeed": 4.900000000000001,
+      "maxAcceleration": 3.200000000000015,
+      "minPlayerSeparation": 3.811046193358246,
+      "comparison": {
+        "meanRun": 30.516263203024295,
+        "meanAlternative": 35.029620791831206,
+        "meanDelta": -4.513357588806912,
+        "peakRun": 36.13549525669271,
+        "peakAlternative": 35.30794157088428,
+        "peakDelta": -32.41432645051975,
+        "peakTime": 5
+      },
+      "sensitivity": {
+        "results": [
+          {
+            "label": "baseline",
+            "meanDelta": -4.513357588806912,
+            "params": {}
+          },
+          {
+            "label": "slower ball",
+            "meanDelta": -4.1221007930001665,
+            "params": {
+              "ballSpeed": 13.5
+            }
+          },
+          {
+            "label": "faster ball",
+            "meanDelta": -5.191691805677355,
+            "params": {
+              "ballSpeed": 16.5
+            }
+          },
+          {
+            "label": "quicker reaction",
+            "meanDelta": -5.280698496388772,
+            "params": {
+              "reactionTime": 0.24999999999999997
+            }
+          },
+          {
+            "label": "slower reaction",
+            "meanDelta": -3.7904140047116153,
+            "params": {
+              "reactionTime": 0.44999999999999996
+            }
+          },
+          {
+            "label": "less central preference",
+            "meanDelta": -5.533007013782635,
+            "params": {
+              "centralityWeight": 0.30000000000000004
+            }
+          },
+          {
+            "label": "more central preference",
+            "meanDelta": -3.493708163831196,
+            "params": {
+              "centralityWeight": 0.5
+            }
+          },
+          {
+            "label": "receiver position -0.25 m",
+            "meanDelta": -4.0983124317118085,
+            "params": {
+              "receiverLongitudinalOffset": -0.25
+            }
+          },
+          {
+            "label": "receiver position +0.25 m",
+            "meanDelta": -4.909898684475686,
+            "params": {
+              "receiverLongitudinalOffset": 0.25
+            }
+          }
+        ],
+        "min": -5.533007013782635,
+        "max": -3.493708163831196,
+        "signStable": true,
+        "label": "One-at-a-time assumption range; not a confidence interval."
+      }
+    },
+    {
+      "scenario": "early",
+      "frames": 161,
+      "players": 22,
+      "maxSpeed": 6.400000000000001,
+      "maxAcceleration": 3.2000000000000157,
+      "minPlayerSeparation": 3.6252931789515883,
+      "comparison": {
+        "meanRun": 23.941165576785338,
+        "meanAlternative": 44.82760861135561,
+        "meanDelta": -20.886443034570263,
+        "peakRun": 46.731321542359815,
+        "peakAlternative": 45.12888035902591,
+        "peakDelta": -45.12888035902591,
+        "peakTime": 4.1
+      },
+      "sensitivity": {
+        "results": [
+          {
+            "label": "baseline",
+            "meanDelta": -20.886443034570263,
+            "params": {}
+          },
+          {
+            "label": "slower ball",
+            "meanDelta": -21.698979526786054,
+            "params": {
+              "ballSpeed": 13.5
+            }
+          },
+          {
+            "label": "faster ball",
+            "meanDelta": -20.562075090339285,
+            "params": {
+              "ballSpeed": 16.5
+            }
+          },
+          {
+            "label": "quicker reaction",
+            "meanDelta": -21.274054142094617,
+            "params": {
+              "reactionTime": 0.24999999999999997
+            }
+          },
+          {
+            "label": "slower reaction",
+            "meanDelta": -20.534924670429426,
+            "params": {
+              "reactionTime": 0.44999999999999996
+            }
+          },
+          {
+            "label": "less central preference",
+            "meanDelta": -22.047420626585385,
+            "params": {
+              "centralityWeight": 0.30000000000000004
+            }
+          },
+          {
+            "label": "more central preference",
+            "meanDelta": -19.72546544255516,
+            "params": {
+              "centralityWeight": 0.5
+            }
+          },
+          {
+            "label": "receiver position -0.25 m",
+            "meanDelta": -20.74150720482451,
+            "params": {
+              "receiverLongitudinalOffset": -0.25
+            }
+          },
+          {
+            "label": "receiver position +0.25 m",
+            "meanDelta": -21.026856239699157,
+            "params": {
+              "receiverLongitudinalOffset": 0.25
+            }
+          }
+        ],
+        "min": -22.047420626585385,
+        "max": -19.72546544255516,
+        "signStable": true,
+        "label": "One-at-a-time assumption range; not a confidence interval."
+      }
+    }
+  ]
+}

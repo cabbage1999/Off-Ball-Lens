@@ -6,6 +6,8 @@ Off-Ball Lens is an interactive feasibility demo for the Microsoft Premier Leagu
 
 **[Open the interactive demo](https://cabbage1999.github.io/Off-Ball-Lens/)** · [中文说明](docs/README.zh-CN.md) · [Demo walkthrough](docs/demo-guide.md) · [Method](docs/method.md) · [Independent acceptance](docs/acceptance.md)
 
+![Off-Ball Lens interface](assets/demo-desktop.jpg)
+
 The static demo runs locally in your browser. No account, GPU, model training or API key is required. The optional Microsoft Foundry integration requires a separately configured server. **No real Azure deployment has been tested for this delivery.**
 
 ## Run locally

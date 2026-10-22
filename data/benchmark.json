@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-22T12:43:22.254Z",
+  "modelVersion": "receiving-index-v1.3",
+  "runtime": "v22.20.0",
+  "platform": "darwin arm64",
+  "cpu": "Apple M4",
+  "measurements": [
+    {
+      "scenario": "diagonal",
+      "currentFrame": {
+        "medianMs": 0.17,
+        "minMs": 0.16,
+        "maxMs": 0.24,
+        "runs": 5
+      },
+      "comparison": {
+        "medianMs": 34.45,
+        "minMs": 33.93,
+        "maxMs": 37.4,
+        "runs": 5
+      },
+      "sensitivity": {
+        "medianMs": 296.79,
+        "minMs": 282.27,
+        "maxMs": 327.07,
+        "runs": 3
+      },
+      "summary": {
+        "meanRun": 36.402260776271405,
+        "meanAlternative": 32.43302571956967,
+        "meanDelta": 3.9692350567017436,
+        "peakRun": 42.485973914915306,
+        "peakAlternative": 32.8470643271712,
+        "peakDelta": 10.339618267398286,
+        "peakTime": 5
+      }
+    },
+    {
+      "scenario": "crowded",
+      "currentFrame": {
+        "medianMs": 0.16,
+        "minMs": 0.15,
+        "maxMs": 0.16,
+        "runs": 5
+      },
+      "comparison": {
+        "medianMs": 37,
+        "minMs": 36.53,
+        "maxMs": 37.89,
+        "runs": 5
+      },
+      "sensitivity": {
+        "medianMs": 337.93,
+        "minMs": 334.62,
+        "maxMs": 345.63,
+        "runs": 3
+      },
+      "summary": {
+        "meanRun": 30.516263203024295,
+        "meanAlternative": 35.029620791831206,
+        "meanDelta": -4.513357588806912,
+        "peakRun": 36.13549525669271,
+        "peakAlternative": 35.30794157088428,
+        "peakDelta": -32.41432645051975,
+        "peakTime": 5
+      }
+    },
+    {
+      "scenario": "early",
+      "currentFrame": {
+        "medianMs": 0.05,
+        "minMs": 0.04,
+        "maxMs": 0.05,
+        "runs": 5
+      },
+      "comparison": {
+        "medianMs": 35.13,
+        "minMs": 34.35,
+        "maxMs": 36.59,
+        "runs": 5
+      },
+      "sensitivity": {
+        "medianMs": 315.07,
+        "minMs": 312.02,
+        "maxMs": 315.39,
+        "runs": 3
+      },
+      "summary": {
+        "meanRun": 23.941165576785338,
+        "meanAlternative": 44.82760861135561,
+        "meanDelta": -20.886443034570263,
+        "peakRun": 46.731321542359815,
+        "peakAlternative": 45.12888035902591,
+        "peakDelta": -45.12888035902591,
+        "peakTime": 4.1
+      }
+    }
+  ]
+}
