@@ -6,7 +6,7 @@ The acceptance role received the requested “GPT-6 Astra / max” configuration
 
 ## Current result
 
-The frozen **receiving-index-v1.3** implementation passes the automated and browser acceptance checks described below. The complete final test suite completed with **58 tests passed, 0 failed, 0 skipped**. Eleven of these tests were added by the independent acceptance role in `tests/acceptance.test.mjs`; the role did not modify the scoring, scenario, server, or explanation implementation.
+The frozen **receiving-index-v1.3** implementation passes the local automated and browser acceptance checks described below. After the cross-platform fixture-comparison correction described below, both the local test suite and [GitHub's Ubuntu CI run](https://github.com/cabbage1999/Off-Ball-Lens/actions/runs/39786189316) completed with **59 tests passed, 0 failed, 0 skipped**. Twelve of these tests were added by the independent acceptance role in `tests/acceptance.test.mjs`; the role did not modify the scoring, scenario, server, explanation implementation, or exported scene data. The main agent separately verified the remote job's logs and successful data-validation and syntax-check steps at commit `5233ad455be813da3e2934e0fa7681a9cc8bcb4d`.
 
 The first unprivileged run passed the non-network tests but could not bind the local HTTP test server (`listen EPERM`). The HTTP test and then the complete suite were rerun successfully with local loopback access. This was an execution-environment restriction, not an ignored failing assertion.
 
@@ -18,7 +18,15 @@ node --test tests/server.test.mjs
 node --test tests/*.test.mjs
 ```
 
-The final complete run took approximately 1.15 seconds on this machine. This is a test-suite duration, not a browser-performance or cloud-latency benchmark.
+The latest complete local run took approximately 1.02 seconds on this machine (macOS arm64, Node 22.20.0). This is a test-suite duration, not a browser-performance or cloud-latency benchmark.
+
+## Cross-platform fixture comparison
+
+The initial local suite passed 58 tests, but the subsequent GitHub run on Ubuntu 24.04/x64 with Node 22.23.4 passed 55 and failed the three exported-scene equality checks. The CI log identified last-digit differences in motion values compared by whole-object `deepEqual`. The generator uses `Math.sin`, `Math.hypot`, and related floating-point operations; [ECMAScript's implementation-approximated mathematics](https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-math.sin) does not establish cross-platform bit-for-bit identity.
+
+The corrected fixture check permits an **absolute difference of at most 1e-10 only for ball/player `x`, `y`, `vx`, and `vy`** (metres or metres per second). Both compared values must be finite. Metadata, events, frame times, IDs, counts, remaining fields and structure still require exact equality. The existing same-process repeated-generation exact checks are unchanged; no simulation or fixture values were rounded or regenerated to make the test pass.
+
+A focused corruption check verifies that tiny permitted rounding is accepted, while 1e-7 motion changes, NaN/Infinity, metadata changes, even 1e-11 timestamp changes, altered identities, missing coordinates and changed player counts are rejected. The full corrected suite passed locally and on the subsequent Ubuntu/Node 22.23.4 CI run linked above. This confirms agreement within the declared tolerance on the tested environments; it does not establish cross-platform bitwise identity.
 
 ## Independent numerical and data checks
 
@@ -28,7 +36,7 @@ The final complete run took approximately 1.15 seconds on this machine. This is 
 | Smooth stopping distance | Passed | From 1.2 m/s, the alternative travels 0.228 m before stopping, compared with the exact minimum of 0.225 m. The 0.003 m surplus is within the bound for the final discrete braking step. |
 | Added lane defender | Passed | With release legality unchanged, adding a defender reduces the best opportunity and never increases an individual candidate's score. Location utility and receiver readiness remain unchanged. |
 | Irrelevant teammate removal | Passed | Removing other attackers leaves the selected player's direct receiving analysis unchanged. |
-| Data-file reproducibility | Passed for all three scenes | Each checked-in scene JSON exactly equals regeneration from its declared scene ID and seed. |
+| Data-file reproducibility | Passed locally and in Ubuntu CI for all three scenes with the corrected comparator | Regeneration from the declared scene ID and seed matches all structure and non-motion fields exactly; only finite ball/player motion fields allow an absolute tolerance of 1e-10. Same-process regeneration still requires exact equality. |
 | Ball and event coherence | Passed for all three scenes | The ball stays in bounds; consecutive positions do not teleport; straight-flight positions agree with the recorded velocity, including reception; actual pass targets are onside under the point-player release screen. |
 | Player separation | Passed at every recorded frame | No pair falls within 0.8 m. Observed minimum separations are approximately 3.68, 3.81, and 3.63 m for diagonal, crowded, and early. This is not a full collision or football-realism certification. |
 | Frozen-input/read-only analysis | Passed | Scoring, comparison, and local explanation do not mutate deeply frozen inputs; repeated local explanations are identical. |
@@ -69,13 +77,15 @@ Real-browser checks were executed in a separate Codex in-app browser tab. The ap
 | Sensitivity and team-best controls | Both completed and displayed their distinct semantics. Sensitivity was labelled as assumption checks rather than a confidence interval; team-best was explicitly not a sum of personal scores. |
 | Invalid comparison window | In the final v1.3 page, starting at 8.0 s returned no valid window; both sensitivity and team-best buttons were disabled. |
 | Narrow-screen layout | At 390 × 844 pixels the replay, controls and explanation cards were visible. Both body and document width equalled 390 pixels, with no horizontal overflow. The viewport override was reset. |
-| Export | The final v1.3 JSON was actually downloaded through the UI and independently regenerated from its recorded scene ID, seed, parameters, start and horizon. All 26 run/alternative/difference samples matched exactly; maximum absolute replay error was zero. Summary values also matched exactly. The included explanation retained `offline-template` and `cloud.verified: false`. |
+| Export | The final v1.3 JSON was actually downloaded through the UI and independently regenerated from its recorded scene ID, seed, parameters, start and horizon on the acceptance machine. All 26 run/alternative/difference samples matched exactly; maximum absolute replay error was zero. Summary values also matched exactly. This observed same-machine result is not a cross-platform bitwise guarantee. The included explanation retained `offline-template` and `cloud.verified: false`. |
 
 The explanation button initially failed with `Unsupported model parameter`; this was reported to the main implementer, corrected by sending only supported parameters, and successfully retested through both serving modes. No unresolved delivery blocker was found in the executed checks.
 
 Source inspection confirms revision checks and a per-question request ID before asynchronous answers are applied. Normal state-change invalidation was exercised above; a deliberately delayed, out-of-order live-cloud response was not simulated in the browser. This distinction is retained rather than treating source inspection as that runtime test.
 
 Visual records: [desktop screenshot](acceptance-desktop.jpg) and [390-pixel screenshot](acceptance-mobile.jpg). The accepted download was `off-ball-lens-diagonal-evidence (1).json`; the first download was from an earlier development version and was not used for final v1.3 acceptance.
+
+Publication smoke check (main agent, separate from the independent local checks): the [public GitHub Pages demo](https://cabbage1999.github.io/Off-Ball-Lens/) loaded in Chrome. The visible comparison showed 36.4 versus 32.4 (+4.0 points); English/Chinese switching, a Chinese local explanation carrying `receiving-index-v1.3`, evidence-frame buttons, and the nine-perturbation result (+2.2 to +5.6) all rendered successfully. The answer explicitly identified its deterministic local source. GitHub Pages deployment completed successfully.
 
 ## Limits of this acceptance
 
