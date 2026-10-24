@@ -23,7 +23,9 @@ The first [Ubuntu verification run](https://github.com/cabbage1999/Off-Ball-Lens
 
 The independent acceptance role repaired that test, retaining exact single-frame versus newly computed batch equality in the same runtime. Cross-platform stored AS/DAS values use a strict 1e-6 relative tolerance with no absolute floor; identities, statuses, nulls, source hashes and encoded heatmap bytes remain exact. Regression checks accept the observed CI differences and reject materially changed numbers, invalid values, state/identity changes and corrupted heatmaps. The model and stored outputs were not modified to make CI pass. See [the independent report](acceptance.md) for the exact scope and numerical rationale.
 
-The follow-up GitHub Actions result is tracked in the repository's [verification workflow](https://github.com/cabbage1999/Off-Ball-Lens/actions/workflows/verify.yml); the initial failed run remains available rather than being represented as a pass.
+The corrected [Ubuntu run 40103863101](https://github.com/cabbage1999/Off-Ball-Lens/actions/runs/40103863101), at commit `f97dbcda8913599644ca9546017873a0f0151c8e`, **passed every step**: clean locked-dependency installation, 50 JavaScript tests, scene validation, all 33 Python tests, author-model adaptation and sensitivity checks, and JavaScript syntax checks. Its [Pages deployment](https://github.com/cabbage1999/Off-Ball-Lens/actions/runs/40103862842) also succeeded. The initial failed run remains available rather than being represented as a pass.
+
+The adversarial role separately reviewed the precision correction without editing it and found no P1/P2 issue or excessive tolerance. It independently ran the nine acceptance tests, accepted 40 deliberate within-tolerance changes, rejected 342 numerical/structural corruptions and four hash corruptions, and confirmed that even a 0.5 ppm single-frame change fails the same-runtime exact batch comparison. Its reviewed test-file SHA-256 is `8a941796ffd1af2cbf992319f8b321af392d967bae8e75a6303d7bbde87fcabf`. These are numerical/software checks, not validation of football accuracy.
 
 ## Integration-only addition and remaining gates
 

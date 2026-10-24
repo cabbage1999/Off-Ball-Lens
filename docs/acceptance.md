@@ -2,6 +2,8 @@
 
 Date: 24 October 2026. Scope: the rebuilt author-model receiving-space application. This report replaces the earlier heuristic-index acceptance report in full; no earlier release, CI run, screenshot or public demo is evidence that v2 has passed.
 
+Root integration addendum: after this role finalized the local report below, corrected Ubuntu CI passed at commit `f97dbcda8913599644ca9546017873a0f0151c8e`. Public replay and video checks also passed. See [the separately attributed release record](release-verification.md); the role-specific observations and pending status at its report time are preserved below.
+
 Status: **PASS for the executed local v2 acceptance scope.** Both application defects discovered by this role were repaired by the implementers and independently retested. A later Ubuntu CI run exposed an overly strict cross-platform test comparison; its correction is locally verified below, while the corrected Ubuntu rerun is pending. The final data use `tactical-state-v2.0.1`. This is not an acceptance of live Microsoft inference, a public deployment, or real-match scientific accuracy; the outstanding gates are listed below.
 
 The acceptance role received the requested “GPT-6 Astra / max” configuration. It cannot inspect the platform's hidden runtime configuration and does not independently attest the actual model or reasoning setting.

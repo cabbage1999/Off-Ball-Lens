@@ -10,6 +10,7 @@ This document distinguishes an executable research demo from a finished hackatho
 | Temporal visualization | Prefix-only curves and revised moments; explicit analysis frames; fixed colour scale |
 | Qualitative and sensitivity checks | Ten examples plus resolution/noise/sampling report; no claimed independent football-expert truth |
 | Independent acceptance and adversarial review | Independent v2 reviews, reproduced defects and repairs are recorded in acceptance.md and adversarial-review.md; no v1 results are carried forward |
+| Clean Linux environment and CI | Corrected Ubuntu run 40103863101 passed locked dependency installation, 50 JavaScript and 33 Python tests, scene checks and model/sensitivity verification; see release-verification.md |
 | Real Microsoft Foundry call | **NOT RUN.** Team has no usable deployment; follow foundry-setup.zh-CN.md, then run smoke:foundry |
 | Public static v2 build | Published and browser-checked at application commit `9b871a934bd125c20cd9df99c7c44c60f93857af`; all six scene/analysis file hashes match the accepted local version. See release-verification.md for checks and CI history |
 | Public cloud-enabled service | Requires a configured and hosted Node backend; GitHub Pages cannot supply it |
