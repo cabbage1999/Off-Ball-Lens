@@ -85,6 +85,8 @@ npm run smoke:foundry
 
 A successful real call writes a sanitized `artifacts/foundry-trace.json`. Missing configuration exits with **NOT RUN** and makes no request. `cloud-configured` means settings are present; `cloud-verified` applies only after a successful real tool loop. GitHub Pages serves the replay/local explanations only; the Node server must be hosted separately for public cloud use. No key belongs in the browser or repository.
 
+Follow the [public deployment guide](docs/deployment.zh-CN.md) to serve the UI and API from the same Node origin. `npm run smoke:deployment -- --url https://YOUR-APP.azurewebsites.net` checks the hosted HTTP paths, deployed file hashes, tool trace and exact evidence against this checkout. Its default mode requires the server's cloud protocol; `--offline` is explicitly limited to an unconfigured local/offline service. An HTTP contract check does not independently authenticate the server's Azure backend, so its report does not replace the real provider trace and Azure-side invocation evidence. Closing a client request cancels its provider work and retry waits; genuine provider failures still produce the labelled fallback.
+
 ## Repository map
 
 | Path | Responsibility |

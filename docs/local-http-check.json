@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-24T15:22:29.633Z",
+  "passed": true,
+  "mode": "offline",
+  "scope": "local-http-offline",
+  "realCloudVerified": false,
+  "cloudProtocolVerified": false,
+  "serverReportedCloudVerified": false,
+  "target": {
+    "origin": "http://127.0.0.1:4176",
+    "kind": "loopback"
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 13219,
+      "localSha256": "5cbd1540519d92ce876c90c7dc8c5c520c9b893f990e128022c3c4f6e704843f",
+      "remoteSha256": "5cbd1540519d92ce876c90c7dc8c5c520c9b893f990e128022c3c4f6e704843f",
+      "matched": true
+    },
+    {
+      "path": "app.mjs",
+      "bytes": 47629,
+      "localSha256": "f63a88bfd4ba05ee91ff85daa503d23b9e3e34f849db129cfc1ca62ef863c7e3",
+      "remoteSha256": "f63a88bfd4ba05ee91ff85daa503d23b9e3e34f849db129cfc1ca62ef863c7e3",
+      "matched": true
+    },
+    {
+      "path": "style.css",
+      "bytes": 22653,
+      "localSha256": "f1f940bbc60eb10ad30975101ab3c820e293c9e7066c864f43b70bb2bbc43bf2",
+      "remoteSha256": "f1f940bbc60eb10ad30975101ab3c820e293c9e7066c864f43b70bb2bbc43bf2",
+      "matched": true
+    },
+    {
+      "path": "src/analysis.mjs",
+      "bytes": 8848,
+      "localSha256": "cef3e82a8320ee45400a37fc2da44fbefcbee85893ace28c3f9aa492f7d5f5b6",
+      "remoteSha256": "cef3e82a8320ee45400a37fc2da44fbefcbee85893ace28c3f9aa492f7d5f5b6",
+      "matched": true
+    },
+    {
+      "path": "src/agent.mjs",
+      "bytes": 13518,
+      "localSha256": "41b2f8f230b8962540af10ecf4cfedb381c4d0f27a1191cf09b4ee3b997af6ac",
+      "remoteSha256": "41b2f8f230b8962540af10ecf4cfedb381c4d0f27a1191cf09b4ee3b997af6ac",
+      "matched": true
+    },
+    {
+      "path": "src/evidence.mjs",
+      "bytes": 17457,
+      "localSha256": "b67984e0d1dd55e1a416975f02ff02fc4ba77cbaf16a218a83b1d14394bd62a5",
+      "remoteSha256": "b67984e0d1dd55e1a416975f02ff02fc4ba77cbaf16a218a83b1d14394bd62a5",
+      "matched": true
+    },
+    {
+      "path": "data/used.json",
+      "bytes": 1219425,
+      "localSha256": "f1fb9c9a473184242096d554d94b69a7222d115d78a336332ab807961bebb62f",
+      "remoteSha256": "f1fb9c9a473184242096d554d94b69a7222d115d78a336332ab807961bebb62f",
+      "matched": true
+    },
+    {
+      "path": "data/analysis/used.json",
+      "bytes": 1732193,
+      "localSha256": "ca157e8e8f9489629a2afd0e6ff94c4d3392a9a434d4675c3e8fbd75da15d4c5",
+      "remoteSha256": "ca157e8e8f9489629a2afd0e6ff94c4d3392a9a434d4675c3e8fbd75da15d4c5",
+      "matched": true
+    },
+    {
+      "path": "data/unused.json",
+      "bytes": 1292543,
+      "localSha256": "8c8dbeee60d313fd2e0bb4bbeeb53cb1671a321459e7e4e71420f1651924f1c1",
+      "remoteSha256": "8c8dbeee60d313fd2e0bb4bbeeb53cb1671a321459e7e4e71420f1651924f1c1",
+      "matched": true
+    },
+    {
+      "path": "data/analysis/unused.json",
+      "bytes": 1810292,
+      "localSha256": "a5a7bb7974c329440b5d41567a6095139c5ec28a8b6d622d978966c690d8226e",
+      "remoteSha256": "a5a7bb7974c329440b5d41567a6095139c5ec28a8b6d622d978966c690d8226e",
+      "matched": true
+    },
+    {
+      "path": "data/blocked.json",
+      "bytes": 1146752,
+      "localSha256": "0925b9872d7f353b3767e41d406a4574d920989469ac35dba27bf937b92a9133",
+      "remoteSha256": "0925b9872d7f353b3767e41d406a4574d920989469ac35dba27bf937b92a9133",
+      "matched": true
+    },
+    {
+      "path": "data/analysis/blocked.json",
+      "bytes": 1623981,
+      "localSha256": "e386cf223e207fdf754244fbb339cd025fb9898dd998952a0c92a0b22f088959",
+      "remoteSha256": "e386cf223e207fdf754244fbb339cd025fb9898dd998952a0c92a0b22f088959",
+      "matched": true
+    }
+  ],
+  "catalog": {
+    "matched": true,
+    "scenarioIds": [
+      "used",
+      "unused",
+      "blocked"
+    ]
+  },
+  "healthBefore": {
+    "ok": true,
+    "mode": "offline",
+    "analysisMode": "precomputed",
+    "model": "accessible-space-2.1.0",
+    "cloud": {
+      "configured": false,
+      "verified": false
+    }
+  },
+  "explanation": {
+    "source": "offline-template",
+    "status": "offline",
+    "cached": false,
+    "cloud": {
+      "configured": false,
+      "verified": false
+    },
+    "context": {
+      "scenarioId": "used",
+      "playerId": "A7",
+      "asOfTime": 5,
+      "startTime": 0,
+      "endTime": 5,
+      "analysisTime": 5,
+      "analysisFrameId": "used:0050",
+      "mode": "precomputed-prefix",
+      "modelVersion": "2.1.0",
+      "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+    },
+    "summary": {
+      "startTime": 4.4,
+      "endTime": 5,
+      "duration": 0.6,
+      "startDAS": 0.1863,
+      "endDAS": 0.1857,
+      "deltaDAS": -0.0006,
+      "meanDAS": 0.1851,
+      "peakDAS": 0.1863,
+      "peakTime": 4.4,
+      "peakFrameId": "used:0044",
+      "carrierId": "A6",
+      "sampleCount": 4
+    },
+    "claimIds": [
+      "C:current:0.000:5.000",
+      "C:change:0.000:5.000",
+      "C:peak:0.000:5.000",
+      "C:limits:0.000:5.000"
+    ],
+    "evidence": [
+      {
+        "id": "E:used:0050:A7",
+        "frameId": "used:0050",
+        "frameIndex": 50,
+        "t": 5,
+        "playerId": "A7",
+        "status": "eligible",
+        "as": 322.6833190917969,
+        "das": 0.1856894307352538
+      },
+      {
+        "id": "E:used:0044:A7",
+        "frameId": "used:0044",
+        "frameIndex": 44,
+        "t": 4.4,
+        "playerId": "A7",
+        "status": "eligible",
+        "as": 339.43017578125,
+        "das": 0.18628998562597415
+      }
+    ],
+    "matchedLocalFacts": true,
+    "toolTrace": [
+      {
+        "name": "analyze_window",
+        "status": "completed",
+        "source": "local-deterministic",
+        "playerId": "A7",
+        "startTime": 0,
+        "endTime": 5
+      },
+      {
+        "name": "get_evidence",
+        "status": "completed",
+        "source": "local-deterministic",
+        "evidenceCount": 2
+      }
+    ],
+    "trace": null
+  },
+  "healthAfter": {
+    "ok": true,
+    "mode": "offline",
+    "analysisMode": "precomputed",
+    "model": "accessible-space-2.1.0",
+    "cloud": {
+      "configured": false,
+      "verified": false
+    }
+  },
+  "failure": null,
+  "verificationBoundary": "HTTP contract, local-byte/evidence comparison, and server-reported cloud status only. Neither a loopback simulation nor a public HTTPS response independently proves an Azure call. realCloudVerified remains false; independent provider-call evidence or Azure-side records are required for that separate gate."
+}

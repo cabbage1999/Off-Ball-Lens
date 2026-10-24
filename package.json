@@ -12,7 +12,8 @@
     "test:analytics": "node scripts/run-python.mjs -m pytest analytics/tests -q",
     "benchmark": "node scripts/run-python.mjs -m analytics.validate",
     "validate": "node scripts/validate.mjs",
-    "smoke:foundry": "node scripts/smoke-foundry.mjs"
+    "smoke:foundry": "node scripts/smoke-foundry.mjs",
+    "smoke:deployment": "node scripts/smoke-deployment.mjs"
   },
   "engines": { "node": ">=22" },
   "license": "MIT"

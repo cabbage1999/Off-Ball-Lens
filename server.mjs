@@ -11,7 +11,7 @@ const ROOT=fileURLToPath(new URL('.',import.meta.url));
 const MIME={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.ico':'image/x-icon','.md':'text/markdown; charset=utf-8','.mp4':'video/mp4','.webm':'video/webm','.vtt':'text/vtt; charset=utf-8'};
 const SECURITY={'x-content-type-options':'nosniff','referrer-policy':'same-origin','x-frame-options':'DENY','content-security-policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"};
 
-function json(res,status,data){res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store',...SECURITY});res.end(JSON.stringify(data));}
+function json(res,status,data){if(res.destroyed||res.writableEnded)return;res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store',...SECURITY});res.end(JSON.stringify(data));}
 async function readJson(req){
   if(!/^application\/json(?:;|$)/i.test(req.headers['content-type']??''))throw Object.assign(new Error('Use application/json'),{status:415});
   let size=0;const chunks=[];
@@ -55,15 +55,22 @@ export function createServer(options={}){
         // simultaneous header-first requests cannot all pass the earlier gate.
         if(active>=2)return json(res,503,{error:'Two explanation requests are already running. Try again shortly.'});
         active++;
+        const cancellation=new AbortController();
+        const onClose=()=>{if(!res.writableEnded)cancellation.abort(new DOMException('Client disconnected','AbortError'));};
+        res.once('close',onClose);
+        if(res.destroyed)onClose();
         try{
+          cancellation.signal.throwIfAborted();
           const bundle=await loadBundle(input.scenarioId??'used');
+          cancellation.signal.throwIfAborted();
           const key=createHash('sha256').update(JSON.stringify(input)+(bundle.sourceDigest??JSON.stringify(bundle.analysis))).digest('hex');
           const cached=cache.get(key);
           if(cached&&Date.now()-cached.createdAt<120000)return json(res,200,{...cached.output,cached:true});
-          const output=await explain(input,{bundle,env,fetchImpl:options.fetchImpl,timeoutMs:options.timeoutMs});
+          const output=await explain(input,{bundle,env,fetchImpl:options.fetchImpl,timeoutMs:options.timeoutMs,signal:cancellation.signal});
+          cancellation.signal.throwIfAborted();
           if(output.cloud.verified){cloudVerified=true;cache.set(key,{createdAt:Date.now(),output});if(cache.size>100)cache.delete(cache.keys().next().value);}
           return json(res,200,output);
-        }finally{active--;}
+        }finally{res.off('close',onClose);active--;}
       }
       if(pathname.startsWith('/api/'))return json(res,404,{error:'Unknown API route'});
       if(req.method!=='GET'&&req.method!=='HEAD')return json(res,405,{error:'Method not allowed'});

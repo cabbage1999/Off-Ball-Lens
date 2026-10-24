@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile, mkdtemp, mkdir, writeFile, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
-import {PassThrough} from 'node:stream';
+import {once} from 'node:events';
 import {createAnalysisTools, offlineExplain, explain} from '../src/agent.mjs';
 import {createServer} from '../server.mjs';
 import {fixture} from './fixtures/das-bundle.mjs';
@@ -115,16 +115,18 @@ test('claim IDs from a superseded model window cannot be reused without fresh ev
   assert.equal(answer.fallbackReason,'invalid_evidence_reference');
 });
 
-// Exercise the actual HTTP request handler without binding a socket. The desktop
-// environment may disallow local listeners; this is not a simulated implementation.
-async function invokeHandler(server, body) {
-  const req = new PassThrough();
-  Object.assign(req,{method:'POST',url:'/api/explain',headers:{'content-type':'application/json',host:'localhost'},socket:{remoteAddress:'local-adversarial-test'}});
-  return new Promise(resolve => {
-    const res = {writeHead(status){this.status=status;},end(payload){resolve({status:this.status,body:JSON.parse(payload)});}};
-    server.emit('request',req,res);
-    req.end(JSON.stringify(body));
-  });
+// Use the real Node response lifecycle, including close/cancellation listeners.
+async function invokeHttp(server, body) {
+  server.listen(0,'127.0.0.1');
+  await once(server,'listening');
+  try {
+    const response=await fetch(`http://127.0.0.1:${server.address().port}/api/explain`,{
+      method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
+    return {status:response.status,body:await response.json()};
+  } finally {
+    server.closeAllConnections();
+    await new Promise(resolve=>server.close(resolve));
+  }
 }
 
 test('server refuses stale analysis even when scene IDs, frame IDs and timestamps match', async () => {
@@ -136,7 +138,7 @@ test('server refuses stale analysis even when scene IDs, frame IDs and timestamp
     await writeFile(path.join(root,'data','blocked.json'),JSON.stringify(altered));
     await writeFile(path.join(root,'data','analysis','blocked.json'),analysisText);
     const server = createServer({root,env:{}});
-    const answer = await invokeHandler(server,{...request,scenarioId:'blocked',playerId:'A9',asOfTime:16.8,windowSeconds:6});
+    const answer = await invokeHttp(server,{...request,scenarioId:'blocked',playerId:'A9',asOfTime:16.8,windowSeconds:6});
     assert.equal(answer.status,409);
     assert.match(answer.body.error,/match|regenerate/i);
     assert.equal(answer.body.claims,undefined);
@@ -145,7 +147,7 @@ test('server refuses stale analysis even when scene IDs, frame IDs and timestamp
 
 test('server accepts the unmodified source and its hash-bound analysis', async () => {
   const server = createServer({env:{}});
-  const answer = await invokeHandler(server,{...request,scenarioId:'blocked',playerId:'A9',asOfTime:16.8,windowSeconds:6});
+  const answer = await invokeHttp(server,{...request,scenarioId:'blocked',playerId:'A9',asOfTime:16.8,windowSeconds:6});
   assert.equal(answer.status,200);
   assert(answer.body.claims.some(claim => claim.kind === 'current'));
   assert.equal(answer.body.cloud.verified,false);

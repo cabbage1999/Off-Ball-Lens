@@ -51,6 +51,8 @@ When configured, Microsoft Foundry chooses a relevant bounded interval with anal
 
 The front end shows the model-selected analysis interval separately from the replay cutoff. A historical overlay offers an explicit action to revisit its frame rather than silently displaying it over the present. It cancels/discards stale responses after a time, player, scene, language or audience change. A successfully configured endpoint is not considered a verified real call. The real smoke test and its sanitized trace are separate from mocked tests.
 
+The Node service propagates a disconnected client's cancellation through the provider request, response-body read and retry wait. It releases the request slot without creating an unused fallback or caching a cancelled answer. A provider timeout with a connected client still follows the visible fallback path. Shared offline-explanation code remains browser- and worker-compatible. Public deployment verification checks the same-origin HTTP service separately from the local provider smoke test; server-reported cloud status alone cannot independently attest the Azure backend.
+
 ## 7. What is and is not established
 
 Author sample parity, full-state adaptation, exact frame mapping, mirror convention, excluded states, single/batch equivalence, past-only display prefixes and 10 qualitative examples are reproducible. The [numerical audit](../analytics/reports/validation.json) also measures sensitivity and local performance.

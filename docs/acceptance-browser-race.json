@@ -1,0 +1,1685 @@
+{
+  "kind": "Actual Chromium UI acceptance with controlled local HTTP delay; NOT an Azure run",
+  "base": "http://127.0.0.1:4174",
+  "health": {
+    "ok": true,
+    "mode": "offline",
+    "analysisMode": "precomputed",
+    "cloud": {
+      "configured": false,
+      "verified": false
+    },
+    "model": "accessible-space-2.1.0",
+    "message": "No complete Azure configuration. Deterministic local explanations are available."
+  },
+  "startedAt": "2026-10-24T15:04:16.649Z",
+  "cases": [
+    {
+      "id": "normal-abort-seek",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "used",
+        "time": 6.2,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0062",
+        "analysisTime": "6.2 s",
+        "pitchLabel": "Synthetic football replay at 6.2 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0062 at 6.2 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 6.2 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0062",
+          "heatmapFrameId": "used:0062",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "d9ccbac18cae49150a9cd3cb5da884da0dd184be21a9c5fe975df714aeedeef5",
+        "as": "305.6",
+        "das": "0.224",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "used",
+        "time": 6.2,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0062",
+        "analysisTime": "6.2 s",
+        "pitchLabel": "Synthetic football replay at 6.2 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0062 at 6.2 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 6.2 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0062",
+          "heatmapFrameId": "used:0062",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "d9ccbac18cae49150a9cd3cb5da884da0dd184be21a9c5fe975df714aeedeef5",
+        "as": "305.6",
+        "das": "0.224",
+        "answer": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062Between 4.4 and 6.2 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW normal-abort-seek",
+        "answerContext": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062",
+        "evidence": [
+          {
+            "text": "A7 · 6.2 s ↶",
+            "frame": "used:0062"
+          },
+          {
+            "text": "A7 · 4.4 s ↶",
+            "frame": "used:0044"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "used",
+        "time": 6.2,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0062",
+        "analysisTime": "6.2 s",
+        "pitchLabel": "Synthetic football replay at 6.2 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0062 at 6.2 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 6.2 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0062",
+          "heatmapFrameId": "used:0062",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "d9ccbac18cae49150a9cd3cb5da884da0dd184be21a9c5fe975df714aeedeef5",
+        "as": "305.6",
+        "das": "0.224",
+        "answer": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062Between 4.4 and 6.2 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW normal-abort-seek",
+        "answerContext": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062",
+        "evidence": [
+          {
+            "text": "A7 · 6.2 s ↶",
+            "frame": "used:0062"
+          },
+          {
+            "text": "A7 · 4.4 s ↶",
+            "frame": "used:0044"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 6.2,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": true,
+          "resolved": false,
+          "bodyRead": false,
+          "rejected": "AbortError"
+        },
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 6.2,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    },
+    {
+      "id": "normal-abort-player",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "used",
+        "time": 11,
+        "player": "A9",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A9. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A9 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A9",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "12205fbf2aab3497bfab171aa4d8c57082f579cf603c5ea3ceb37c03ec04a4b7",
+        "as": "148.7",
+        "das": "1.71",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "used",
+        "time": 11,
+        "player": "A9",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A9. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A9 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A9",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "12205fbf2aab3497bfab171aa4d8c57082f579cf603c5ea3ceb37c03ec04a4b7",
+        "as": "148.7",
+        "das": "1.71",
+        "answer": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110Between 5.0 and 11.0 s, A9's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW normal-abort-player",
+        "answerContext": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A9 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A9 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "used",
+        "time": 11,
+        "player": "A9",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A9. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A9 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A9",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "12205fbf2aab3497bfab171aa4d8c57082f579cf603c5ea3ceb37c03ec04a4b7",
+        "as": "148.7",
+        "das": "1.71",
+        "answer": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110Between 5.0 and 11.0 s, A9's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW normal-abort-player",
+        "answerContext": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A9 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A9 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "used",
+          "playerId": "A9",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": true,
+          "resolved": false,
+          "bodyRead": false,
+          "rejected": "AbortError"
+        },
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A9",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    },
+    {
+      "id": "normal-abort-scene",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "blocked",
+        "time": 0,
+        "player": "A7",
+        "language": "en",
+        "frame": "blocked:0000",
+        "analysisTime": "0.0 s",
+        "pitchLabel": "Synthetic football replay at 0.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame blocked:0000 at 0.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 0.0 seconds. 1 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "blocked:0000",
+          "heatmapFrameId": "blocked:0000",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "e4700bb078d8ff8774ae90033b725d9e5280524b27db53d3e4969b0c498c1b7e",
+        "as": "199.3",
+        "das": "0.051",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "blocked",
+        "time": 0,
+        "player": "A7",
+        "language": "en",
+        "frame": "blocked:0000",
+        "analysisTime": "0.0 s",
+        "pitchLabel": "Synthetic football replay at 0.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame blocked:0000 at 0.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 0.0 seconds. 1 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "receiving_heatmap",
+          "analysisFrameId": "blocked:0000",
+          "heatmapFrameId": "blocked:0000",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "e4700bb078d8ff8774ae90033b725d9e5280524b27db53d3e4969b0c498c1b7e",
+        "as": "199.3",
+        "das": "0.051",
+        "answer": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000The model records A7's dangerous receiving space at 0.0 s; open the evidence to view that frame's heatmap.SIMULATED NETWORK ACCEPTANCE NEW normal-abort-scene",
+        "answerContext": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000",
+        "evidence": [
+          {
+            "text": "A7 · 0.0 s ↶",
+            "frame": "blocked:0000"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "pitch-wrap"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "blocked",
+        "time": 0,
+        "player": "A7",
+        "language": "en",
+        "frame": "blocked:0000",
+        "analysisTime": "0.0 s",
+        "pitchLabel": "Synthetic football replay at 0.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame blocked:0000 at 0.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 0.0 seconds. 1 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "receiving_heatmap",
+          "analysisFrameId": "blocked:0000",
+          "heatmapFrameId": "blocked:0000",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "e4700bb078d8ff8774ae90033b725d9e5280524b27db53d3e4969b0c498c1b7e",
+        "as": "199.3",
+        "das": "0.051",
+        "answer": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000The model records A7's dangerous receiving space at 0.0 s; open the evidence to view that frame's heatmap.SIMULATED NETWORK ACCEPTANCE NEW normal-abort-scene",
+        "answerContext": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000",
+        "evidence": [
+          {
+            "text": "A7 · 0.0 s ↶",
+            "frame": "blocked:0000"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "pitch-wrap"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "blocked",
+          "playerId": "A7",
+          "asOfTime": 0,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": true,
+          "resolved": false,
+          "bodyRead": false,
+          "rejected": "AbortError"
+        },
+        {
+          "request": {
+            "scenarioId": "blocked",
+            "playerId": "A7",
+            "asOfTime": 0,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    },
+    {
+      "id": "normal-abort-language",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "zh-CN",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "11.0 秒合成足球回放，当前跟随 A7。无球接应选项。空间与数值对应 11.0 秒的 used:0110 帧。",
+        "chartLabel": "A7 的危险可达空间，单位为危险度加权平方米，显示至 11.0 秒，共 2 个连续区段，未来数值已隐藏。",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "解释会绑定其证据帧。提问后暂停回放，查看依据。",
+        "answerContext": null,
+        "evidence": [],
+        "source": "本地模板",
+        "sourceDescription": "本地解释使用已记录的事实；尚未进行云端调用。",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "zh-CN",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "11.0 秒合成足球回放，当前跟随 A7。无球接应选项。空间与数值对应 11.0 秒的 used:0110 帧。",
+        "chartLabel": "A7 的危险可达空间，单位为危险度加权平方米，显示至 11.0 秒，共 2 个连续区段，未来数值已隐藏。",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:01105.0–11.0 秒，A7 的危险接应空间增大；点击证据可以回看这段局面变化。SIMULATED NETWORK ACCEPTANCE NEW normal-abort-language",
+        "answerContext": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A7 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A7 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "本地模板",
+        "sourceDescription": "根据同一组记录事实生成的确定性本地文本，此回答未由云端模型生成。",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "zh-CN",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "11.0 秒合成足球回放，当前跟随 A7。无球接应选项。空间与数值对应 11.0 秒的 used:0110 帧。",
+        "chartLabel": "A7 的危险可达空间，单位为危险度加权平方米，显示至 11.0 秒，共 2 个连续区段，未来数值已隐藏。",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:01105.0–11.0 秒，A7 的危险接应空间增大；点击证据可以回看这段局面变化。SIMULATED NETWORK ACCEPTANCE NEW normal-abort-language",
+        "answerContext": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A7 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A7 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "本地模板",
+        "sourceDescription": "根据同一组记录事实生成的确定性本地文本，此回答未由云端模型生成。",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "解释这一刻",
+          "audience": "fan",
+          "language": "zh"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": true,
+          "resolved": false,
+          "bodyRead": false,
+          "rejected": "AbortError"
+        },
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "解释这一刻",
+            "audience": "fan",
+            "language": "zh"
+          },
+          "signalSupplied": true,
+          "signalIgnored": false,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    },
+    {
+      "id": "generation-only-seek",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "used",
+        "time": 6.2,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0062",
+        "analysisTime": "6.2 s",
+        "pitchLabel": "Synthetic football replay at 6.2 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0062 at 6.2 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 6.2 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0062",
+          "heatmapFrameId": "used:0062",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "d9ccbac18cae49150a9cd3cb5da884da0dd184be21a9c5fe975df714aeedeef5",
+        "as": "305.6",
+        "das": "0.224",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "used",
+        "time": 6.2,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0062",
+        "analysisTime": "6.2 s",
+        "pitchLabel": "Synthetic football replay at 6.2 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0062 at 6.2 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 6.2 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0062",
+          "heatmapFrameId": "used:0062",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "d9ccbac18cae49150a9cd3cb5da884da0dd184be21a9c5fe975df714aeedeef5",
+        "as": "305.6",
+        "das": "0.224",
+        "answer": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062Between 4.4 and 6.2 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW generation-only-seek",
+        "answerContext": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062",
+        "evidence": [
+          {
+            "text": "A7 · 6.2 s ↶",
+            "frame": "used:0062"
+          },
+          {
+            "text": "A7 · 4.4 s ↶",
+            "frame": "used:0044"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "used",
+        "time": 6.2,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0062",
+        "analysisTime": "6.2 s",
+        "pitchLabel": "Synthetic football replay at 6.2 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0062 at 6.2 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 6.2 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0062",
+          "heatmapFrameId": "used:0062",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "d9ccbac18cae49150a9cd3cb5da884da0dd184be21a9c5fe975df714aeedeef5",
+        "as": "305.6",
+        "das": "0.224",
+        "answer": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062Between 4.4 and 6.2 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW generation-only-seek",
+        "answerContext": "A7 · Analyzed 0.2–6.2 s · Replay cutoff 6.2 s · used:0062",
+        "evidence": [
+          {
+            "text": "A7 · 6.2 s ↶",
+            "frame": "used:0062"
+          },
+          {
+            "text": "A7 · 4.4 s ↶",
+            "frame": "used:0044"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 6.2,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": true,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        },
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 6.2,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    },
+    {
+      "id": "generation-only-player",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "used",
+        "time": 11,
+        "player": "A9",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A9. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A9 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A9",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "12205fbf2aab3497bfab171aa4d8c57082f579cf603c5ea3ceb37c03ec04a4b7",
+        "as": "148.7",
+        "das": "1.71",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "used",
+        "time": 11,
+        "player": "A9",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A9. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A9 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A9",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "12205fbf2aab3497bfab171aa4d8c57082f579cf603c5ea3ceb37c03ec04a4b7",
+        "as": "148.7",
+        "das": "1.71",
+        "answer": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110Between 5.0 and 11.0 s, A9's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW generation-only-player",
+        "answerContext": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A9 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A9 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "used",
+        "time": 11,
+        "player": "A9",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A9. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A9 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A9",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "12205fbf2aab3497bfab171aa4d8c57082f579cf603c5ea3ceb37c03ec04a4b7",
+        "as": "148.7",
+        "das": "1.71",
+        "answer": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110Between 5.0 and 11.0 s, A9's dangerous receiving space increases; open the evidence to revisit the changing scene.SIMULATED NETWORK ACCEPTANCE NEW generation-only-player",
+        "answerContext": "A9 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A9 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A9 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "used",
+          "playerId": "A9",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": true,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        },
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A9",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    },
+    {
+      "id": "generation-only-scene",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "blocked",
+        "time": 0,
+        "player": "A7",
+        "language": "en",
+        "frame": "blocked:0000",
+        "analysisTime": "0.0 s",
+        "pitchLabel": "Synthetic football replay at 0.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame blocked:0000 at 0.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 0.0 seconds. 1 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "blocked:0000",
+          "heatmapFrameId": "blocked:0000",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "e4700bb078d8ff8774ae90033b725d9e5280524b27db53d3e4969b0c498c1b7e",
+        "as": "199.3",
+        "das": "0.051",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "blocked",
+        "time": 0,
+        "player": "A7",
+        "language": "en",
+        "frame": "blocked:0000",
+        "analysisTime": "0.0 s",
+        "pitchLabel": "Synthetic football replay at 0.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame blocked:0000 at 0.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 0.0 seconds. 1 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "receiving_heatmap",
+          "analysisFrameId": "blocked:0000",
+          "heatmapFrameId": "blocked:0000",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "e4700bb078d8ff8774ae90033b725d9e5280524b27db53d3e4969b0c498c1b7e",
+        "as": "199.3",
+        "das": "0.051",
+        "answer": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000The model records A7's dangerous receiving space at 0.0 s; open the evidence to view that frame's heatmap.SIMULATED NETWORK ACCEPTANCE NEW generation-only-scene",
+        "answerContext": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000",
+        "evidence": [
+          {
+            "text": "A7 · 0.0 s ↶",
+            "frame": "blocked:0000"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "pitch-wrap"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "blocked",
+        "time": 0,
+        "player": "A7",
+        "language": "en",
+        "frame": "blocked:0000",
+        "analysisTime": "0.0 s",
+        "pitchLabel": "Synthetic football replay at 0.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame blocked:0000 at 0.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 0.0 seconds. 1 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "receiving_heatmap",
+          "analysisFrameId": "blocked:0000",
+          "heatmapFrameId": "blocked:0000",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "e4700bb078d8ff8774ae90033b725d9e5280524b27db53d3e4969b0c498c1b7e",
+        "as": "199.3",
+        "das": "0.051",
+        "answer": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000The model records A7's dangerous receiving space at 0.0 s; open the evidence to view that frame's heatmap.SIMULATED NETWORK ACCEPTANCE NEW generation-only-scene",
+        "answerContext": "A7 · Analyzed 0.0–0.0 s · Replay cutoff 0.0 s · blocked:0000",
+        "evidence": [
+          {
+            "text": "A7 · 0.0 s ↶",
+            "frame": "blocked:0000"
+          }
+        ],
+        "source": "Local template",
+        "sourceDescription": "Deterministic local wording from the same recorded facts. No cloud model generated this answer.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "pitch-wrap"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "blocked",
+          "playerId": "A7",
+          "asOfTime": 0,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": true,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        },
+        {
+          "request": {
+            "scenarioId": "blocked",
+            "playerId": "A7",
+            "asOfTime": 0,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    },
+    {
+      "id": "generation-only-language",
+      "passed": true,
+      "beforeRequest": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "en",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "Synthetic football replay at 11.0 seconds. Following A7. Off-ball receiving option. Space and metrics refer to frame used:0110 at 11.0 seconds.",
+        "chartLabel": "A7 dangerous accessible space, danger-weighted square metres, through 11.0 seconds. 2 continuous segments. Future values are hidden.",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+        "answerContext": null,
+        "evidence": [],
+        "source": "Local template",
+        "sourceDescription": "Local explanations use the recorded facts. No cloud call has been made.",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "afterAction": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "zh-CN",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "11.0 秒合成足球回放，当前跟随 A7。无球接应选项。空间与数值对应 11.0 秒的 used:0110 帧。",
+        "chartLabel": "A7 的危险可达空间，单位为危险度加权平方米，显示至 11.0 秒，共 2 个连续区段，未来数值已隐藏。",
+        "pitchData": {
+          "explanationOverlay": "",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "解释会绑定其证据帧。提问后暂停回放，查看依据。",
+        "answerContext": null,
+        "evidence": [],
+        "source": "本地模板",
+        "sourceDescription": "本地解释使用已记录的事实；尚未进行云端调用。",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": []
+      },
+      "newAnswer": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "zh-CN",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "11.0 秒合成足球回放，当前跟随 A7。无球接应选项。空间与数值对应 11.0 秒的 used:0110 帧。",
+        "chartLabel": "A7 的危险可达空间，单位为危险度加权平方米，显示至 11.0 秒，共 2 个连续区段，未来数值已隐藏。",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:01105.0–11.0 秒，A7 的危险接应空间增大；点击证据可以回看这段局面变化。SIMULATED NETWORK ACCEPTANCE NEW generation-only-language",
+        "answerContext": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A7 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A7 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "本地模板",
+        "sourceDescription": "根据同一组记录事实生成的确定性本地文本，此回答未由云端模型生成。",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "afterLateReturn": {
+        "scene": "used",
+        "time": 11,
+        "player": "A7",
+        "language": "zh-CN",
+        "frame": "used:0110",
+        "analysisTime": "11.0 s",
+        "pitchLabel": "11.0 秒合成足球回放，当前跟随 A7。无球接应选项。空间与数值对应 11.0 秒的 used:0110 帧。",
+        "chartLabel": "A7 的危险可达空间，单位为危险度加权平方米，显示至 11.0 秒，共 2 个连续区段，未来数值已隐藏。",
+        "pitchData": {
+          "explanationOverlay": "das_curve",
+          "analysisFrameId": "used:0110",
+          "heatmapFrameId": "used:0110",
+          "playerId": "A7",
+          "playerStatus": "eligible"
+        },
+        "pitchImageHash": "89d514fae93435100acba4a5a4254e7b68c5c537b3ac1708cd8c19f07b1099ef",
+        "as": "242.5",
+        "das": "0.586",
+        "answer": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:01105.0–11.0 秒，A7 的危险接应空间增大；点击证据可以回看这段局面变化。SIMULATED NETWORK ACCEPTANCE NEW generation-only-language",
+        "answerContext": "A7 · 分析时段 5.0–11.0 s · 回放截至 11.0 s · used:0110",
+        "evidence": [
+          {
+            "text": "A7 · 11.0 s ↶",
+            "frame": "used:0110"
+          },
+          {
+            "text": "A7 · 5.0 s ↶",
+            "frame": "used:0050"
+          }
+        ],
+        "source": "本地模板",
+        "sourceDescription": "根据同一组记录事实生成的确定性本地文本，此回答未由云端模型生成。",
+        "heatmap": true,
+        "trail": true,
+        "askDisabled": false,
+        "highlightedElements": [
+          "chart"
+        ]
+      },
+      "requests": [
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "Explain this moment",
+          "audience": "fan",
+          "language": "en"
+        },
+        {
+          "scenarioId": "used",
+          "playerId": "A7",
+          "asOfTime": 11,
+          "windowSeconds": 6,
+          "question": "解释这一刻",
+          "audience": "fan",
+          "language": "zh"
+        }
+      ],
+      "fetchLog": [
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "Explain this moment",
+            "audience": "fan",
+            "language": "en"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": true,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        },
+        {
+          "request": {
+            "scenarioId": "used",
+            "playerId": "A7",
+            "asOfTime": 11,
+            "windowSeconds": 6,
+            "question": "解释这一刻",
+            "audience": "fan",
+            "language": "zh"
+          },
+          "signalSupplied": true,
+          "signalIgnored": true,
+          "signalAborted": false,
+          "resolved": true,
+          "bodyRead": true,
+          "rejected": null
+        }
+      ],
+      "oldFulfillResult": "fulfilled"
+    }
+  ],
+  "pageErrors": [],
+  "finishedAt": "2026-10-24T15:04:19.141Z",
+  "passed": true,
+  "scope": "Real isolated Chromium UI; actual local offline fact payloads delayed and reordered by Playwright. Sentinel wording identifies test replies. No Azure/Foundry model call, credentials, cloud-success trace or production modification.",
+  "artifactNotes": {
+    "screenshot": "acceptance-browser-race.png",
+    "script": "output/playwright/acceptance-race.js (local test harness; ignored by Git)",
+    "generationOnly": "Only within this isolated browser, the fetch wrapper strips AbortSignal from /api/explain. The original signal is still observed and recorded. This forces the old response body through the actual application generation check."
+  },
+  "sourceHashesAfterRun": {
+    "app.mjs": "f63a88bfd4ba05ee91ff85daa503d23b9e3e34f849db129cfc1ca62ef863c7e3",
+    "src/agent.mjs": "41b2f8f230b8962540af10ecf4cfedb381c4d0f27a1191cf09b4ee3b997af6ac",
+    "src/evidence.mjs": "b67984e0d1dd55e1a416975f02ff02fc4ba77cbaf16a218a83b1d14394bd62a5",
+    "index.html": "5cbd1540519d92ce876c90c7dc8c5c520c9b893f990e128022c3c4f6e704843f"
+  },
+  "fallbackChecks": {
+    "kind": "Actual Chromium UI; simulated HTTP/network failure; NOT an Azure run",
+    "passed": true,
+    "cases": [
+      {
+        "id": "http-503",
+        "passed": true,
+        "before": {
+          "time": 11,
+          "frame": "used:0110",
+          "player": "A7",
+          "source": "Local template",
+          "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+          "answerContext": null,
+          "askDisabled": false,
+          "playLabel": "Play"
+        },
+        "fallback": {
+          "time": 11,
+          "frame": "used:0110",
+          "player": "A7",
+          "source": "Local fallback",
+          "answer": "A7 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110Between 5.0 and 11.0 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.",
+          "answerContext": "A7 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110",
+          "askDisabled": false,
+          "playLabel": "Play"
+        },
+        "resumed": {
+          "time": 11.3,
+          "frame": "used:0112",
+          "player": "A7",
+          "source": "Local template",
+          "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+          "answerContext": null,
+          "askDisabled": false,
+          "playLabel": "Play"
+        }
+      },
+      {
+        "id": "network-timeout",
+        "passed": true,
+        "before": {
+          "time": 11,
+          "frame": "used:0110",
+          "player": "A7",
+          "source": "Local template",
+          "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+          "answerContext": null,
+          "askDisabled": false,
+          "playLabel": "Play"
+        },
+        "fallback": {
+          "time": 11,
+          "frame": "used:0110",
+          "player": "A7",
+          "source": "Local fallback",
+          "answer": "A7 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110Between 5.0 and 11.0 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.",
+          "answerContext": "A7 · Analyzed 5.0–11.0 s · Replay cutoff 11.0 s · used:0110",
+          "askDisabled": false,
+          "playLabel": "Play"
+        },
+        "resumed": {
+          "time": 11.3,
+          "frame": "used:0112",
+          "player": "A7",
+          "source": "Local template",
+          "answer": "An explanation stays with its evidence frame. Ask to pause and inspect.",
+          "answerContext": null,
+          "askDisabled": false,
+          "playLabel": "Play"
+        }
+      }
+    ],
+    "pageErrors": [],
+    "limits": "The timeout error is injected immediately at the browser network boundary. This does not measure the actual 12-second provider timeout or 45-second browser deadline."
+  }
+}

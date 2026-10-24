@@ -9,6 +9,18 @@ export const TOOL_DEFINITIONS=[
 ];
 const OUTPUT_SCHEMA={type:'object',properties:{claim_ids:{type:'array',items:{type:'string'},minItems:1,maxItems:8},evidence_ids:{type:'array',items:{type:'string'},maxItems:8},overlay_type:{type:'string',enum:OVERLAYS}},required:['claim_ids','evidence_ids','overlay_type'],additionalProperties:false};
 
+// This module also supplies offline explanations in browsers and workers.
+// Keep retry cancellation browser-compatible instead of importing Node timers.
+function waitForRetry(ms,signal){
+  if(signal?.aborted)return Promise.reject(signal.reason);
+  return new Promise((resolve,reject)=>{
+    const cleanup=()=>signal?.removeEventListener('abort',onAbort);
+    const onAbort=()=>{clearTimeout(timer);cleanup();reject(signal.reason);};
+    const timer=setTimeout(()=>{cleanup();resolve();},ms);
+    signal?.addEventListener('abort',onAbort,{once:true});
+  });
+}
+
 export function createAnalysisTools(input,bundle){
   const request=validateExplainRequest(input,bundle);
   let pack=makeFactPack(bundle,request),analyzed=false;
@@ -68,6 +80,7 @@ function validatePlan(plan,pack,knownClaims,knownEvidence,request){
 
 /** Real Responses API loop. Model chooses past windows, evidence, order and overlay. */
 export async function explain(input,options={}){
+  options.signal?.throwIfAborted();
   const bundle=options.bundle,env=options.env??{},config=foundryConfiguration(env);
   if(!config.configured){const result=offlineExplain(input,bundle);if(config.reason)result.fallbackReason=config.reason;return result;}
   const toolkit=createAnalysisTools(input,bundle),r=toolkit.request,trace=[],seenClaims=new Set(),seenEvidence=new Set();
@@ -78,15 +91,18 @@ export async function explain(input,options={}){
   let toolCount=0,repairCount=0,httpRetries=0;const responseIds=[];
   try{
     for(let round=0;round<maxRounds;round++){
+      options.signal?.throwIfAborted();
       if(Date.now()>=deadline)throw new Error('cloud_timeout');
+      const timeoutSignal=AbortSignal.timeout(Math.min(options.timeoutMs??12000,deadline-Date.now()));
       const response=await (options.fetchImpl??fetch)(config.url,{method:'POST',headers:{'content-type':'application/json',...config.authHeaders},
         body:JSON.stringify({model:config.deployment,input:messages,tools:TOOL_DEFINITIONS,tool_choice:'auto',store:false,max_output_tokens:1800,text:{format:{type:'json_schema',name:'receiving_evidence_plan',strict:true,schema:OUTPUT_SCHEMA}}}),
-        signal:AbortSignal.timeout(Math.min(options.timeoutMs??12000,deadline-Date.now()))});
+        signal:options.signal?AbortSignal.any([options.signal,timeoutSignal]):timeoutSignal});
+      options.signal?.throwIfAborted();
       if(!response.ok){
-        if([429,502,503].includes(response.status)&&httpRetries++===0&&Date.now()+500<deadline){trace.push({name:'provider_retry',status:'retry',httpStatus:response.status});await new Promise(resolve=>setTimeout(resolve,400));continue;}
+        if([429,502,503].includes(response.status)&&httpRetries++===0&&Date.now()+500<deadline){trace.push({name:'provider_retry',status:'retry',httpStatus:response.status});await waitForRetry(400,options.signal);continue;}
         throw new Error(`cloud_http_${response.status}`);
       }
-      const data=await response.json();if(!Array.isArray(data.output))throw new Error('invalid_provider_response');
+      const data=await response.json();options.signal?.throwIfAborted();if(!Array.isArray(data.output))throw new Error('invalid_provider_response');
       if(typeof data.id==='string'&&data.id.length<200)responseIds.push(data.id);
       const calls=data.output.filter(x=>x.type==='function_call');
       if(calls.length){
@@ -119,6 +135,9 @@ export async function explain(input,options={}){
     }
     throw new Error('round_limit');
   }catch(error){
+    // A disconnected caller has no use for a fallback, another tool round or
+    // a cached success. Provider deadlines still use the visible fallback path.
+    options.signal?.throwIfAborted();
     const known=/^(cloud_http_\d{3}|cloud_timeout|invalid_model_output|invalid_evidence_reference|missing_substantive_claim|missing_claim_evidence|unsupported_overlay|invalid_provider_response|invalid_tool_call|missing_tool_evidence|tool_limit|round_limit)$/;
     const reason=['TimeoutError','AbortError'].includes(error?.name)?'cloud_timeout':known.test(error?.message)?error.message:'cloud_unavailable_or_invalid_output';
     return {...offlineExplain(input,bundle),status:'fallback',fallbackReason:reason,toolTrace:trace,cloud:{configured:true,verified:false},trace:{elapsedMs:Date.now()-start,repairCount,responseIds}};

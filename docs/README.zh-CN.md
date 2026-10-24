@@ -2,7 +2,7 @@
 
 新版沿实际跑动展示球员何时拥有危险接应空间、空间如何变化，以及一次机会后来是否被传球利用。数值来自论文作者的 `accessible-space==2.1.0`，已停止默认使用旧版自拟0–100指数和两条预设路线比较。
 
-[打开回放](https://cabbage1999.github.io/Off-Ball-Lens/) · [完整方法](method.md) · [场景说明](scenarios.md) · [Foundry开通与本机配置](foundry-setup.zh-CN.md)
+[打开回放](https://cabbage1999.github.io/Off-Ball-Lens/) · [完整方法](method.md) · [场景说明](scenarios.md) · [Foundry开通与本机配置](foundry-setup.zh-CN.md) · [公网部署与验收](deployment.zh-CN.md)
 
 ## 本机运行
 
@@ -25,3 +25,5 @@ AS是模型中的有效可接应面积，单位平方米；DAS是危险度加权
 真实Microsoft Foundry调用仍待团队开通部署后验证。当前本地解释是明确标注的确定性模板；接口模拟测试不代表已调用微软。服务器已提供工具调用、证据校验和有界回退；开通后运行 `npm run smoke:foundry` 生成脱敏真实记录。不要在聊天、前端或GitHub中填写密钥。
 
 本项目尚有[交付清单](handoff.md)中的云端与提交要求需要完成；已完成的检查和待验项分别列出。
+
+本机真实调用通过后，从部署后的同源 Node 服务网址验收整个作品。公网检查脚本会核对文件、HTTP 路由、工具和证据，但不能独立鉴证 Azure 后端；不能将模拟响应或离线通过算作真实云端通过。[团队人工审查记录](team-review.zh-CN.md)仍为空白，供足球合理性与两位初次使用者的易懂性检查分别填写。

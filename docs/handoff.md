@@ -14,8 +14,9 @@ This document distinguishes an executable research demo from a finished hackatho
 | Real Microsoft Foundry call | **NOT RUN.** Team has no usable deployment; follow foundry-setup.zh-CN.md, then run smoke:foundry |
 | Public static v2 build | Published and browser-checked at application commit `9b871a934bd125c20cd9df99c7c44c60f93857af`; all six scene/analysis file hashes match the accepted local version. See release-verification.md for checks and CI history |
 | Public cloud-enabled service | Requires a configured and hosted Node backend; GitHub Pages cannot supply it |
+| Public deployment preparation | Same-origin App Service instructions and a strict HTTP/version/evidence checker are included in deployment.zh-CN.md; an actual hosted cloud deployment is still required |
 | Actual functional English video, less than 120 s | 108.04-second actual local preview with English captions is included and visually checked; a final cloud-enabled recording remains pending |
-| Team football review | A football-knowledgeable team member should adjudicate tactical plausibility; internal agents are not independent domain experts |
+| Team football and comprehension review | Football plausibility and two first-time users' comprehension are recorded separately in team-review.zh-CN.md; the blank form is not completed human-review evidence |
 | Final submission | Team submits its entry and category choice with repository, working build and final video |
 
 ## Configure Microsoft without exposing credentials
@@ -25,6 +26,8 @@ Use [the setup guide](foundry-setup.zh-CN.md). The team must create/choose its A
 Run `npm run smoke:foundry`. A missing deployment is a non-run; timeout, invalid output, rejected references and local fallback are failures for the real-call gate. A pass requires the actual network call, both tools and valid evidence, with a sanitized trace. Do not fabricate or edit a passing trace.
 
 For public testing, deploy the same Node service and verify the public health/replay/real explanation paths. The included server defaults to loopback. A hosting environment may set HOST=0.0.0.0 and its assigned PORT. Add platform access and usage controls appropriate to the team's audience; do not publish API keys in client files. Public hosting and retention have not yet been verified.
+
+Follow [the deployment guide](deployment.zh-CN.md). `smoke:deployment` checks actual HTTP paths, local-versus-deployed bytes, exact facts, tool records and the server's claimed cloud status. Its `passed` result is limited to that HTTP contract, and `realCloudVerified` remains false because this checker cannot independently attest Azure. Pair it with the real provider smoke trace and Azure-side invocation evidence; never close the real-call gate from an offline or simulated-protocol result.
 
 ## Before submission
 
