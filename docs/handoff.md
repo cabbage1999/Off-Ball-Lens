@@ -11,7 +11,7 @@ This document distinguishes an executable research demo from a finished hackatho
 | Qualitative and sensitivity checks | Ten examples plus resolution/noise/sampling report; no claimed independent football-expert truth |
 | Independent acceptance and adversarial review | Independent v2 reviews, reproduced defects and repairs are recorded in acceptance.md and adversarial-review.md; no v1 results are carried forward |
 | Real Microsoft Foundry call | **NOT RUN.** Team has no usable deployment; follow foundry-setup.zh-CN.md, then run smoke:foundry |
-| Public static v2 build | Must be checked after the rebuilt files are published; the public URL alone is not proof of the current version |
+| Public static v2 build | Published and browser-checked at application commit `9b871a934bd125c20cd9df99c7c44c60f93857af`; all six scene/analysis file hashes match the accepted local version. See release-verification.md for checks and CI history |
 | Public cloud-enabled service | Requires a configured and hosted Node backend; GitHub Pages cannot supply it |
 | Actual functional English video, less than 120 s | 108.04-second actual local preview with English captions is included and visually checked; a final cloud-enabled recording remains pending |
 | Team football review | A football-knowledgeable team member should adjudicate tactical plausibility; internal agents are not independent domain experts |
