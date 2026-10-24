@@ -1,18 +1,16 @@
 # Off-Ball Lens
 
-**A footballer can create a receiving option without touching the ball. What changes if they run a different route?**
+**See the dangerous receiving space a player offers before touching the ball—and when that opportunity changes.**
 
-Off-Ball Lens is an interactive feasibility demo for the Microsoft Premier League Hackathon. It replays independently authored synthetic football, compares two physically feasible runs, and links every explanation to calculated evidence.
+Off-Ball Lens replays three independently authored synthetic football attacks, follows any of the 22 players, and connects receiving-space heatmaps and past opportunity windows to exact evidence frames. Its numerical engine is the authors' [accessible-space 2.1.0](https://github.com/jonas-bischofberger/accessible-space), implementing individual Dangerous Accessible Space (DAS).
 
-**[Open the interactive demo](https://cabbage1999.github.io/Off-Ball-Lens/)** · [中文说明](docs/README.zh-CN.md) · [Demo walkthrough](docs/demo-guide.md) · [Method](docs/method.md) · [Independent acceptance](docs/acceptance.md)
+**[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [108-second actual preview](https://cabbage1999.github.io/Off-Ball-Lens/assets/demo-preview.html) · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Acceptance](docs/acceptance.md)
 
-![Off-Ball Lens interface](assets/demo-desktop.jpg)
+The default experience uses precomputed author-model results and works without an account or API key. **Real Microsoft Foundry verification is pending: the team does not yet have an Azure deployment.** The server includes the real Responses API tool loop and transparent local fallback. Mock protocol tests are not evidence of a successful cloud deployment.
 
-The static demo runs locally in your browser. No account, GPU, model training or API key is required. The optional Microsoft Foundry integration requires a separately configured server. **No real Azure deployment has been tested for this delivery.**
+## Run the replay
 
-## Run locally
-
-Install Node.js 22 or later, clone this repository, and run:
+Use Node.js 22 or later:
 
 ```sh
 git clone https://github.com/cabbage1999/Off-Ball-Lens.git
@@ -20,92 +18,89 @@ cd Off-Ball-Lens
 npm start
 ```
 
-Open `http://127.0.0.1:4173`. There are **no third-party runtime dependencies** and no installation/build step. Do not open `index.html` as a `file://` URL: ES modules and the analysis worker need HTTP.
+Open `http://127.0.0.1:4173`. The replay and local server have no third-party JavaScript runtime dependencies. Python is only needed to regenerate the included analysis. Serve the files over HTTP; do not open `index.html` as a local file.
 
-## Explore
+## What to explore
 
-1. Play one of three 16-second, 22-player, 10 Hz scenes: an angled option, a run into traffic, and an early run beyond the defensive line.
-2. Follow A7, who never receives the ball in these clips. Inspect the region, receiver-readiness and passing-lane components at the current frame.
-3. Compare the recorded run with a smooth stop, continuation at initial velocity, or the identical route as a zero-difference control. Both branches start with the same position and velocity.
-4. Inspect the average index change over the common pre-pass window and jump to the largest difference. The comparison is **retrospective with fixed surroundings**.
-5. Ask about the run and jump from the explanation to its evidence frames. Local wording is explicitly identified as a deterministic template.
-6. Change assumptions, run nine sensitivity checks, inspect the team's best receiving option, and export the evidence as JSON.
+| Scene | Duration | Actual interaction to inspect |
+| --- | ---: | --- |
+| Near-side combination (`used`) | 32 s | A7 offers a receiving option, receives, then participates in a longer attack |
+| Alternative option (`unused`) | 34 s | A7's opportunity changes while the carrier chooses a different teammate |
+| Defensive recovery (`blocked`) | 30 s | A7 has opportunities, an offside interval, then renewed access before an interception and counter |
 
-The interface supports English / Chinese, fan / analyst detail, keyboard playback, responsive layouts, and a five-step walkthrough. The walkthrough is deliberately longer than a competition submission clip, so the team can inspect both positive and negative cases.
+The scene labels describe authored events, not score targets. The generator never reads DAS. Each scene includes stage-specific roles for all players, bounded continuous motion, pressure/marking/cover, alternative receivers, and ball events from the same clock.
 
-## What the index means
+Select a player, play or seek, and inspect their last three seconds of movement. The heatmap, metrics and evidence bind to an explicit 5 Hz analysis frame; the 10 Hz tracking animation may interpolate. Curves and notifications reveal only the observed prefix. Ball flight, uncontrolled play and unsupported states hide current values. A carrier, defender or offside player is never assigned a misleading zero contribution score.
 
-For receiver `i`, at a hypothetical immediate ground-pass release:
+Fan mode shows one main observation with evidence. Analyst mode adds AS/DAS values, units, versions, source frames and uncertainty. English and Chinese share the same facts. End-of-clip review reveals the complete observed sequence.
+
+## What DAS means
+
+For a player i, the author model constructs a receiving-accessibility field C_i(x) and danger weight V(x):
 
 ```text
-A_i = 100 × O_i × max_g [ U(g) × R_i(g) × B(g) ]
+AS_i  = integral C_i(x) dA            [m²]
+DAS_i = integral C_i(x) V(x) dA       [danger-weighted m²]
 ```
 
-`O` screens positional offside at release; `U` is a transparent geometric region preference; `R` describes the receiver's readiness; `B` describes defensive reachability along the ground-pass lane. All components come from the **same** selected candidate. Eight local offsets are shared across branches: speed changes reachability, not the extent of the search grid.
+The scalar values come directly from the author's integration. The front-end heatmap is a display approximation, not the calculation of DAS. It uses one fixed global scale across players and clips. Neither heatmap colour nor DAS is a pass/goal probability.
 
-The time-averaged difference between two routes is measured in **index points**, not percentage points, goal probability, xG, EPV, or true causal contribution. Direct receiving opportunity does not measure defender attraction or all off-ball value. Personal improvements must not be summed into a team contribution. The team-level comparison separately evaluates the maximum index among eligible receivers.
+A change in DAS describes a player's opportunities while the whole scene changes. It is not individual causal credit. Individual fields overlap: do not add player values or turn them into contribution shares. A decoy runner can lose direct receiving space while helping a teammate; the [ten qualitative cases](docs/qualitative-cases.md) preserve that limitation.
 
-The method is an original, transparent baseline informed by published work; it is **not a reproduction or validated substitute** for the cited models. See [the implemented equations and boundaries](docs/method.md), [literature review](docs/research.md), and [machine-readable sources](docs/research-sources.json).
+These synthetic scenes are not professional-match validation. Numerical resolution, positional noise and sampling affect the output: some sampled values change materially under denser grids or 0.1 m perturbations, and 2.5 Hz sampling misses one short window. Notifications are exploratory timing cues, not calibrated verdicts. See [the full integration and sensitivity audit](docs/das-integration.md).
 
-## Microsoft Foundry integration
+## Reproduce the numerical results
 
-The optional server uses the Microsoft Foundry `/openai/v1/responses` API with three tools: `analyze_window`, `compare_run`, and `get_evidence`. The model selects tools and verified claim/evidence IDs. The application validates them and renders deterministic numerical claims. It does not blindly display generated numerical prose.
-
-Copy `.env.example` to `.env`, fill in your own endpoint, deployment name and key **locally**, then start:
+Use Python 3.12. On macOS/Linux:
 
 ```sh
-node --env-file=.env server.mjs
-```
-
-Use a deployment supporting the Responses API, function calling and structured outputs. To make an explicit live smoke call after configuration:
-
-```sh
-node --env-file=.env scripts/smoke-foundry.mjs
-```
-
-This call uses your Azure deployment and may incur normal usage charges. The smoke check must succeed before claiming the cloud integration is verified. Current tests use simulated provider responses to validate the protocol and error paths; they are not a real Foundry integration test.
-
-| Runtime state | What is actually happening |
-| --- | --- |
-| Static page / no Azure configuration | Browser or server executes deterministic analysis and local templates |
-| Azure configured, not yet verified | Endpoint settings exist; no successful cloud response is implied |
-| Foundry verified for an answer | Real response completed the tool loop and passed evidence validation |
-| Cloud failure / invalid evidence | Local fallback is explicitly shown; replay and calculations continue |
-
-Keys remain on the server. GitHub Pages cannot host the optional server. For a shared cloud-enabled deployment, add authentication, resource limits and appropriate hosting; the included server defaults to local loopback. This is a demo server, not a production multi-user service.
-
-## Reproduce and inspect
-
-```sh
-npm test
+python3.12 -m venv .venv-das
+.venv-das/bin/python -m pip install -r requirements-das.lock
+.venv-das/bin/python -m pip check
 npm run export:data
 npm run validate
+npm run export:analysis
+npm run test:analytics
 npm run benchmark
+npm test
 ```
 
-`data/*.json` contains reproducible tracking fixtures, data validation and local timing reports. The fixed seed is `20261022`. The scene generator does not read or optimize the score. Authored scenarios establish regression examples, **not independently measured football ground truth**.
+On Windows, create the same environment with `py -3.12 -m venv .venv-das` and install with `.venv-das\Scripts\python.exe -m pip install -r requirements-das.lock`. The npm Python commands detect that environment. `DAS_PYTHON` can select a different installed interpreter.
 
-Tests cover trajectory speed and vector acceleration, identity and ball/event consistency, mirror/translation invariants, initial-state equality, identical-route zero, positional offside edge cases, pre-release truncation, future-data isolation, arrival/readiness counterexamples, lane checks, exported fixtures, cloud-tool validation and local HTTP behavior. [Independent acceptance](docs/acceptance.md) and [adversarial review](docs/adversarial-review.md) distinguish completed checks from scientific validation limits.
+`benchmark` runs the reproducible numerical, prefix, qualitative and sensitivity audit; it is not a cloud-latency benchmark. `analytics/reports/validation.json` records source/config/input hashes and measured timings. `analyze_frame` uses the same author calculation as batch export:
+
+```sh
+node scripts/run-python.mjs -m analytics.compute_das used --frame 104
+```
+
+## Microsoft Foundry
+
+Follow the [Azure setup and local configuration guide](docs/foundry-setup.zh-CN.md). Copy `.env.example` to `.env`, configure the resource endpoint, model deployment and key locally, and run `npm start`. A deployment must support Responses API, function calling and structured outputs.
+
+The model calls `analyze_window` and `get_evidence`, chooses a bounded past interval, factual clauses and an allowed overlay. The application validates every selected reference and renders deterministic bilingual facts. Invalid output receives one correction attempt, then an explicitly labelled fallback. It never lets the language model recompute a football score. Changing scene, player, time, language or audience discards an outdated response.
+
+```sh
+npm run smoke:foundry
+```
+
+A successful real call writes a sanitized `artifacts/foundry-trace.json`. Missing configuration exits with **NOT RUN** and makes no request. `cloud-configured` means settings are present; `cloud-verified` applies only after a successful real tool loop. GitHub Pages serves the replay/local explanations only; the Node server must be hosted separately for public cloud use. No key belongs in the browser or repository.
 
 ## Repository map
 
-```text
-index.html / app.mjs / style.css   Interactive replay and analysis interface
-src/scenarios.mjs                 Independent synthetic trajectories and events
-src/model.mjs                     Receiving index, route comparison, sensitivity
-src/analysis-worker.mjs           Background analysis for responsive playback
-src/agent.mjs                     Evidence tools, templates and Foundry adapter
-server.mjs                       Local static/API server
-data/                            Reproducible fixtures and measured reports
-tests/                           Regression and independent acceptance tests
-scripts/                         Data export, validation, benchmark, cloud smoke
-docs/                            Method, sources, audit, team handoff and demo guide
-```
+| Path | Responsibility |
+| --- | --- |
+| `src/scenarios.mjs`, `data/{used,unused,blocked}.json` | Synthetic tactical scripts, trajectories and events |
+| `analytics/` | Author package adapter, field conversion, past-only notification detector, audit |
+| `data/analysis/` | Precomputed AS/DAS, eligibility, fixed-scale fields and moment revisions |
+| `src/analysis.mjs`, `app.mjs`, `index.html`, `style.css` | Prefix-only replay and evidence interface |
+| `src/evidence.mjs`, `src/agent.mjs`, `server.mjs` | Shared facts, Foundry tools, validation and server |
+| `tests/`, `analytics/tests/` | Meaningful contract, temporal, numerical and HTTP checks |
+| `docs/` | Model/data rationale, setup, independent reviews, walkthrough and delivery status |
 
-## Competition scope
+## Scope and attribution
 
-The [official rules](https://github.com/microsoft/insidethegamehackathon/blob/main/OFFICIAL%20RULES.md) require synthetic, football-realistic data. This demo uses no real player identities, match footage or third-party tracking dataset. The referenced [hear-the-game project](https://github.com/klckerim/hear-the-game) informed the separation of deterministic facts from generated explanations; its source code and datasets were not copied.
+The [official hackathon rules](https://github.com/microsoft/insidethegamehackathon/blob/main/OFFICIAL%20RULES.md) require synthetic, football-realistic data. The demo uses invented teams and independently authored trajectories; it contains no match footage or repackaged real tracking. The [hear-the-game reference](https://github.com/klckerim/hear-the-game) informed architectural discussion; its implementation and datasets were not copied.
 
-This repository is a **feasibility demo**, not a completed competition submission. Before submission, the team still needs to validate a real Microsoft deployment and prepare the required English submission and video of less than two minutes. The longer walkthrough here is intended for engineering review. See [the handoff checklist](docs/handoff.md).
+The DAS paper and package are credited in [research.md](docs/research.md). Their original MIT notice is retained in [analytics/ACCESSIBLE_SPACE_LICENSE.txt](analytics/ACCESSIBLE_SPACE_LICENSE.txt). This repository is MIT licensed and is not affiliated with or endorsed by Microsoft or the Premier League.
 
-MIT licensed. Independent project; not affiliated with or endorsed by Microsoft or the Premier League.
+The [handoff checklist](docs/handoff.md) separates completed engineering from the still-required real Microsoft call, public backend availability and final submission evidence. Passing local tests alone does not complete the submission.

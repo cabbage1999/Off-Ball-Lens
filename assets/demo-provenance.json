@@ -1,0 +1,61 @@
+{
+  "recordedDate": "2026-10-24",
+  "kind": "Actual browser recording of the local v2 demo",
+  "runtimeMode": "offline-template; no Azure request; no mocked network responses during capture",
+  "durationSeconds": 108.04,
+  "video": {
+    "path": "assets/demo-preview.webm",
+    "sha256": "fa3d12390a027dcb84ff418eb1d94a11ac7dbae70cd09fbb422d510dfda4cfe1",
+    "format": "WebM / VP8",
+    "resolution": "1280x900",
+    "frameRate": 25,
+    "postprocessing": "Original browser recording; no synthetic UI or result replacement."
+  },
+  "uiSha256": {
+    "app.mjs": "f63a88bfd4ba05ee91ff85daa503d23b9e3e34f849db129cfc1ca62ef863c7e3",
+    "index.html": "5cbd1540519d92ce876c90c7dc8c5c520c9b893f990e128022c3c4f6e704843f",
+    "style.css": "f1f940bbc60eb10ad30975101ab3c820e293c9e7066c864f43b70bb2bbc43bf2"
+  },
+  "scenes": {
+    "used": {
+      "inputFileHash": "f1fb9c9a473184242096d554d94b69a7222d115d78a336332ab807961bebb62f",
+      "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+    },
+    "unused": {
+      "inputFileHash": "8c8dbeee60d313fd2e0bb4bbeeb53cb1671a321459e7e4e71420f1651924f1c1",
+      "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+    },
+    "blocked": {
+      "inputFileHash": "0925b9872d7f353b3767e41d406a4574d920989469ac35dba27bf937b92a9133",
+      "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+    }
+  },
+  "segments": [
+    {
+      "step": 1,
+      "start": 0.0,
+      "end": 23.101
+    },
+    {
+      "step": 2,
+      "start": 23.101,
+      "end": 41.306
+    },
+    {
+      "step": 3,
+      "start": 41.306,
+      "end": 58.901
+    },
+    {
+      "step": 4,
+      "start": 58.901,
+      "end": 76.56
+    },
+    {
+      "step": 5,
+      "start": 76.56,
+      "end": 93.852
+    }
+  ],
+  "status": "Engineering preview. Real Microsoft call and final cloud-enabled submission recording remain pending."
+}

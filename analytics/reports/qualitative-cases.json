@@ -1,0 +1,4220 @@
+{
+  "reviewType": "Internal, model-assisted qualitative scrutiny; no independent football expert labels or accuracy ground truth.",
+  "caseCount": 10,
+  "cases": [
+    {
+      "id": "stationary_open",
+      "question": "A stationary A7 in an open channel can retain direct receiving space; running speed is not itself the score.",
+      "playerIds": [
+        "A7"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 492.5478210449219,
+              "das": 4.504191837118797
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "lane_screen",
+      "question": "Moving one defender into the direct lane can alter the receiver's accessible field; inspect the full field, not only the straight line.",
+      "playerIds": [
+        "A7"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 492.5478210449219,
+              "das": 4.504191837118797
+            }
+          }
+        },
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 17,
+                "y": -7.2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 164.58016967773438,
+              "das": 1.5720564286354097
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "tight_marker",
+      "question": "A nearby marker may suppress direct space even with the receiver in an attacking location.",
+      "playerIds": [
+        "A7"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 492.5478210449219,
+              "das": 4.504191837118797
+            }
+          }
+        },
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 25,
+                "y": -14,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 237.35487365722656,
+              "das": 1.6107588075968804
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "momentum",
+      "question": "Opposite and inward velocities test sensitivity to current momentum. No universal monotonic speed rule is imposed.",
+      "playerIds": [
+        "A7"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": -6,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 500.0681457519531,
+              "das": 4.102964070811665
+            }
+          }
+        },
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 4,
+                "vy": 2
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 497.8306579589844,
+              "das": 4.862208029492789
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "offside_fast_run",
+      "question": "A fast, advanced A7 is removed by the author's geometric offside filter; this is not an official offside decision.",
+      "playerIds": [
+        "A7"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 43,
+                "y": -15,
+                "vx": 6,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "offside",
+              "as": null,
+              "das": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "carrier_exclusion",
+      "question": "The carrier is excluded by configuration. The raw zero is displayed as unavailable for receiving rather than as poor play.",
+      "playerIds": [
+        "A6"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A6": {
+              "status": "carrier",
+              "as": null,
+              "das": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "missing_defender",
+      "question": "Missing B3 invalidates the complete snapshot instead of silently creating more space.",
+      "playerIds": [
+        "A7"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "invalid",
+          "reason": "incomplete_or_duplicate_roster",
+          "metrics": {
+            "A7": {
+              "status": "invalid",
+              "as": null,
+              "das": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unsupported_ball",
+      "question": "A controlled high ball and a ball in flight are both outside this snapshot receiving analysis.",
+      "playerIds": [
+        "A7"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 1.2,
+              "state": "possessed"
+            }
+          },
+          "status": "invalid",
+          "reason": "non_ground_ball",
+          "metrics": {
+            "A7": {
+              "status": "invalid",
+              "as": null,
+              "das": null
+            }
+          }
+        },
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": null,
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "in_flight"
+            }
+          },
+          "status": "invalid",
+          "reason": "ball_in_flight",
+          "metrics": {
+            "A7": {
+              "status": "invalid",
+              "as": null,
+              "das": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "decoy_boundary",
+      "question": "A7 and B3 move wide while A9 stays central. Opposing changes in their direct opportunities would be compatible with a decoy interpretation, but cannot establish A7's causal contribution.",
+      "playerIds": [
+        "A7",
+        "A9"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 31,
+                "y": 1,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 535.9627685546875,
+              "das": 6.734003832002473
+            },
+            "A9": {
+              "status": "eligible",
+              "as": 149.3102264404297,
+              "das": 2.2617651076958394
+            }
+          }
+        },
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 34,
+                "y": -28,
+                "vx": 2,
+                "vy": -4
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 35,
+                "y": -20,
+                "vx": 1,
+                "vy": -3
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 166.75083923339844,
+              "das": 1.3244311609570605
+            },
+            "A9": {
+              "status": "eligible",
+              "as": 237.01910400390625,
+              "das": 6.554839139225841
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "left_right_mirror",
+      "question": "Reflecting x and vx and reversing the explicit attack direction preserves the same tactical geometry.",
+      "playerIds": [
+        "A7",
+        "A9"
+      ],
+      "snapshots": [
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": 1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": -10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": -20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": -20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": -10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": 8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": 26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": 5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": 30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": 18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": 23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": 34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": 37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": 37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": 33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": 18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": 3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": 17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": -5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": 10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": 8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 492.5478210449219,
+              "das": 4.504191837118797
+            },
+            "A9": {
+              "status": "eligible",
+              "as": 198.24655151367188,
+              "das": 3.9981499963498877
+            }
+          }
+        },
+        {
+          "input": {
+            "index": 0,
+            "frameId": "toy:0000",
+            "t": 0,
+            "periodId": 1,
+            "pitch": {
+              "length": 105,
+              "width": 68,
+              "originX": -52.5,
+              "originY": -34
+            },
+            "attackDirection": -1,
+            "attackingTeam": "A",
+            "carrierId": "A6",
+            "gameMode": "open_play",
+            "players": [
+              {
+                "id": "A1",
+                "team": "A",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": 48,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A2",
+                "team": "A",
+                "number": 2,
+                "role": "outfield",
+                "x": 10,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A3",
+                "team": "A",
+                "number": 3,
+                "role": "outfield",
+                "x": 20,
+                "y": -10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A4",
+                "team": "A",
+                "number": 4,
+                "role": "outfield",
+                "x": 20,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A5",
+                "team": "A",
+                "number": 5,
+                "role": "outfield",
+                "x": 10,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A6",
+                "team": "A",
+                "number": 6,
+                "role": "outfield",
+                "x": -8,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A7",
+                "team": "A",
+                "number": 7,
+                "role": "outfield",
+                "x": -26,
+                "y": -15,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A8",
+                "team": "A",
+                "number": 8,
+                "role": "outfield",
+                "x": -5,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A9",
+                "team": "A",
+                "number": 9,
+                "role": "outfield",
+                "x": -30,
+                "y": 2,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A10",
+                "team": "A",
+                "number": 10,
+                "role": "outfield",
+                "x": -18,
+                "y": 11,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "A11",
+                "team": "A",
+                "number": 11,
+                "role": "outfield",
+                "x": -23,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B1",
+                "team": "B",
+                "number": 1,
+                "role": "goalkeeper",
+                "x": -49,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B2",
+                "team": "B",
+                "number": 2,
+                "role": "outfield",
+                "x": -34,
+                "y": -27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B3",
+                "team": "B",
+                "number": 3,
+                "role": "outfield",
+                "x": -37,
+                "y": -6,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B4",
+                "team": "B",
+                "number": 4,
+                "role": "outfield",
+                "x": -37,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B5",
+                "team": "B",
+                "number": 5,
+                "role": "outfield",
+                "x": -33,
+                "y": 27,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B6",
+                "team": "B",
+                "number": 6,
+                "role": "outfield",
+                "x": -18,
+                "y": 4,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B7",
+                "team": "B",
+                "number": 7,
+                "role": "outfield",
+                "x": -3,
+                "y": -26,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B8",
+                "team": "B",
+                "number": 8,
+                "role": "outfield",
+                "x": -17,
+                "y": 16,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B9",
+                "team": "B",
+                "number": 9,
+                "role": "outfield",
+                "x": 5,
+                "y": 0,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B10",
+                "team": "B",
+                "number": 10,
+                "role": "outfield",
+                "x": 0,
+                "y": 10,
+                "vx": 0,
+                "vy": 0
+              },
+              {
+                "id": "B11",
+                "team": "B",
+                "number": 11,
+                "role": "outfield",
+                "x": -10,
+                "y": 29,
+                "vx": 0,
+                "vy": 0
+              }
+            ],
+            "ball": {
+              "x": -8.35,
+              "y": 0.12,
+              "vx": 0,
+              "vy": 0,
+              "z": 0,
+              "state": "possessed"
+            }
+          },
+          "status": "valid",
+          "reason": null,
+          "metrics": {
+            "A7": {
+              "status": "eligible",
+              "as": 492.5478210449219,
+              "das": 4.504191837118797
+            },
+            "A9": {
+              "status": "eligible",
+              "as": 198.24655151367188,
+              "das": 3.9981499963498877
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

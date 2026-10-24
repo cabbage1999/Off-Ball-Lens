@@ -1,73 +1,408 @@
-import {SCENARIOS,generateScenario,frameAt} from './src/scenarios.mjs';
-import {analyzeFrame,DEFAULT_PARAMS,MODEL_VERSION,compactAnalysis,LIMITATIONS} from './src/model.mjs';
+import { loadSceneData, analysisAtTime, trackingAtTime, interpolatedFrame, playerAnalysis, curveSegments, visibleMoments, visibleEvents, decodeHeatmap, playerTrail } from './src/analysis.mjs';
+import { offlineExplain } from './src/agent.mjs';
 
-const $=id=>document.getElementById(id);
-const zh={synthetic:'合成足球分析实验室',source:'项目源码 ↗',eyebrow:'看见足球之外的比赛',headline:'没有触球，也可能创造机会。',subtitle:'追踪跑动，比较替代路线，检查支持结论的证据。',walkthrough:'开始引导演示 ↗',scene1:'斜向接应',scene1sub:'寻找新的接应通道',scene2:'跑入封锁区',scene2sub:'向前跑，不一定更有价值',scene3:'启动过早？',scene3sub:'跑动与出球时机',replay:'合成场景回放',fan:'球迷',analyst:'分析师',attack:'A 队进攻 →',teamA:'A 队',teamB:'B 队',run:'原跑动',alternative:'替代路线',overlay:'显示证据',tracking:'22 名球员 · 10 Hz 数据 · 16 秒',currentframe:'当前帧分析',offball:'无球跑动者',notouch:'本片段没有触球',scorecaption:'接应机会指数 · 不是概率',region:'接应区域偏好',readiness:'接应准备程度',lane:'传球线路评分',balltime:'球到达时间',receivertime:'接应就位时间',margin:'最小乐观防守裕量',candidate:'最优候选点',snapshotnote:'仅根据当前帧估计。假定此刻发出一次地面直传。',comparisonkicker:'相同初态，另一种跑法。',comparisontitle:'如果 A7 保持宽度？',baseline:'替代方案',hold:'减速并保持位置',straight:'沿初始速度继续',identical:'完全相同路线（对照）',comparehere:'从当前时刻比较',defaultwindow:'重置窗口',indexpoints:'指数点',meanchange:'平均接应机会变化',points:'指数点',jumpevidence:'查看差异最大的时刻 ↗',fixednote:'回顾性比较 · 其他球员轨迹固定 · 同初始位置和速度 · 下次传球前停止',export:'导出证据 ↓',evidencekicker:'提问，检查，理解。','expla inter':'解释这次比较',local:'本地证据',explainintro:'回答绑定到已选比较窗口，可跳转查看对应的证据帧。',why:'这次跑动为什么值得关注？',lanequestion:'传球线路在哪里受阻？',limitsquestion:'结论依赖哪些假设？',questionlabel:'关于当前比较窗口的问题',ask:'解释 ↗',answerempty:'选择一个问题，检查计算结果与依据。',tooltrace:'证据与工具调用记录',offlinenote:'离线模式使用确定性文本。配置 Microsoft Foundry 后，模型可选择工具及已核验的证据；数值仍由程序核验。',assumptionskicker:'检验结论的边界',assumptionstitle:'改变模型假设',assumptionsintro:'调整假想传球速度或防守反应时间，重新计算同一窗口。',ballspeed:'假想地面传球速度',reaction:'防守者反应延迟',sensitivity:'检查 9 项扰动',resetparams:'重置',sensitivitynote:'逐项改变假设；此范围不是统计置信区间。',teambest:'球队的最佳接应选项改善了吗？ ↗',method:'指标如何计算，以及它无法证明什么',methodcopy:'对两条分支使用相同的 8 个局部候选偏移，检查边界、2.5 秒传球时域、接应可达性与出球时刻的越位位置。区域偏好、准备程度与线路评分都来自同一个最优候选。接应端用可行控制器检查，防守端用乐观到达时间下界筛查，均非经过验证的球员运动模型。',methodlimits:'这些是独立编写的合成场景，不是真实追踪数据。模型评价直接接应机会，不评价牵制防守、未来进球或真实因果贡献。固定环境及有限候选集合会影响结论。零指数不能证明现实中所有传球都不可能。',methodlink:'查看实现方法与公式 ↗',researchlink:'查看文献审查 ↗',footer:'可复现的可行性 Demo',footernote:'独立合成数据 · 与 Premier League 无隶属关系'};
-const english=new Map([...document.querySelectorAll('[data-i]')].map(el=>[el,el.textContent]));
-const state={language:'en',audience:'fan',sceneId:'diagonal',scene:null,t:4.8,playing:false,speed:1,params:{...DEFAULT_PARAMS},start:2.5,horizon:2.5,alternative:'hold-width',comparison:null,sensitivity:null,team:null,answer:null,analysis:null,frameIndex:-1,rev:0,server:false,cloudConfigured:false,tour:-1};
-const tr=(en,cn)=>state.language==='zh'?cn:en;
-const fmt=(x,n=1)=>Number.isFinite(x)?x.toFixed(n):'—';
-const signed=x=>`${x>=0?'+':''}${fmt(x)}`;
-const time=t=>`${String(Math.floor(t/60)).padStart(2,'0')}:${(t%60).toFixed(1).padStart(4,'0')}`;
-let worker=new Worker(new URL('./src/analysis-worker.mjs',import.meta.url),{type:'module'}),jobId=0;
-const jobs=new Map();
-worker.onmessage=({data})=>{const job=jobs.get(data.id);if(!job)return;jobs.delete(data.id);data.error?job.reject(new Error(data.error)):job.resolve(data.result);};
-worker.onerror=()=>{for(const job of jobs.values())job.reject(new Error('The analysis worker could not load. Serve this folder over HTTP.'));jobs.clear();toast(tr('Analysis could not start. See README for the local server.','分析程序未能启动，请按 README 启动本地服务。'));};
-function runJob(task,request){return new Promise((resolve,reject)=>{const id=++jobId;jobs.set(id,{resolve,reject});worker.postMessage({id,task,request});});}
-function request(){return {scenarioId:state.sceneId,seed:20261022,playerId:'A7',startTime:state.start,horizon:state.horizon,alternative:state.alternative,params:{ballSpeed:state.params.ballSpeed,reactionTime:state.params.reactionTime},language:state.language,audience:state.audience};}
-let toastTimer,answerRequestId=0;
-function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,5000);}
-function clearAnswer(){answerRequestId++;$('ask').disabled=false;state.answer=null;$('answer').replaceChildren();const p=document.createElement('p');p.className='muted';p.textContent=tr('Choose a question to examine the calculated evidence.','选择一个问题，检查计算结果与依据。');$('answer').append(p);$('evidence-buttons').replaceChildren();$('tool-trace').textContent='';$('cloud-status').textContent=state.cloudConfigured?tr('Foundry configured','Foundry 已配置'):tr('Local evidence','本地证据');}
-function invalidate(){state.rev++;clearAnswer();state.sensitivity=null;state.team=null;$('team-result').textContent='';$('sensitivity-result').innerHTML='';const p=document.createElement('p');p.className='tiny';p.textContent=tr('One-at-a-time parameter checks, not statistical confidence intervals.','逐项改变假设；此范围不是统计置信区间。');$('sensitivity-result').append(p);state.frameIndex=-1;}
-async function compare(){const rev=state.rev;state.comparison=null;document.body.classList.add('busy');$('delta').textContent='…';$('compare-conclusion').textContent=tr('Computing both routes…','正在计算两条路线……');$('export').disabled=true;$('jump-evidence').disabled=true;$('sensitivity').disabled=true;$('team-best').disabled=true;drawChart();try{const result=await runJob('compare',request());if(rev!==state.rev)return;state.comparison=result;renderComparison();drawPitch();}catch(e){if(rev===state.rev)toast(e.message);}finally{if(rev===state.rev){document.body.classList.remove('busy');$('export').disabled=!state.comparison;$('jump-evidence').disabled=!state.comparison?.valid;$('sensitivity').disabled=!state.comparison?.valid;$('team-best').disabled=!state.comparison?.valid;}}}
-function loadScene(id){state.sceneId=id;state.scene=generateScenario(id);state.start=state.scene.metadata.compareStart;state.t=id==='early'?4.5:4.8;state.playing=false;invalidate();document.querySelectorAll('[data-scene]').forEach(b=>{const active=b.dataset.scene===id;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});updateFrame(true);compare();}
-function renderLanguage(){document.documentElement.lang=state.language==='zh'?'zh-CN':'en';for(const[el,en]of english)el.textContent=state.language==='zh'?(zh[el.dataset.i]??en):en;$('language').textContent=state.language==='zh'?'EN':'中文';$('language').setAttribute('aria-label',state.language==='zh'?'Switch to English':'切换为中文');$('question').placeholder=tr('Ask about this run…','询问这次跑动……');document.body.classList.toggle('analyst',state.audience==='analyst');$('fan').setAttribute('aria-pressed',String(state.audience==='fan'));$('analyst').setAttribute('aria-pressed',String(state.audience==='analyst'));updateFrame(true);renderComparison();renderSensitivity();if(state.answer)renderAnswer(state.answer);else clearAnswer();renderTour();}
+const $ = id => document.getElementById(id);
+const english = new Map([...document.querySelectorAll('[data-i]')].map(element => [element, element.textContent]));
+const zh = {
+  skip:'跳转至回放',sqrtlegend:'固定平方根显示色标',headercaption:'从另一个角度读懂足球',methodnav:'方法说明 ↗',eyebrow:'在球到来之前，看懂足球',title:'触球之前，先看跑动。',intro:'跟随一名球员，看见危险接应空间，找到机会出现的时刻。',viewlabel:'观看模式',fan:'球迷',analyst:'分析师',sceneused:'右侧配合',sceneusedsub:'观察近侧接应',sceneunused:'横向转移',sceneunusedsub:'观察远侧接应',sceneblocked:'冲击防线',sceneblockedsub:'观察跑动时机',synthetic:'合成场景回放',trail:'3 秒轨迹',heatmap:'接应空间',pitchhint:'点击任意球员，开始跟随',loading:'正在载入轨迹与作者模型分析……',teama:'A 队',teamb:'B 队',intensity:'危险接应空间 · 相对强度',recorded:'实际记录轨迹 · 22 人与球',curveeyebrow:'机会随时间变化',curvetitle:'的危险接应空间',dasunit:'DAS · 危险度加权 m²',curvenote:'仅显示已发生帧；无效状态与持球者切换处断开。',chartclick:'点击回看 ↗',following:'球员视角',followinglive:'跟随中',asunit:'m² 有效可接应面积',dasunitshort:'危险度加权 m²',analysistime:'分析时刻',frame:'帧编号',model:'模型',sampling:'计算方式',datasource:'数据来源',config:'配置标识',latestcue:'最新观察',cuestart:'播放片段，跟随这名球员的接应机会。',revisit:'回看这个时刻',playerlimit:'衡量直接接应面积，并非概率，也不是跑动的全部价值。',explainheading:'这一刻发生了什么？',localsource:'本地模板',explaincopy:'针对所选球员，询问截至此刻的比赛画面。',questionnow:'解释这一刻',questionchange:'机会如何变化？',questionlimits:'模型局限',questionlabel:'关于所选球员的问题',answerempty:'解释会绑定其证据帧。提问后暂停回放，查看依据。',offlinenote:'本地解释使用已记录的事实；尚未进行云端调用。',tooltrace:'证据与工具活动',revieweyebrow:'片段结束，回看机会',watchagain:'再看一遍 ↺',reviewcaveat:'有接应选项未被选择，本身并不能说明持球者作出了错误决策。',eventseyebrow:'截至此刻的比赛',eventstitle:'比赛事件',eventsempty:'事件会随回放逐步出现。',momentseyebrow:'可以回看的证据',momentstitle:'接应窗口',momentsempty:'只有证据已出现，才显示检测到的接应窗口。',methodtitle:'这个视角衡量什么',methodspace:'有明确含义的空间',methodcopy:'AS 是有效可接应面积，单位为 m²。DAS 以作者的危险度模型对该面积加权。两者直接读取 accessible-space 2.1.0 的结果，输入包括全员 22 人、球、球权与进攻方向。',methodlimits:'接应机会的一种视角',methodlimitcopy:'这是直接接应机会，不是进球概率或传球成功率，也不表示跑动的因果贡献。个人空间可以重叠。牵制跑动可能帮助队友，却不增加自身 DAS。',methoddata:'可回放、可复现',methoddatacopy:'三个独立编排的合成进攻片段。轨迹以 10 Hz 记录，作者模型以 5 Hz 预计算，动画只对位置插值。热图采用固定色标，越位仅为点位几何近似。',methodlink:'阅读方法说明 ↗',integrationlink:'查看作者实现适配 ↗',export:'下载当前证据 ↓',footer:'在触球之前，看见机会。',footernote:'独立编排的合成数据 · 与英超联赛无隶属关系'
+};
+const state = { language:'en', audience:'fan', sceneId:'used', scenario:null, analysis:null, selectedId:'A7', t:0, playing:false, speed:1, generation:0, loadGeneration:0, answer:null, requestController:null, loadController:null, server:false, cloudConfigured:false, loading:true, cueTime:null, latestRenderKey:'', heatmapCache:new Map(), drawnPlayers:[], toastTimer:null };
+const tr = (en, cn) => state.language === 'zh' ? cn : en;
+const fmt = (value, places=1) => Number.isFinite(value) ? value.toFixed(places) : '—';
+const metricText = value => !Number.isFinite(value)?'—':value===0?'0':Math.abs(value)<.01?value.toPrecision(2):Math.abs(value)<1?value.toFixed(3):Math.abs(value)<10?value.toFixed(2):value.toFixed(1);
+const clockText = time => `${time < 10 ? '0' : ''}${fmt(time)}`;
+const duration = () => state.scenario?.metadata?.duration ?? 30;
+const activeFacts = () => {
+  const analysis = analysisAtTime(state.analysis, state.t), tracking = trackingAtTime(state.scenario, state.t);
+  return { analysis, tracking, value: playerAnalysis(analysis, tracking, state.selectedId, state.analysis?.model?.config?.filters), player:tracking?.players.find(player => player.id === state.selectedId) };
+};
+function setText(id, value) { $(id).textContent = value; }
+function element(tag, className, text) { const item = document.createElement(tag); if (className) item.className = className; if (text !== undefined) item.textContent = text; return item; }
+function toast(message) { setText('toast', message); $('toast').hidden = false; clearTimeout(state.toastTimer); state.toastTimer = setTimeout(() => $('toast').hidden = true, 4000); }
+function invalidateAnswer() {
+  state.generation++;
+  $('pitch').dataset.explanationOverlay='';
+  state.requestController?.abort(); state.requestController = null; state.answer = null;
+  $('ask').disabled = false;
+  $('answer').replaceChildren(element('p', 'answer-placeholder', tr('An explanation stays with its evidence frame. Ask to pause and inspect.','解释会绑定其证据帧。提问后暂停回放，查看依据。')));
+  $('evidence-buttons').replaceChildren(); setText('tool-trace','');
+  renderSource();
+}
+function renderSource(answer = null) {
+  const cloud = answer?.source === 'microsoft-foundry';
+  $('cloud-status').classList.toggle('cloud', cloud);
+  setText('cloud-status', cloud ? tr('Foundry · verified','Foundry · 已核验') : answer ? (['fallback','browser-fallback'].includes(answer.status)?tr('Local fallback','本地回退'):tr('Local template','本地模板')) : state.cloudConfigured ? tr('Foundry ready','Foundry 已配置') : tr('Local template','本地模板'));
+  setText('explanation-source', cloud ? tr('Microsoft Foundry selected tools and evidence. Returned claims passed the evidence checks.','Microsoft Foundry 选择工具与证据，返回的结论已通过证据检查。') : answer ? tr('Deterministic local wording from the same recorded facts. No cloud model generated this answer.','根据同一组记录事实生成的确定性本地文本，此回答未由云端模型生成。') : state.cloudConfigured ? tr('A server configuration is available. Cloud status is confirmed only after a successful request.','服务器已有配置，实际云端运行状态以请求成功后的结果为准。') : tr('Local explanations use the recorded facts. No cloud call has been made.','本地解释使用已记录的事实；尚未进行云端调用。'));
+}
+function renderLanguage() {
+  document.documentElement.lang = state.language === 'zh' ? 'zh-CN' : 'en';
+  document.title = tr('Off-Ball Lens — The run before the touch','Off-Ball Lens — 触球之前，先看跑动');
+  for (const [item, text] of english) item.textContent = state.language === 'zh' ? (zh[item.dataset.i] ?? text) : text;
+  setText('language', state.language === 'zh' ? 'EN' : '中文');
+  $('language').setAttribute('aria-label', state.language === 'zh' ? 'Switch to English' : '切换为中文');
+  document.body.classList.toggle('analyst', state.audience === 'analyst');
+  for (const mode of ['fan','analyst']) $(mode).setAttribute('aria-pressed',String(state.audience === mode));
+  $('question').placeholder = tr('Ask about this player…','询问这名球员……');
+  $('timeline').setAttribute('aria-label',tr('Replay time','回放时间'));
+  $('player-select').setAttribute('aria-label',tr('Select player','选择球员'));
+  $('restart').setAttribute('aria-label',tr('Restart replay','从头回放'));
+  $('speed').setAttribute('aria-label',tr('Playback speed','播放速度'));
+  $('ask').setAttribute('aria-label',tr('Ask about this player','询问这名球员'));
+  for(const [index,group] of [...$('player-select').querySelectorAll('optgroup')].entries())group.label=tr(`Team ${index===0?'A':'B'}`,`${index===0?'A':'B'} 队`);
+  document.querySelector('.scenarios').setAttribute('aria-label',tr('Synthetic football scenes','合成足球片段'));
+  document.querySelector('.mode-switch').setAttribute('aria-label',tr('Audience','观看模式'));
+  $('replay').setAttribute('aria-label',tr('Football replay','足球回放'));
+  renderSource(state.answer); renderFrame(true);
+}
 
-function currentFrame(){return frameAt(state.scene,state.t);}
-function updateFrame(force=false){const frame=currentFrame();if(force||frame.index!==state.frameIndex){state.analysis=analyzeFrame(frame,'A7',state.params);state.frameIndex=frame.index;renderMetrics();}$('play').textContent=state.playing?'Ⅱ':'▶';$('play').setAttribute('aria-label',tr(state.playing?'Pause replay':'Play replay',state.playing?'暂停回放':'播放回放'));$('timeline').value=state.t;$('time-label').textContent=`${state.t.toFixed(1).padStart(4,'0')} / 16.0 s`;$('pitch-clock').textContent=time(state.t);$('event-label').textContent=frame.carrierId?tr(`${frame.carrierId} in possession · hypothetical pass analysis`,`${frame.carrierId} 持球 · 假想传球分析`):tr('Ball in flight · receiving index paused','足球飞行中 · 接应指数暂停');drawPitch();drawChart();}
-function renderMetrics(){const a=state.analysis;if(!a)return;$('score').textContent=fmt(a.index);$('frame-number').textContent=`F${a.frameIndex} · ${fmt(a.t)}s`;const reason={available:tr('Onside','位置合法'),offside:tr('Offside position','越位位置'),no_reachable_candidate:tr('No candidate','无可达候选'),no_controlled_possession:tr('In flight','传球中'),ball_carrier:tr('Ball carrier','持球人')}[a.reason]??a.reason;$('legality').textContent=reason;$('legality').className=`badge ${a.reason==='offside'?'negative':a.reason==='available'?'':'warning'}`;for(const [key,letter]of[['u','U'],['r','R'],['b','B']]){$(`${key}-value`).textContent=fmt(a.components[letter],2);$(`${key}-bar`).style.width=`${100*a.components[letter]}%`;}
-  const b=a.best,c=b?.critical;let insight;
-  if(a.reason==='offside')insight=tr('A7 is beyond the positional offside line at this hypothetical kick. The legal-receiving gate is zero.','假想出球时刻，A7 已越过越位位置线，合法接应筛选为零。');
-  else if(a.reason==='no_reachable_candidate')insight=tr('None of the eight candidates passes the arrival check. This does not rule out every real receiving option.','8 个候选点均未通过接应到位检查；这不能排除现实中所有接应可能。');
-  else if(!b)insight=tr('Wait for controlled possession to evaluate a hypothetical ground pass.','待球员重新控球后，再评价假想地面直传。');
-  else if(c?.capped)insight=tr('No sampled defender reaches the lane within the search horizon. The reported margin is a lower bound for this controller.','采样中防守控制器未在搜索时域内到达线路。显示的裕量是该控制器的截断下界。');
-  else insight=tr(`${c?.defenderId} gives the smallest sampled optimistic margin: ${signed(b.laneMargin)} s. ${b.laneMargin<0?'This bound cannot rule out interception.':'The sampled points favor the ball; gaps between samples remain unchecked.'}`,`${c?.defenderId} 对应最小采样乐观防守裕量：${signed(b.laneMargin)} 秒。${b.laneMargin<0?'该下界无法排除拦截，并非证明一定可截。':'采样点的球到达更早；采样间隙仍未检验。'}`);
-  $('frame-insight').textContent=insight;$('ball-time').textContent=b?`${fmt(b.ballArrival,2)} s`:'—';$('receiver-time').textContent=b?`${fmt(b.receiverArrival,2)} s`:'—';$('lane-margin').textContent=b?`${c?.capped?'≥':''}${fmt(b.laneMargin,2)} s`:'—';$('candidate').textContent=b?`(${fmt(b.x)}, ${fmt(b.y)}) m`:'—';}
+async function loadScene(id) {
+  state.loadController?.abort(); state.loadController = new AbortController();
+  const generation = ++state.loadGeneration;
+  state.sceneId=id; state.playing=false; state.t=0; state.loading=true; state.latestRenderKey=''; state.heatmapCache.clear();
+  state.scenario=null;state.analysis=null;state.drawnPlayers=[];state.cueTime=null;
+  for(const id of ['metric-as','metric-das','analysis-time','frame-id','model-version','analysis-mode','stage-title','model-clock','ball-state','animation-clock','player-role','data-source','config-hash','player-title','player-shirt','curve-player'])setText(id,'—');
+  setText('live-insight',tr('Loading this sequence…','正在载入此片段……'));setText('player-status',tr('Loading','载入中'));
+  setText('clock','00.0 / — s');setText('event-count','0');setText('moment-count','0');$('timeline').value=0;
+  $('events').replaceChildren(element('p','empty-state',tr('Events appear as the sequence unfolds.','事件会随回放逐步出现。')));$('moments').replaceChildren(element('p','empty-state',tr('Detected windows appear only when the evidence is available.','只有证据已出现，才显示检测到的接应窗口。')));
+  setText('cue-text',tr('Play the sequence to follow this player’s opportunities.','播放片段，跟随这名球员的接应机会。'));$('cue-jump').hidden=true;
+  $('chart').getContext('2d').clearRect(0,0,$('chart').width,$('chart').height);$('player-select').replaceChildren();
+  invalidateAnswer(); $('load-error').hidden=true; $('loading-state').hidden=false; $('workspace').setAttribute('aria-busy','true');
+  $('play').disabled=true; $('restart').disabled=true; $('timeline').disabled=true; $('review-card').hidden=true;
+  document.querySelectorAll('[data-scene]').forEach(button => { const active = button.dataset.scene===id; button.classList.toggle('active',active); button.setAttribute('aria-pressed',String(active)); });
+  try {
+    const {scenario,analysis}=await loadSceneData(id,{signal:state.loadController.signal});
+    if(generation!==state.loadGeneration)return;
+    state.scenario=scenario;state.analysis=analysis;state.selectedId=scenario.metadata.targetId??'A7';state.loading=false;
+    $('timeline').max=duration();$('timeline').value=0;
+    $('player-select').replaceChildren();
+    for (const team of ['A','B']) { const group=element('optgroup');group.label=tr(`Team ${team}`,`${team} 队`);for(const player of scenario.frames[0].players.filter(player=>player.team===team)){const option=element('option','',player.id);option.value=player.id;group.append(option);}$('player-select').append(group); }
+    $('player-select').value=state.selectedId;
+    $('loading-state').hidden=true;$('workspace').setAttribute('aria-busy','false');$('play').disabled=false;$('restart').disabled=false;$('timeline').disabled=false;
+    renderFrame(true);
+  } catch(error) {
+    if(generation!==state.loadGeneration||error.name==='AbortError')return;
+    state.loading=false;$('loading-state').hidden=true;$('workspace').setAttribute('aria-busy','false');
+    setText('live-insight',tr('Analysis unavailable. The recorded author output is required for this sequence.','分析不可用，此片段需要记录的作者模型输出。'));setText('player-status',tr('Data unavailable','数据不可用'));
+    setText('load-error',tr('The tracking or author analysis could not be loaded. No replacement values are shown. Reload once the scene files are available.','轨迹或作者模型分析暂时无法载入，界面不会显示替代数值。场景文件就绪后请刷新。')+` (${error.message})`);$('load-error').hidden=false;
+  }
+}
 
-function drawPitch(){const canvas=$('pitch'),ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);const scale=Math.min((W-92)/105,(H-100)/68),ox=(W-105*scale)/2,oy=(H-68*scale)/2,xy=p=>[ox+p.x*scale,oy+p.y*scale];ctx.fillStyle='#173c40';ctx.fillRect(0,0,W,H);for(let i=0;i<10;i++){ctx.fillStyle=i%2?'#1b4244':'#193e40';ctx.fillRect(ox+105*scale*i/10,oy,105*scale/10,68*scale);}ctx.lineWidth=1.6;ctx.strokeStyle='#a0c5b84d';const rect=(x,y,w,h)=>ctx.strokeRect(ox+x*scale,oy+y*scale,w*scale,h*scale);rect(0,0,105,68);rect(0,13.84,16.5,40.32);rect(88.5,13.84,16.5,40.32);rect(0,24.84,5.5,18.32);rect(99.5,24.84,5.5,18.32);rect(-1.5,30.34,1.5,7.32);rect(105,30.34,1.5,7.32);ctx.beginPath();ctx.moveTo(ox+52.5*scale,oy);ctx.lineTo(ox+52.5*scale,oy+68*scale);ctx.stroke();ctx.beginPath();ctx.arc(ox+52.5*scale,oy+34*scale,9.15*scale,0,2*Math.PI);ctx.stroke();for(const x of[11,52.5,94]){ctx.beginPath();ctx.arc(ox+x*scale,oy+34*scale,2.7,0,7);ctx.fillStyle='#98bcae77';ctx.fill();}ctx.beginPath();ctx.arc(ox+11*scale,oy+34*scale,9.15*scale,-.93,.93);ctx.stroke();ctx.beginPath();ctx.arc(ox+94*scale,oy+34*scale,9.15*scale,Math.PI-.93,Math.PI+.93);ctx.stroke();
-  const base=currentFrame(),next=state.scene.frames[Math.min(base.index+1,state.scene.frames.length-1)],fraction=Math.min(1,Math.max(0,(state.t-base.t)*10));const players=base.players.map((p,i)=>({...p,x:p.x+(next.players[i].x-p.x)*fraction,y:p.y+(next.players[i].y-p.y)*fraction}));const show=$('overlay').checked,a=state.analysis,comparison=state.comparison;
-  function path(points,color,dash=[],width=3){if(points.length<2)return;ctx.save();ctx.strokeStyle=color;ctx.lineWidth=width;ctx.setLineDash(dash);ctx.beginPath();points.forEach((p,i)=>{const[x,y]=xy(p);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();ctx.restore();}
-  if(show&&comparison?.valid){path(comparison.states.map(s=>s.run),'#b8ecc3aa',[],3.5);path(comparison.states.map(s=>s.alternative),'#efcf8daa',[9,7],3);}
-  if(show&&a?.offside){const[x]=xy({x:a.offside.lineX,y:0});ctx.save();ctx.setLineDash([6,6]);ctx.strokeStyle=a.offside.offside?'#ed8f7a99':'#adc8b33d';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,oy);ctx.lineTo(x,oy+68*scale);ctx.stroke();ctx.restore();}
-  if(show&&a?.best){path([base.ball,a.best],a.offside?.offside?'#e39d7999':'#bfe89bc9',[5,6],2);for(const g of a.candidates){const[x,y]=xy(g);ctx.beginPath();ctx.arc(x,y,g.id===a.best.id?7:3,0,7);ctx.fillStyle=g.id===a.best.id?'#d5f39a':g.reachable?'#c0d7a966':'#d79d8633';ctx.fill();}if(a.best.critical&&!a.best.critical.capped){const c=a.best.critical,[x,y]=xy(c);ctx.strokeStyle='#efae83';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,10,0,7);ctx.stroke();ctx.beginPath();ctx.moveTo(x-5,y);ctx.lineTo(x+5,y);ctx.moveTo(x,y-5);ctx.lineTo(x,y+5);ctx.stroke();}}
-  if(show&&comparison?.valid&&state.t>=comparison.startTime&&state.t<=comparison.endTime){const alt=comparison.states.reduce((p,s)=>Math.abs(s.t-state.t)<Math.abs(p.t-state.t)?s:p).alternative;const[x,y]=xy(alt);ctx.save();ctx.setLineDash([3,3]);ctx.strokeStyle='#e8c58d';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(x,y,12,0,7);ctx.stroke();ctx.restore();ctx.fillStyle='#efd4a4';ctx.font='12px sans-serif';ctx.fillText('7′',x+13,y-11);}
-  for(const p of players){const[x,y]=xy(p),selected=p.id==='A7';if(selected){ctx.beginPath();ctx.arc(x,y,21,0,7);ctx.fillStyle='#c4f0a822';ctx.fill();ctx.strokeStyle='#d5efab';ctx.lineWidth=2;ctx.stroke();}ctx.beginPath();ctx.arc(x,y,selected?12:10,0,7);ctx.fillStyle=p.team==='A'?'#54b7ab':'#e3ad79';if(p.role==='goalkeeper')ctx.fillStyle=p.team==='A'?'#b2d5cd':'#d8caac';ctx.fill();ctx.strokeStyle='#123434';ctx.lineWidth=2;ctx.stroke();ctx.fillStyle='#122e31';ctx.font=`${selected?'bold ':''}11px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.number,x,y+.5);if(selected){ctx.fillStyle='#e7f6d2';ctx.font='bold 12px sans-serif';ctx.fillText('A7',x,y-30);}}
-  const ball={x:base.ball.x+(next.ball.x-base.ball.x)*fraction,y:base.ball.y+(next.ball.y-base.ball.y)*fraction},[bx,by]=xy(ball);ctx.beginPath();ctx.arc(bx,by,5,0,7);ctx.fillStyle='#fffef2';ctx.fill();ctx.strokeStyle='#1e3434';ctx.lineWidth=1.7;ctx.stroke();ctx.textAlign='left';ctx.textBaseline='alphabetic';$('pitch-note').textContent=show&&comparison?.valid?tr(`Paths: comparison window ${fmt(comparison.startTime)}–${fmt(comparison.endTime)} s`, `路线：比较窗口 ${fmt(comparison.startTime)}–${fmt(comparison.endTime)} 秒`):tr('Synthetic scene · hypothetical pass','合成场景 · 假想传球');canvas.setAttribute('aria-label',tr(`Synthetic football at ${fmt(state.t)} seconds. A7 index ${fmt(a?.index)}. ${a?.reason??''}.`,`${fmt(state.t)} 秒合成足球场景，A7 指数 ${fmt(a?.index)}，${$('legality').textContent}。`));}
+function statusCopy(value) {
+  const reason=String(value.reason||'');
+  if(value.status==='carrier')return{label:tr('On the ball','持球中'),text:tr(`${state.selectedId} is carrying the ball. Follow an off-ball teammate to see receiving space.`,`${state.selectedId} 正在持球。选择当前攻方的无球队友，查看接应空间。`),className:'neutral'};
+  if(value.status==='defending')return{label:tr('Defending team','当前守方'),text:tr(`${state.selectedId} is defending. This lens measures attacking receiving options.`,`${state.selectedId} 当前属于守方。此视角衡量攻方的直接接应机会。`),className:'neutral'};
+  if(value.status==='offside')return{label:tr('Offside position · approximate','越位位置 · 点位近似'),text:tr(`${state.selectedId} is beyond the positional offside line at this frame. Receiving analysis is unavailable.`,`${state.selectedId} 在此帧处于点位近似的越位位置，接应分析不可用。`),className:'unavailable'};
+  if(value.status!=='eligible') {
+    if(reason.includes('flight'))return{label:tr('Ball in flight','球在飞行'),text:tr('The pass is travelling. The space layer returns when a player controls the ball.','传球正在飞行，球员重新控球后恢复接应空间图层。'),className:'unavailable'};
+    if(reason.includes('ground')||reason.includes('height'))return{label:tr('Ball off the ground','非地面球'),text:tr('This model covers ground passing. The space layer is unavailable for this ball state.','该模型适用于地面传球，当前球状态不显示接应空间。'),className:'unavailable'};
+    if(reason.includes('dead')||reason.includes('stopped'))return{label:tr('Play stopped','比赛停止'),text:tr('Play has stopped. There is no current receiving-space estimate.','当前比赛已停止，不显示此刻的接应空间估计。'),className:'neutral'};
+    if(reason==='awaiting_sample')return{label:tr('Possession changed','持球者已切换'),text:tr('A new player controls the ball. Waiting for the next recorded analysis frame.','新的球员已控制球，等待下一个记录的分析帧。'),className:'neutral'};
+    if(reason.includes('loose')||reason.includes('unknown')||reason.includes('possession'))return{label:tr('No controlled possession','未确认控制球'),text:tr('The ball is not under confirmed control. Receiving space is unavailable.','球尚未被明确控制，当前接应空间分析不可用。'),className:'unavailable'};
+    return{label:tr('Analysis unavailable','分析不可用'),text:tr('This frame does not meet the model input requirements. No space estimate is shown.','此帧不满足模型输入要求，不显示接应空间估计。'),className:'unavailable'};
+  }
+  if(value.das<=0)return{label:tr('Off-ball receiving option','无球接应选项'),text:tr(`No dangerous receiving space is resolved for ${state.selectedId} at this model frame.`,`模型在此帧未识别出 ${state.selectedId} 的危险接应空间。`),className:'neutral'};
+  if(value.heatmap&&!decodeHeatmap(value.heatmap,state.analysis.heatmapMeta)?.some(cell=>cell>0))return{label:tr('Off-ball receiving option','无球接应选项'),text:tr(`${state.selectedId}'s dangerous receiving space is too faint to resolve at this fixed display scale.`,`${state.selectedId} 的危险接应空间在此固定显示色标下过弱，无法显示。`),className:'neutral'};
+  return{label:tr('Off-ball receiving option','无球接应选项'),text:tr(`The highlight shows the dangerous space ${state.selectedId} can receive into now.`,`高亮区域显示 ${state.selectedId} 此刻可接应的危险空间。`),className:''};
+}
+function ballCopy(ball) { const states={possessed:tr('Controlled ball','受控球'),in_flight:tr('Pass in flight · layer paused','传球飞行 · 图层暂停'),loose:tr('Loose ball · layer paused','失控球 · 图层暂停'),dead:tr('Dead ball · layer paused','死球 · 图层暂停')};return states[ball?.state]??tr('Unknown ball state','球状态未知'); }
+function playerRole(player) {
+  if(!player)return'—';
+  const info=state.scenario.metadata.roles?.[player.id];
+  const role=state.language==='zh'?(info?.nameZh??info?.roleZh):(info?.name??info?.role);
+  return role || (player.role==='goalkeeper'?tr('Goalkeeper','守门员'):tr(`Team ${player.team} · outfield`,`${player.team} 队 · 场上球员`));
+}
+function renderFrame(force=false) {
+  if(!state.scenario||!state.analysis||state.loading)return;
+  const facts=activeFacts(),{analysis,tracking,value,player}=facts;
+  if(!analysis||!tracking)return;
+  $('timeline').value=state.t;
+  $('clock').replaceChildren(document.createTextNode(`${clockText(state.t)} `),element('span','',`/ ${fmt(duration())} s`));
+  $('play').innerHTML=`<span aria-hidden="true">${state.playing?'Ⅱ':'▶'}</span>`;
+  $('play').setAttribute('aria-label',state.playing?tr('Pause','暂停'):tr('Play','播放'));
+  $('play').setAttribute('aria-pressed',String(state.playing));
+  const key=`${tracking.frameId}:${analysis.frameId}:${state.selectedId}:${state.language}:${state.audience}:${state.t>=duration()}`;
+  if(force||key!==state.latestRenderKey) {
+    state.latestRenderKey=key;
+    const status=statusCopy(value);
+    setText('player-title',state.selectedId);setText('player-shirt',player?.number??state.selectedId.slice(1));
+    $('player-shirt').classList.toggle('defender',player?.team==='B');setText('player-role',playerRole(player));
+    setText('player-status',status.label);$('player-status').className=`player-status ${status.className}`;setText('live-insight',status.text);
+    setText('metric-as',metricText(value.as));setText('metric-das',metricText(value.das));setText('analysis-time',`${fmt(analysis.t)} s`);setText('frame-id',analysis.frameId);
+    setText('model-version',`${state.analysis.model.package??'accessible-space'} ${state.analysis.model.version??'2.1.0'}`);
+    setText('analysis-mode',tr(`Precomputed · ${state.analysis.sampleRate} Hz`,`预计算 · ${state.analysis.sampleRate} Hz`));
+    setText('data-source',tr('Authored synthetic tracking','独立编排合成轨迹'));setText('config-hash',state.analysis.model.configHash?.slice(0,12)??'—');$('config-hash').title=state.analysis.model.configHash??'';
+    setText('model-clock',value.status==='eligible'?tr(`SPACE @ ${fmt(analysis.t)} s`,`空间 @ ${fmt(analysis.t)} 秒`):tr('SPACE PAUSED','空间图层暂停'));
+    setText('ball-state',ballCopy(tracking.ball));
+    const direction=typeof tracking.attackDirection==='number'?tracking.attackDirection:tracking.attackDirection?.[tracking.attackingTeam];
+    $('pitch-direction').replaceChildren(document.createTextNode(tracking.attackingTeam??'—'),element('i','',direction===-1?'←':'→'));
+    const stage=state.scenario.metadata.stages?.find(stage=>stage.startTime<=state.t&&stage.endTime>state.t)||state.scenario.metadata.stages?.at(-1);
+    setText('stage-title',state.language==='zh'?(stage?.titleZh??stage?.title??''):(stage?.title??''));
+    setText('curve-player',state.selectedId);
+    const meta=state.analysis.heatmapMeta;
+    setText('scale-range',`0–${fmt(meta.scaleMax,2)}`);
+    $('heatmap-legend').title=tr(`Fixed colour scale 0–${meta.scaleMax}. ${meta.quantity}. Fixed square-root colour and opacity transfer; display interpolation only, not a probability.`,`固定色标 0–${meta.scaleMax}。${meta.quantity}。颜色和透明度使用固定平方根映射；插值仅用于显示，不是概率。`);
+    renderHistory();renderReview();drawChart();
+  }
+  setText('animation-clock',tr(`Animation ${fmt(state.t)} s · analysis ${fmt(analysis.t)} s / ${state.analysis.sampleRate} Hz`,`动画 ${fmt(state.t)} 秒 · 分析 ${fmt(analysis.t)} 秒 / ${state.analysis.sampleRate} Hz`));
+  drawPitch(facts);
+}
 
-function renderComparison(){const c=state.comparison;const altName=state.alternative==='same-route'?tr('What if A7 ran the identical route?','如果 A7 完全沿原路线跑动？'):state.alternative==='continue-straight'?tr('What if A7 continued straight?','如果 A7 沿初始速度继续？'):tr('What if A7 held their width?','如果 A7 减速并保持宽度？');$('comparison-title').textContent=altName;$('window-label').textContent=c?`${tr('Comparison window','比较窗口')} ${fmt(c.startTime)}–${fmt(c.endTime)} s · ${tr('Retrospective, fixed surroundings','回顾性分析，固定周围轨迹')}${c.truncated?' · '+tr('shortened: ','已截短：')+c.stopReason:''}`:`${tr('Selected start','已选起点')} ${fmt(state.start)} s`;if(!c)return;$('delta').textContent=c.valid?signed(c.summary.meanDelta):'—';$('delta').style.color=c.summary.meanDelta<-.05?'#b15b45':'#087d73';$('compare-conclusion').textContent=!c.valid?tr('No common pre-pass window. Select an earlier time.','无共同出球前窗口，请选择更早的时刻。'):Math.abs(c.summary.meanDelta)<.05?tr('No meaningful index difference under these assumptions.','在这些假设下，指数几乎没有变化。'):c.summary.meanDelta>0?tr('A7 gains a receiving option relative to this alternative.','相对所选替代路线，A7 的接应指数提高。'):tr('This run scores below the alternative over the window.','在此窗口内，原跑动指数低于替代路线。');$('chart-description').textContent=c.valid?tr(`Mean index: recorded ${fmt(c.summary.meanRun)}, alternative ${fmt(c.summary.meanAlternative)}, difference ${signed(c.summary.meanDelta)} points.`,`平均指数：原跑动 ${fmt(c.summary.meanRun)}，替代路线 ${fmt(c.summary.meanAlternative)}，差值 ${signed(c.summary.meanDelta)} 点。`):$('compare-conclusion').textContent;drawChart();}
-function drawChart(){const canvas=$('chart'),ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height,p={l:52,r:15,t:24,b:30};ctx.clearRect(0,0,W,H);const c=state.comparison,samples=c?.samples??[];const max=Math.max(20,Math.ceil(Math.max(...samples.flatMap(s=>[s.run,s.alternative]),0)/20)*20);const t0=c?.startTime??state.start,t1=c?.endTime>t0?c.endTime:t0+state.horizon;const x=t=>p.l+(t-t0)/(t1-t0)*(W-p.l-p.r),y=v=>H-p.b-v/max*(H-p.t-p.b);ctx.font='14px sans-serif';ctx.textBaseline='middle';for(let i=0;i<=3;i++){const v=max*i/3;ctx.strokeStyle='#e5eae3';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.l,y(v));ctx.lineTo(W-p.r,y(v));ctx.stroke();ctx.textAlign='right';ctx.fillStyle='#89998d';ctx.fillText(v.toFixed(0),p.l-10,y(v));}ctx.textAlign='center';for(let i=0;i<6;i++){const t=t0+(t1-t0)*i/5;ctx.fillText(`${fmt(t)}s`,x(t),H-10);}if(!samples.length)return;for(const[key,color,dash]of[['alternative','#af975f',[9,6]],['run','#087d73',[]]]){ctx.strokeStyle=color;ctx.lineWidth=3;ctx.setLineDash(dash);ctx.beginPath();samples.forEach((s,i)=>i?ctx.lineTo(x(s.t),y(s[key])):ctx.moveTo(x(s.t),y(s[key])));ctx.stroke();}ctx.setLineDash([]);if(state.t>=t0&&state.t<=t1){ctx.strokeStyle='#183c3555';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x(state.t),p.t);ctx.lineTo(x(state.t),H-p.b);ctx.stroke();}canvas.setAttribute('aria-label',$('chart-description').textContent||'Receiving opportunity over time');}
+function eventText(event) {
+  const player=event.playerId??'—',target=event.targetId??'';
+  const copy={pass:tr(`${player} passes${target?' to '+target:''}`,`${player} 传球${target?'给 '+target:''}`),pass_release:tr(`${player} releases the pass`,`${player} 出球`),release:tr(`${player} releases the pass`,`${player} 出球`),reception:tr(`${player} receives the ball`,`${player} 接到球`),receive:tr(`${player} receives the ball`,`${player} 接到球`),shot:tr(`${player} takes a shot`,`${player} 射门`),save:tr(`${player} makes the save`,`${player} 完成扑救`),interception:tr(`${player} intercepts`,`${player} 完成拦截`),carry_start:tr(`${player} carries forward`,`${player} 开始持球推进`)};
+  return copy[event.type]??tr(`${player} · ${event.type}`,`${player} · ${event.type}`);
+}
+function outcomeLabel(moment) {
+  const outcome=typeof moment.outcome==='string'?moment.outcome:moment.outcome?.status;
+  return {pending:tr('Open','进行中'),passed_to:tr('Pass released','已向其出球'),received:tr('Received','已接到球'),not_selected:tr('Not used','未被利用'),closed:tr('Closed','窗口结束')}[outcome]??(moment.endTime!==undefined?tr('Closed','窗口结束'):tr('Open','进行中'));
+}
+function renderHistory() {
+  const events=visibleEvents(state.scenario,state.t),moments=visibleMoments(state.analysis,state.selectedId,state.t);
+  setText('event-count',events.length);setText('moment-count',moments.length);
+  const rule=state.analysis.momentDetector??state.analysis.model?.config?.momentDetector;
+  setText('moment-rule',state.audience==='analyst'&&rule?tr(`Exploratory rule: DAS ≥ ${rule.openDas} for ${rule.minOpenSeconds} s opens; below ${rule.closeDas} for ${rule.minCloseSeconds} s closes. Not a calibrated quality threshold.`,`探索性规则：DAS ≥ ${rule.openDas} 持续 ${rule.minOpenSeconds} 秒开启；低于 ${rule.closeDas} 持续 ${rule.minCloseSeconds} 秒关闭。这不是经校准的质量标准。`):tr('Exploratory prompts, not a judgment of run quality.','探索性提示，不是对跑动质量的评判。'));
+  $('events').replaceChildren();$('moments').replaceChildren();
+  if(!events.length)$('events').append(element('p','empty-state',tr('Events appear as the sequence unfolds.','事件会随回放逐步出现。')));
+  for(const event of events.slice(-6).reverse()) {
+    const button=element('button','event-row');button.dataset.frameId=event.frameId;button.append(element('span','event-time',`${fmt(event.t)} s`),element('span','event-content',eventText(event)),element('span','event-arrow','↶'));button.addEventListener('click',()=>seek(event.t));$('events').append(button);
+  }
+  if(!moments.length)$('moments').append(element('p','empty-state',tr('Detected windows appear only when the evidence is available.','只有证据已出现，才显示检测到的接应窗口。')));
+  for(const moment of moments.slice(-6).reverse()) {
+    const time=moment.detectedAtTime??moment.knownAtTime??moment.startTime;
+    const button=element('button','moment-row');button.dataset.momentId=moment.id;button.dataset.frameId=moment.detectedAtFrameId??moment.knownAtFrameId??moment.startFrameId;
+    const content=element('span','event-content',tr(`${state.selectedId} receiving window`,`${state.selectedId} 的接应窗口`));
+    content.append(element('small','',tr(`Detected at ${fmt(time)} s${moment.endTime!==undefined?' · ended '+fmt(moment.endTime)+' s':''}`,`${fmt(time)} 秒检测到${moment.endTime!==undefined?' · '+fmt(moment.endTime)+' 秒结束':''}`)));
+    button.append(element('span','event-time',`${fmt(moment.startTime??time)} s`),content,element('span','moment-status',outcomeLabel(moment)));button.addEventListener('click',()=>seek(time));$('moments').append(button);
+  }
+  const recentEvent=events.filter(event=>event.playerId===state.selectedId||event.targetId===state.selectedId).at(-1);
+  const recentMoment=moments.at(-1),momentTime=recentMoment?.knownAtTime??recentMoment?.detectedAtTime??-1;
+  if(recentEvent&&recentEvent.t>=momentTime) {state.cueTime=recentEvent.t;setText('cue-text',`${fmt(recentEvent.t)} s · ${eventText(recentEvent)}`);}
+  else if(recentMoment) {state.cueTime=recentMoment.detectedAtTime??recentMoment.startTime;setText('cue-text',tr(`A receiving window was detected at ${fmt(state.cueTime)} s. ${outcomeLabel(recentMoment)}.`,`${fmt(state.cueTime)} 秒检测到接应窗口，${outcomeLabel(recentMoment)}。`));}
+  else {state.cueTime=null;setText('cue-text',tr('Play the sequence to follow this player’s opportunities.','播放片段，跟随这名球员的接应机会。'));}
+  $('cue-jump').hidden=state.cueTime===null;
+}
 
-async function ask(question){if(!question.trim())question=tr('Why does this run matter?','这次跑动为什么值得关注？');const rev=state.rev,requestId=++answerRequestId,req={...request(),question};$('ask').disabled=true;$('answer').textContent=tr('Reading the selected comparison and evidence…','正在读取所选比较窗口与证据……');try{let result;if(state.server){try{const response=await fetch('./api/explain',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(req),signal:AbortSignal.timeout(50000)});if(!response.ok)throw new Error('Server explanation unavailable');result=await response.json();}catch{result=await runJob('explain',req);result.status='browser-fallback';}}else result=await runJob('explain',req);if(rev!==state.rev||requestId!==answerRequestId)return;state.answer=result;renderAnswer(result);}catch(e){if(rev===state.rev&&requestId===answerRequestId){$('answer').textContent=tr('Could not produce an explanation. The replay and index still work.','暂时无法生成解释，回放与指数计算仍可使用。');toast(e.message);}}finally{if(requestId===answerRequestId)$('ask').disabled=false;}}
-function renderAnswer(a){$('answer').replaceChildren();const label=document.createElement('p');label.className='answer-context';label.textContent=`${a.context.scenarioId} · A7 · ${fmt(a.context.startTime)}–${fmt(a.context.endTime)}s · ${a.context.modelVersion}`;$('answer').append(label);for(const text of a.text.split('\n\n')){const p=document.createElement('p');p.textContent=text;$('answer').append(p);}$('cloud-status').textContent=a.source==='microsoft-foundry'?tr('Foundry · verified','Foundry · 已核验'):a.status==='fallback'||a.status==='browser-fallback'?tr('Local fallback','本地回退'):tr('Local template','本地模板');$('evidence-buttons').replaceChildren();for(const e of a.evidence){const b=document.createElement('button');b.textContent=`${e.id.replace('E_','')} · ${fmt(e.t)}s`;b.addEventListener('click',()=>seek(e.t));$('evidence-buttons').append(b);}$('tool-trace').textContent=a.toolTrace.map(t=>`${t.source==='microsoft-foundry'?'Foundry':'Local'} → ${t.name} · ${t.status}`).join('\n');$('explanation-source').textContent=a.source==='microsoft-foundry'?tr('Microsoft Foundry selected the tools and evidence. The program rendered verified claims; this response passed the evidence checks.','Microsoft Foundry 选择工具和证据，程序输出已核验的事实文本，本次回答已通过证据检查。'):tr('Deterministic local explanation. No cloud model generated this answer. Configure Azure on the server to enable Foundry tool selection.','此回答来自确定性本地模板，未由云端模型生成。可在服务器配置 Azure，启用 Foundry 工具选择。');}
-function renderSensitivity(){const s=state.sensitivity;if(!s){$('sensitivity-result').textContent=tr('One-at-a-time parameter checks, not statistical confidence intervals.','逐项改变假设；此范围不是统计置信区间。');return;}$('sensitivity-result').replaceChildren();const strong=document.createElement('strong');strong.textContent=`${signed(s.min)} … ${signed(s.max)}`;const note=document.createElement('p');note.className='tiny';note.textContent=tr(s.signStable?'Same sign in these nine checks. This is not a confidence interval.':'The sign changes across these checks. The result depends on the assumptions.',s.signStable?'这 9 项检查中符号一致。此范围不是置信区间。':'扰动使结论符号反转，结果对假设敏感。');const details=document.createElement('details'),summary=document.createElement('summary');summary.className='text-button';summary.textContent=tr('Inspect each perturbation','查看各项扰动');const table=document.createElement('table');const labels={'baseline':'基准','slower ball':'球速降低','faster ball':'球速提高','quicker reaction':'反应延迟缩短','slower reaction':'反应延迟增加','less central preference':'降低中央区域偏好','more central preference':'提高中央区域偏好','receiver position -0.25 m':'接应者纵向位置 −0.25 m','receiver position +0.25 m':'接应者纵向位置 +0.25 m'};for(const r of s.results){const row=document.createElement('tr');for(const text of[tr(r.label,labels[r.label]??r.label),signed(r.meanDelta)]){const td=document.createElement('td');td.textContent=text;row.append(td);}table.append(row);}details.append(summary,table);$('sensitivity-result').append(strong,note,details);}
-function seek(t){state.playing=false;state.t=Math.max(0,Math.min(16,t));updateFrame(true);}
-const tours=[['diagonal',4.8,'A run without the ball','Watch A7 move into a different receiving position. The index is a transparent geometric score; it is not a goal probability.','没有触球的跑动','观察 A7 如何改变接应位置。指数是透明的几何评分，不是进球概率。'],['diagonal',5,'Compare a feasible alternative','The dashed route starts from the same position and velocity, then brakes smoothly. Compare the whole 2.5-second window, not only its best frame.','比较另一条可行路线','虚线路线从相同位置和速度出发，平滑减速。比较整个 2.5 秒窗口，而非只挑最好的一帧。'],['crowded',4.8,'A counterexample matters','Running forward can reduce the receiving index. Inspect the lane and readiness components; the model must be able to disagree with the runner.','反例同样重要','向前跑也可能降低接应指数。检查线路与到位分量，模型不能自动赞美每一次跑动。'],['early',4.5,'Timing is part of availability','A7 is now in an offside position at the hypothetical release. Earlier zeros may instead mean that no sampled receiving candidate was reachable.','时机决定能否接应','当前假想出球时刻，A7 处于越位位置；更早出现的零指数，也可能来自有限候选未通过到位检查。'],['diagonal',5,'Challenge the explanation','Use the questions, jump to evidence, change the parameters, and check the best team option. Personal improvement does not automatically improve the team’s best option.','主动检验解释','提问、跳转证据、改变参数，再检查球队最佳选择。个人机会改善，不自动等于球队最佳机会提高。']];
-function renderTour(){if(state.tour<0){$('tour').hidden=true;return;}$('tour').hidden=false;const t=tours[state.tour];$('tour-step').textContent=`${state.tour+1} / ${tours.length} · ${tr('GUIDED DEMO','引导演示')}`;$('tour-title').textContent=tr(t[2],t[4]);$('tour-copy').textContent=tr(t[3],t[5]);$('tour-next').textContent=state.tour===tours.length-1?tr('Explore freely ✓','自由探索 ✓'):tr('Next →','下一步 →');}
-function setTour(n){state.tour=n;if(n>=0){loadScene(tours[n][0]);seek(tours[n][1]);}renderTour();}
+function renderReview() {
+  const ended=state.t>=duration()-1e-7;$('review-card').hidden=!ended;if(!ended)return;
+  const moments=visibleMoments(state.analysis,state.selectedId,state.t),events=visibleEvents(state.scenario,state.t);
+  const receptions=events.filter(event=>['reception','receive'].includes(event.type)&&event.playerId===state.selectedId);
+  const used=moments.filter(moment=>['received','passed_to'].includes(moment.outcome?.status)),other=moments.filter(moment=>moment.outcome?.status==='not_selected');
+  setText('review-title',tr(`${state.selectedId} · what the sequence showed`,`${state.selectedId} · 这段进攻中的机会`));
+  let copy=tr(`${moments.length} receiving window${moments.length===1?'':'s'} detected. ${state.selectedId} received the ball ${receptions.length} time${receptions.length===1?'':'s'}.`, `检测到 ${moments.length} 个接应窗口，${state.selectedId} 在片段中接到球 ${receptions.length} 次。`);
+  if(used.length)copy+=' '+tr(`${used.length} window${used.length===1?' was':'s were'} followed by a pass towards this player.`,`${used.length} 个窗口随后有传球传向这名球员。`);
+  if(other.length)copy+=' '+tr(`${other.length} window${other.length===1?' ended':'s ended'} without a pass to this player.`,`${other.length} 个窗口结束时未向这名球员传球。`);
+  setText('review-copy',copy);$('review-moments').replaceChildren();
+  for(const moment of moments.slice(0,6)) {const t=moment.peakTime??moment.detectedAtTime??moment.startTime;const button=element('button','',`${fmt(t)} s · ${outcomeLabel(moment)} ↶`);button.addEventListener('click',()=>seek(t));$('review-moments').append(button);}
+  if(!moments.length&&receptions.length)for(const event of receptions){const button=element('button','',`${fmt(event.t)} s · ${tr('Reception','接球')} ↶`);button.addEventListener('click',()=>seek(event.t));$('review-moments').append(button);}
+}
 
-document.querySelectorAll('[data-scene]').forEach(b=>b.addEventListener('click',()=>loadScene(b.dataset.scene)));
-$('language').addEventListener('click',()=>{state.language=state.language==='en'?'zh':'en';state.rev++;clearAnswer();renderLanguage();if(!state.comparison)compare();});
-for(const mode of['fan','analyst'])$(mode).addEventListener('click',()=>{state.audience=mode;state.rev++;clearAnswer();renderLanguage();if(!state.comparison)compare();});
-$('play').addEventListener('click',()=>{if(state.t>=16)state.t=0;state.playing=!state.playing;updateFrame();});$('restart').addEventListener('click',()=>seek(0));$('timeline').addEventListener('input',e=>seek(+e.target.value));$('speed').addEventListener('change',e=>state.speed=+e.target.value);$('overlay').addEventListener('change',drawPitch);
-$('baseline').addEventListener('change',e=>{state.alternative=e.target.value;invalidate();updateFrame(true);compare();});$('compare-here').addEventListener('click',()=>{state.start=Math.round(state.t*10)/10;invalidate();compare();});$('default-window').addEventListener('click',()=>{state.start=2.5;invalidate();compare();});$('jump-evidence').addEventListener('click',()=>{if(state.comparison)seek(state.comparison.summary.peakTime);});
-function changeParams(){state.params.ballSpeed=+$('ball-speed').value;state.params.reactionTime=+$('reaction').value;$('ball-speed-value').textContent=`${fmt(state.params.ballSpeed)} m/s`;$('reaction-value').textContent=`${fmt(state.params.reactionTime,2)} s`;invalidate();updateFrame(true);compare();}for(const id of['ball-speed','reaction'])$(id).addEventListener('change',changeParams);for(const[id,out,unit,n]of[['ball-speed','ball-speed-value','m/s',1],['reaction','reaction-value','s',2]])$(id).addEventListener('input',e=>$(out).textContent=`${fmt(+e.target.value,n)} ${unit}`);$('reset-params').addEventListener('click',()=>{$('ball-speed').value=15;$('reaction').value=.35;changeParams();});
-$('sensitivity').addEventListener('click',async()=>{const rev=state.rev;$('sensitivity').disabled=true;try{const result=await runJob('sensitivity',request());if(rev===state.rev){state.sensitivity=result;renderSensitivity();}}catch(e){toast(e.message);}finally{$('sensitivity').disabled=!state.comparison?.valid;}});
-$('team-best').addEventListener('click',async()=>{const rev=state.rev;$('team-best').disabled=true;$('team-result').textContent=tr('Evaluating every non-carrier…','正在计算所有无球进攻球员……');try{const result=await runJob('team',request());if(rev===state.rev){state.team=result;$('team-result').textContent=tr(`Change in the team’s best receiving index: ${signed(result.meanDelta)} points (recorded ${fmt(result.meanRun)}, alternative ${fmt(result.meanAlternative)}). This is not the sum of individual scores.`,`球队最佳接应指数变化：${signed(result.meanDelta)} 点（原跑动 ${fmt(result.meanRun)}，替代 ${fmt(result.meanAlternative)}）。它不是个人分数之和。`);}}catch(e){toast(e.message);}finally{$('team-best').disabled=!state.comparison?.valid;}});
-$('question-form').addEventListener('submit',e=>{e.preventDefault();ask($('question').value);});document.querySelectorAll('[data-q]').forEach(b=>b.addEventListener('click',()=>{$('question').value=b.textContent;ask(b.textContent);}));
-$('export').addEventListener('click',()=>{const c=state.comparison;if(!c)return;const report={schemaVersion:1,modelVersion:MODEL_VERSION,exportedAt:new Date().toISOString(),synthetic:true,metadata:state.scene.metadata,comparison:{...c,samples:c.samples.map(s=>({...s,runAnalysis:compactAnalysis(s.runAnalysis),alternativeAnalysis:compactAnalysis(s.alternativeAnalysis)}))},sensitivity:state.sensitivity,teamBest:state.team,explanation:state.answer,limitations:LIMITATIONS};const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download=`off-ball-lens-${state.sceneId}-evidence.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
-$('walkthrough').addEventListener('click',()=>setTour(0));$('tour-next').addEventListener('click',()=>setTour(state.tour===tours.length-1?-1:state.tour+1));$('tour-close').addEventListener('click',()=>setTour(-1));
-$('chart').addEventListener('click',e=>{const c=state.comparison;if(!c?.valid)return;const box=$('chart').getBoundingClientRect(),fraction=((e.clientX-box.left)/box.width*1100-52)/(1100-67);seek(c.startTime+Math.max(0,Math.min(1,fraction))*c.duration);});
-document.addEventListener('keydown',e=>{if(e.code==='Space'&&!['INPUT','TEXTAREA','SELECT','BUTTON'].includes(e.target.tagName)){e.preventDefault();$('play').click();}});
-loadScene('diagonal');renderLanguage();
-fetch('./api/health').then(r=>r.ok?r.json():null).then(result=>{if(result?.ok){state.server=true;state.cloudConfigured=result.cloud.configured;if(state.cloudConfigured)$('cloud-status').textContent=tr('Foundry configured','Foundry 已配置');}}).catch(()=>{});
-let last=0;function tick(now){const dt=Math.min(.1,(now-last)/1000||0);last=now;if(state.playing){state.t=Math.min(16,state.t+dt*state.speed);if(state.t>=16)state.playing=false;updateFrame();}requestAnimationFrame(tick);}requestAnimationFrame(tick);
+function heatmapCanvas(frame, value) {
+  if(!value.heatmap)return null;
+  const key=`${frame.frameId}:${state.selectedId}`;
+  if(state.heatmapCache.has(key))return state.heatmapCache.get(key);
+  const meta=state.analysis.heatmapMeta,values=decodeHeatmap(value.heatmap,meta);if(!values)return null;
+  const canvas=document.createElement('canvas');canvas.width=meta.width;canvas.height=meta.height;
+  const context=canvas.getContext('2d'),pixels=context.createImageData(meta.width,meta.height);
+  values.forEach((q,index)=>{const f=Math.sqrt(q/255);pixels.data[index*4]=Math.round(140+104*f);pixels.data[index*4+1]=Math.round(192+36*f);pixels.data[index*4+2]=Math.round(78-40*f);pixels.data[index*4+3]=Math.round(255*f);});
+  context.putImageData(pixels,0,0);state.heatmapCache.set(key,canvas);
+  if(state.heatmapCache.size>90)state.heatmapCache.delete(state.heatmapCache.keys().next().value);
+  return canvas;
+}
+function drawPitch(facts=activeFacts()) {
+  if(state.loading||!state.scenario||!facts.tracking)return;
+  const {analysis,tracking,value}=facts,display=interpolatedFrame(state.scenario,state.t);
+  const canvas=$('pitch'),ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
+  const scale=Math.min((W-116)/105,(H-78)/68),left=(W-105*scale)/2,top=(H-68*scale)/2;
+  const x=value=>left+(value+52.5)*scale,y=value=>top+(value+34)*scale;
+  const point=player=>[x(player.x),y(player.y)];
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#163c32';ctx.fillRect(0,0,W,H);
+  for(let i=0;i<10;i++){ctx.fillStyle=i%2?'#1b4438':'#1e483b';ctx.fillRect(left+i*10.5*scale,top,10.5*scale,68*scale);}
+  const gradient=ctx.createLinearGradient(0,0,W,H);gradient.addColorStop(0,'#15382c33');gradient.addColorStop(1,'#1e403a66');ctx.fillStyle=gradient;ctx.fillRect(left,top,105*scale,68*scale);
+  const hasHeatmap=$('heatmap').checked&&value.status==='eligible'&&value.heatmap;
+  if(hasHeatmap) {
+    const heatmap=heatmapCanvas(analysis,value),meta=state.analysis.heatmapMeta;
+    if(heatmap){ctx.save();ctx.beginPath();ctx.rect(left,top,105*scale,68*scale);ctx.clip();ctx.imageSmoothingEnabled=true;ctx.drawImage(heatmap,x(meta.xMin),y(meta.yMin),(meta.xMax-meta.xMin)*scale,(meta.yMax-meta.yMin)*scale);ctx.restore();}
+  }
+  canvas.dataset.analysisFrameId=analysis?.frameId??'';canvas.dataset.heatmapFrameId=hasHeatmap?analysis.frameId:'';canvas.dataset.playerId=state.selectedId;canvas.dataset.playerStatus=value.status;
+  ctx.strokeStyle='#c4ddaa44';ctx.lineWidth=1.6;
+  const line=(x1,y1,x2,y2)=>{ctx.beginPath();ctx.moveTo(x(x1),y(y1));ctx.lineTo(x(x2),y(y2));ctx.stroke();};
+  const rectangle=(x0,y0,width,height)=>ctx.strokeRect(x(x0),y(y0),width*scale,height*scale);
+  rectangle(-52.5,-34,105,68);line(0,-34,0,34);ctx.beginPath();ctx.arc(x(0),y(0),9.15*scale,0,Math.PI*2);ctx.stroke();
+  ctx.fillStyle='#c4ddaa66';ctx.beginPath();ctx.arc(x(0),y(0),2.5,0,Math.PI*2);ctx.fill();
+  for(const side of [-1,1]) {
+    rectangle(side===-1?-52.5:36,-20.16,16.5,40.32);rectangle(side===-1?-52.5:47,-9.16,5.5,18.32);
+    const penalty=side*41.5;ctx.beginPath();ctx.arc(x(penalty),y(0),2.5,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(x(penalty),y(0),9.15*scale,side===-1?-.925:Math.PI-.925,side===-1?.925:Math.PI+.925);ctx.stroke();
+    ctx.strokeStyle='#c4ddaa68';rectangle(side===-1?-54.2:52.5,-3.66,1.7,7.32);ctx.strokeStyle='#c4ddaa44';
+  }
+  // The selected player's trail is recorded history, never a projected route.
+  if($('trail').checked) {
+    const trail=playerTrail(state.scenario,state.selectedId,state.t,3);
+    const selected=display.players.find(player=>player.id===state.selectedId);
+    if(selected)trail.push({...selected,t:state.t});
+    ctx.lineWidth=3.4;ctx.lineCap='round';
+    for(let i=1;i<trail.length;i++){ctx.strokeStyle=`rgba(218,250,136,${.12+.7*i/trail.length})`;ctx.beginPath();ctx.moveTo(...point(trail[i-1]));ctx.lineTo(...point(trail[i]));ctx.stroke();}
+  }
+  if(value.status==='offside') {
+    const modelTracking=state.scenario.frames[analysis.frameIndex]??tracking,direction=typeof modelTracking.attackDirection==='number'?modelTracking.attackDirection:modelTracking.attackDirection?.[modelTracking.attackingTeam];
+    const defenders=modelTracking.players.filter(player=>player.team!==modelTracking.attackingTeam).map(player=>player.x*(direction||1)).sort((a,b)=>b-a);
+    if(defenders.length>=2){const offside=Math.max(0,modelTracking.ball.x*(direction||1),defenders[1])*(direction||1);ctx.save();ctx.setLineDash([7,7]);ctx.strokeStyle='#e7ae76a3';ctx.lineWidth=2;line(offside,-34,offside,34);ctx.restore();}
+  }
+  const selectedPlayer=display.players.find(player=>player.id===state.selectedId);
+  const displayRatio=Math.max(.15,canvas.clientWidth/W),markerRadius=Math.max(13.5,7.5/displayRatio),numberSize=Math.max(13,8.5/displayRatio);
+  state.drawnPlayers=[];
+  for(const player of [...display.players].sort((a,b)=>Number(a.id===state.selectedId)-Number(b.id===state.selectedId))) {
+    const [px,py]=point(player),selected=player.id===state.selectedId,radius=selected?markerRadius+2:markerRadius;
+    state.drawnPlayers.push({id:player.id,x:px,y:py,radius});
+    ctx.save();ctx.shadowColor='#071d2470';ctx.shadowBlur=8;ctx.shadowOffsetY=2;
+    if(selected){ctx.beginPath();ctx.arc(px,py,markerRadius+11,0,Math.PI*2);ctx.fillStyle='#dcf69220';ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle='#d9f68c';ctx.lineWidth=2;ctx.stroke();}
+    ctx.beginPath();ctx.arc(px,py,radius,0,Math.PI*2);ctx.fillStyle=player.team==='A'?'#79d8be':'#e9a88d';
+    if(player.role==='goalkeeper')ctx.fillStyle=player.team==='A'?'#c0d8a0':'#c8b9da';
+    ctx.fill();ctx.shadowBlur=0;ctx.strokeStyle='#12382e';ctx.lineWidth=2.4;ctx.stroke();
+    ctx.fillStyle=player.team==='A'?'#194f3b':'#663a2c';if(player.role==='goalkeeper')ctx.fillStyle='#42503b';
+    ctx.font=`${selected?'700':'600'} ${numberSize}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(player.number,px,py+.5);
+    if(selected){const label=state.selectedId,font=Math.max(11,7.5/displayRatio),lw=font*3.4,lh=font*1.65,ly=py-markerRadius-11-lh;ctx.fillStyle='#d9f68c';ctx.beginPath();ctx.roundRect(px-lw/2,ly,lw,lh,4);ctx.fill();ctx.fillStyle='#29462a';ctx.font=`700 ${font}px sans-serif`;ctx.fillText(label,px,ly+lh/2);}
+    ctx.restore();
+  }
+  if(selectedPlayer&&hasHeatmap&&state.t-analysis.t>.03) {
+    const modelPlayer=state.scenario.frames[analysis.frameIndex]?.players.find(player=>player.id===state.selectedId);
+    if(modelPlayer){const[px,py]=point(modelPlayer);ctx.beginPath();ctx.arc(px,py,4,0,Math.PI*2);ctx.strokeStyle='#e3f4beaa';ctx.lineWidth=1.3;ctx.stroke();}
+  }
+  const[bx,by]=point(display.ball);ctx.save();ctx.shadowBlur=5;ctx.shadowColor='#0e292d';ctx.beginPath();ctx.arc(bx,by,5.3,0,Math.PI*2);ctx.fillStyle='#fffef3';ctx.fill();ctx.strokeStyle='#1a3933';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
+  canvas.setAttribute('aria-label',tr(`Synthetic football replay at ${fmt(state.t)} seconds. Following ${state.selectedId}. ${statusCopy(value).label}. Space and metrics refer to frame ${analysis.frameId} at ${fmt(analysis.t)} seconds.`,`${fmt(state.t)} 秒合成足球回放，当前跟随 ${state.selectedId}。${statusCopy(value).label}。空间与数值对应 ${fmt(analysis.t)} 秒的 ${analysis.frameId} 帧。`));
+}
+
+function drawChart() {
+  if(!state.analysis)return;
+  const canvas=$('chart'),ctx=canvas.getContext('2d'),W=canvas.clientWidth,H=canvas.clientHeight,ratio=Math.min(window.devicePixelRatio||1,2),p={left:32,right:10,top:17,bottom:26};
+  canvas.width=Math.round(W*ratio);canvas.height=Math.round(H*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);
+  const segments=curveSegments(state.analysis,state.selectedId,state.t),values=segments.flatMap(segment=>segment.map(point=>point.das)),observedMax=Math.max(...values,0);
+  const ceiling=observedMax>0?Math.pow(10,Math.floor(Math.log10(observedMax))):1;
+  const max=Math.max(.1,Math.ceil(observedMax/ceiling*1.12)*ceiling);
+  const x=time=>p.left+time/duration()*(W-p.left-p.right),y=value=>H-p.bottom-value/max*(H-p.top-p.bottom);
+  ctx.clearRect(0,0,W,H);ctx.font='9px ui-monospace,SFMono-Regular,monospace';ctx.textBaseline='middle';
+  const nowX=x(state.t);ctx.fillStyle='#f8faf5';ctx.fillRect(nowX,p.top,W-p.right-nowX,H-p.top-p.bottom);
+  ctx.textAlign='right';
+  for(let i=0;i<3;i++){const value=max*i/2;ctx.strokeStyle='#e7ecdf';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(p.left,y(value));ctx.lineTo(W-p.right,y(value));ctx.stroke();ctx.fillStyle='#9aa88b';ctx.fillText(max<1?value.toFixed(2):value<10?value.toFixed(1):value.toFixed(0),p.left-7,y(value));}
+  ctx.textAlign='center';for(let i=0;i<=4;i++){const time=duration()*i/4;ctx.fillStyle='#9daa90';ctx.fillText(`${time.toFixed(0)}s`,x(time),H-10);}
+  if(state.t<duration()*.8){ctx.fillStyle='#c1cbb6';ctx.font='9px sans-serif';ctx.fillText(tr('Not played yet','尚未播放'),nowX+(W-p.right-nowX)/2,p.top+15);}
+  for(const segment of segments) {
+    if(!segment.length)continue;
+    if(segment.length>1){ctx.beginPath();ctx.moveTo(x(segment[0].t),y(0));for(const point of segment)ctx.lineTo(x(point.t),y(point.das));ctx.lineTo(x(segment.at(-1).t),y(0));ctx.closePath();const gradient=ctx.createLinearGradient(0,p.top,0,H-p.bottom);gradient.addColorStop(0,'#b4d18e42');gradient.addColorStop(1,'#dcebbd05');ctx.fillStyle=gradient;ctx.fill();}
+    ctx.beginPath();segment.forEach((point,index)=>index?ctx.lineTo(x(point.t),y(point.das)):ctx.moveTo(x(point.t),y(point.das)));ctx.strokeStyle='#71974b';ctx.lineWidth=1.8;ctx.lineJoin='round';ctx.stroke();
+    if(segment.length===1){ctx.beginPath();ctx.arc(x(segment[0].t),y(segment[0].das),1.8,0,Math.PI*2);ctx.fillStyle='#71974b';ctx.fill();}
+  }
+  const analysis=analysisAtTime(state.analysis,state.t),current=analysis?.players?.[state.selectedId];
+  ctx.beginPath();ctx.moveTo(nowX,p.top);ctx.lineTo(nowX,H-p.bottom);ctx.strokeStyle='#8ca6758a';ctx.lineWidth=1.5;ctx.setLineDash([4,5]);ctx.stroke();ctx.setLineDash([]);
+  if(current?.status==='eligible'&&Number.isFinite(current.das)){ctx.beginPath();ctx.arc(x(analysis.t),y(current.das),3.5,0,Math.PI*2);ctx.fillStyle='#6f934b';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();}
+  canvas.dataset.asOfTime=fmt(state.t,3);canvas.dataset.playerId=state.selectedId;
+  canvas.setAttribute('aria-label',tr(`${state.selectedId} dangerous accessible space, danger-weighted square metres, through ${fmt(state.t)} seconds. ${segments.length} continuous segments. Future values are hidden.`,`${state.selectedId} 的危险可达空间，单位为危险度加权平方米，显示至 ${fmt(state.t)} 秒，共 ${segments.length} 个连续区段，未来数值已隐藏。`));
+}
+
+function seek(time) {
+  if(!state.scenario)return;
+  state.playing=false;state.t=Math.max(0,Math.min(duration(),Number(time)||0));invalidateAnswer();renderFrame(true);
+}
+function selectPlayer(playerId) {
+  if(!state.scenario?.frames[0].players.some(player=>player.id===playerId)||playerId===state.selectedId)return;
+  state.selectedId=playerId;$('player-select').value=playerId;invalidateAnswer();renderFrame(true);
+}
+function togglePlayback() {
+  if(!state.scenario||state.loading)return;
+  if(state.t>=duration()){state.t=0;invalidateAnswer();}
+  state.playing=!state.playing;
+  if(state.playing)invalidateAnswer();
+  renderFrame(true);
+}
+async function ask(question) {
+  if(!state.scenario||state.loading)return;
+  question=question.trim()||tr('Explain this moment.','解释这一刻。');
+  // A response has a fixed evidence time. Pause at the current model frame before requesting it.
+  const frame=analysisAtTime(state.analysis,state.t);if(!frame)return;
+  state.playing=false;state.t=frame.t;invalidateAnswer();renderFrame(true);
+  const generation=state.generation,controller=new AbortController();state.requestController=controller;
+  const request={scenarioId:state.sceneId,playerId:state.selectedId,asOfTime:frame.t,windowSeconds:6,question,audience:state.audience,language:state.language};
+  $('ask').disabled=true;$('answer').replaceChildren(element('p','answer-placeholder',tr('Reading the play so far and its evidence…','正在读取截至此刻的比赛与证据……')));
+  try {
+    let answer;
+    if(state.server) {
+      try {
+        const timeout=setTimeout(()=>controller.abort(),45000);
+        try { const response=await fetch('./api/explain',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(request),signal:controller.signal});if(!response.ok)throw new Error(`Explanation unavailable (${response.status})`);answer=await response.json(); }
+        finally {clearTimeout(timeout);}
+      } catch(error) { if(generation!==state.generation)return;answer=offlineExplain(request,{scenario:state.scenario,analysis:state.analysis});answer.status='browser-fallback'; }
+    } else answer=offlineExplain(request,{scenario:state.scenario,analysis:state.analysis});
+    if(generation!==state.generation)return;
+    state.answer=answer;renderAnswer(answer,request);
+  } catch(error) {
+    if(generation!==state.generation)return;
+    $('answer').replaceChildren(element('p','answer-placeholder',tr('An explanation could not be produced. The recorded replay and analysis remain available.','暂时无法生成解释，记录的回放与分析仍可使用。')));
+    renderSource();
+  } finally {if(generation===state.generation){$('ask').disabled=false;state.requestController=null;}}
+}
+function renderAnswer(answer,request) {
+  $('answer').replaceChildren();
+  const context=answer.context??{},end=context.endTime??request.asOfTime,start=context.startTime??Math.max(0,end-request.windowSeconds),cutoff=context.asOfTime??request.asOfTime;
+  $('answer').append(element('p','answer-context',`${state.selectedId} · ${tr('Analyzed','分析时段')} ${fmt(start)}–${fmt(end)} s · ${tr('Replay cutoff','回放截至')} ${fmt(cutoff)} s · ${context.analysisFrameId??''}`));
+  for(const paragraph of String(answer.text??'').split(/\n\n+/).filter(Boolean))$('answer').append(element('p','',paragraph));
+  $('evidence-buttons').replaceChildren();
+  for(const evidence of answer.evidence??[]) {
+    const time=evidence.t??evidence.time;
+    if(!Number.isFinite(time)||time>request.asOfTime+1e-7)continue;
+    const button=element('button','',`${evidence.playerId??state.selectedId} · ${fmt(time)} s ↶`);button.dataset.frameId=evidence.frameId??'';button.title=evidence.frameId??'';button.addEventListener('click',()=>seek(time));$('evidence-buttons').append(button);
+  }
+  setText('tool-trace',(answer.toolTrace??[]).map(trace=>`${trace.source??'local'} → ${trace.name??trace.tool??'evidence'} · ${trace.status??'complete'}`).join('\n'));
+  renderSource(answer);
+  applyOverlay(answer.overlay);
+}
+
+function applyOverlay(spec) {
+  if(!spec||!['receiving_heatmap','player_trail','das_curve','event','none'].includes(spec.type))return;
+  if(spec.type==='none')return;
+  const frame=analysisAtTime(state.analysis,state.t);
+  if(!spec.playerIds?.includes(state.selectedId))return;
+  const evidenceFrame=state.scenario.frames.find(item=>item.frameId===spec.frameId);
+  if(!evidenceFrame||evidenceFrame.t>state.t+1e-7)return;
+  const displayedFrameId=spec.type==='event'?trackingAtTime(state.scenario,state.t)?.frameId:frame?.frameId;
+  if(spec.frameId!==displayedFrameId){
+    const button=element('button','overlay-revisit',tr(`View ${spec.type==='receiving_heatmap'?'heatmap':'evidence'} at ${fmt(evidenceFrame.t)} s ↶`,`查看 ${fmt(evidenceFrame.t)} 秒${spec.type==='receiving_heatmap'?'热图':'证据'} ↶`));
+    button.dataset.frameId=spec.frameId;
+    button.addEventListener('click',()=>{seek(evidenceFrame.t);applyOverlay(spec);});
+    $('evidence-buttons').prepend(button);
+    return;
+  }
+  if(spec.type==='receiving_heatmap')$('heatmap').checked=true;
+  if(spec.type==='player_trail')$('trail').checked=true;
+  $('pitch').dataset.explanationOverlay=spec.type;
+  const target=spec.type==='das_curve'?$('chart'):spec.type==='event'?$('events'):$('pitch-wrap');
+  target.classList.remove('evidence-highlight');void target.offsetWidth;target.classList.add('evidence-highlight');
+  drawPitch();
+}
+
+function exportEvidence() {
+  if(!state.scenario||!state.analysis)return;
+  const facts=activeFacts();
+  const report={schemaVersion:'2.0',exportedAt:new Date().toISOString(),scenarioId:state.sceneId,synthetic:true,source:{inputFileHash:state.analysis.inputFileHash,inputHash:state.analysis.inputHash,generatorVersion:state.scenario.metadata.generatorVersion,seed:state.scenario.metadata.seed},playerId:state.selectedId,asOfTime:state.t,analysisFrame:facts.analysis,displayedPlayer:facts.value,model:state.analysis.model,heatmapMeta:state.analysis.heatmapMeta,heatmapDisplayTransfer:'Fixed square-root colour/opacity mapping; no frame-wise rescaling.',moments:visibleMoments(state.analysis,state.selectedId,state.t),events:visibleEvents(state.scenario,state.t),curves:curveSegments(state.analysis,state.selectedId,state.t),explanation:state.answer,limitations:['Direct receiving space, not causal contribution.','DAS is danger-weighted area, not a probability.','All facts are limited to the selected playback time.']};
+  const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const anchor=element('a');anchor.href=url;anchor.download=`off-ball-lens-${state.sceneId}-${state.selectedId}-${fmt(state.t)}s.json`;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+for(const button of document.querySelectorAll('[data-scene]'))button.addEventListener('click',()=>loadScene(button.dataset.scene));
+$('language').addEventListener('click',()=>{state.language=state.language==='en'?'zh':'en';invalidateAnswer();renderLanguage();});
+for(const mode of ['fan','analyst'])$(mode).addEventListener('click',()=>{if(state.audience===mode)return;state.audience=mode;invalidateAnswer();renderLanguage();});
+$('play').addEventListener('click',togglePlayback);$('restart').addEventListener('click',()=>seek(0));$('replay-scene').addEventListener('click',()=>{seek(0);togglePlayback();});
+$('timeline').addEventListener('input',event=>seek(Number(event.target.value)));$('speed').addEventListener('change',event=>state.speed=Number(event.target.value));
+$('player-select').addEventListener('change',event=>selectPlayer(event.target.value));
+$('heatmap').addEventListener('change',()=>drawPitch());$('trail').addEventListener('change',()=>drawPitch());
+$('cue-jump').addEventListener('click',()=>{if(state.cueTime!==null)seek(state.cueTime);});
+$('pitch').addEventListener('click',event=>{const box=$('pitch').getBoundingClientRect(),px=(event.clientX-box.left)/box.width*$('pitch').width,py=(event.clientY-box.top)/box.height*$('pitch').height;const nearest=state.drawnPlayers.map(player=>({...player,distance:Math.hypot(player.x-px,player.y-py)})).sort((a,b)=>a.distance-b.distance)[0];if(nearest&&nearest.distance<Math.max(32,nearest.radius+10))selectPlayer(nearest.id);});
+$('chart').addEventListener('click',event=>{const box=$('chart').getBoundingClientRect(),px=event.clientX-box.left,time=(px-32)/(box.width-42)*duration();if(time>state.t+.1){toast(tr('Play the sequence to reveal later evidence.','继续播放片段，后续证据才会出现。'));return;}seek(Math.max(0,Math.floor(time*5)/5));});
+$('question-form').addEventListener('submit',event=>{event.preventDefault();ask($('question').value);});
+for(const button of document.querySelectorAll('[data-q]'))button.addEventListener('click',()=>{$('question').value=button.textContent;ask(button.textContent);});
+$('export').addEventListener('click',exportEvidence);
+document.addEventListener('keydown',event=>{if(['INPUT','TEXTAREA','SELECT','BUTTON'].includes(event.target.tagName))return;if(event.code==='Space'){event.preventDefault();togglePlayback();}if(event.code==='ArrowRight'){event.preventDefault();seek(state.t+.2);}if(event.code==='ArrowLeft'){event.preventDefault();seek(state.t-.2);}});
+new ResizeObserver(()=>{if(!state.loading){drawPitch();drawChart();}}).observe($('workspace'));
+renderLanguage();loadScene('used');
+fetch('./api/health').then(response=>response.ok?response.json():null).then(result=>{if(result?.ok){state.server=true;state.cloudConfigured=Boolean(result.cloud?.configured);renderSource(state.answer);}}).catch(()=>{});
+let previous=0;
+function tick(now){const elapsed=Math.min(.1,(now-previous)/1000||0);previous=now;if(state.playing&&!state.loading){state.t=Math.min(duration(),state.t+elapsed*state.speed);if(state.t>=duration())state.playing=false;renderFrame();}requestAnimationFrame(tick);}
+requestAnimationFrame(tick);

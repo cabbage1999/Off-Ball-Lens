@@ -1,354 +1,61 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "project": "Off-Ball Lens",
-  "verified_on": "2026-10-22",
-  "verified_timezone": "Asia/Shanghai",
-  "scope": "Primary-source review and proposed deterministic mathematical specification. This file does not assert implementation or empirical calibration.",
-  "configuration_disclosure": "No private conversation, credentials, or internal model configuration is included.",
+  "verified_on": "2026-10-24",
+  "scope": "Author implementation actually executed for v2; empirical, cloud and causal validation limits are documented.",
   "sources": [
     {
-      "id": "spearman2018",
-      "type": "author_uploaded_conference_paper",
-      "title": "Beyond Expected Goals",
+      "id": "das2026",
+      "title": "Dangerous accessible space: a unified model of space and value in team sports",
       "authors": [
-        "William Spearman"
+        "Bischofberger",
+        "Baca"
       ],
-      "year": 2018,
-      "venue": "MIT Sloan Sports Analytics Conference",
-      "url": "https://www.researchgate.net/publication/327139841_Beyond_Expected_Goals",
-      "original_url": "http://www.sloansportsconference.com/wp-content/uploads/2018/02/2002.pdf",
-      "access_status": "Author-uploaded full-text HTML read; original Sloan PDF URL was inaccessible in this review.",
-      "sections_read": [
-        "3.1 Control Model",
-        "3.1.1 Time to Intercept",
-        "3.1.2 Time of Flight",
-        "3.1.3 Control Rate",
-        "3.2 Transition Model",
-        "3.3 Score Model",
-        "Conclusions"
-      ],
-      "supports": [
-        "Off-ball positioning can be valued even without an actual reception.",
-        "Separate control, transition and scoring components.",
-        "The original player arrival description includes acceleration to a maximum speed.",
-        "The PPCF treatment does not explicitly model blocked passes along the whole path."
-      ],
-      "does_not_support": [
-        "A calibrated interpretation of the demo's hand-built score.",
-        "Equating the Laurie implementation to the full original model.",
-        "Using target-only pitch control as complete ground-pass interception analysis."
+      "year": 2026,
+      "venue": "Journal of Big Data 13, 76",
+      "url": "https://doi.org/10.1186/s40537-026-01387-8",
+      "role": "Scientific model; does not establish this product's professional-match or causal validity"
+    },
+    {
+      "id": "accessible-space-2.1.0",
+      "title": "accessible-space author implementation",
+      "url": "https://github.com/jonas-bischofberger/accessible-space",
+      "distribution": "https://pypi.org/project/accessible-space/2.1.0/",
+      "license": "MIT",
+      "implementation_status": "Installed and executed; exact dependencies, source hashes and numerical audit included",
+      "reports": [
+        "analytics/reports/validation.json",
+        "docs/das-integration.md"
       ]
     },
     {
-      "id": "spearman2017",
-      "type": "author_uploaded_conference_paper",
-      "title": "Physics-Based Modeling of Pass Probabilities in Soccer",
-      "authors": [
-        "William Spearman",
-        "Austin Basye",
-        "Greg Dick",
-        "Ryan Hotovy",
-        "Paul Pop"
-      ],
-      "year": 2017,
-      "venue": "MIT Sloan Sports Analytics Conference",
-      "url": "https://www.researchgate.net/publication/315166647_Physics-Based_Modeling_of_Pass_Probabilities_in_Soccer",
-      "access_status": "Author-uploaded full text read.",
-      "sections_read": [
-        "1 Introduction",
-        "2.1 Ball Trajectory",
-        "2.2 Time to Intercept",
-        "2.3 Time to Control",
-        "2.4 Model",
-        "4 Fitting",
-        "6.2 Hypothetical Passing"
-      ],
-      "supports": [
-        "Moving-ball trajectory interception and time-to-control with competing control accumulation.",
-        "Need for fitted statistical parameters to interpret the output as a pass probability.",
-        "Hypothetical passes with stipulated kick parameters.",
-        "Published velocity estimation averages the first 0.4 seconds after release."
-      ],
-      "does_not_support": [
-        "Transferring its reported accuracy to synthetic uncalibrated heuristics.",
-        "Treating the post-release velocity estimation window as information available at release."
-      ]
-    },
-    {
-      "id": "fernandez_bornn2018",
-      "type": "coauthor_hosted_conference_paper",
+      "id": "wide-open-spaces",
       "title": "Wide Open Spaces: A statistical technique for measuring space creation in professional soccer",
       "authors": [
         "Javier Fernández",
         "Luke Bornn"
       ],
       "year": 2018,
-      "venue": "MIT Sloan Sports Analytics Conference",
       "url": "https://www.lukebornn.com/papers/fernandez_ssac_2018.pdf",
-      "access_status": "Original coauthor-hosted 19-page PDF read.",
-      "sections_read": [
-        "2 Occupation and Generation of Spaces",
-        "3 Modelling Pitch Control",
-        "4 Modelling Pitch Value",
-        "5 Quantifying Space Creation",
-        "6 Space Creation Statistics",
-        "Appendix A.1"
-      ],
-      "supports": [
-        "Distinction between occupying space for oneself and generating space for teammates.",
-        "Velocity-aware smooth influence surfaces.",
-        "Relative pitch-value model includes a trained feed-forward network.",
-        "Expert video validation rather than a universally available direct ground-truth label."
-      ],
-      "does_not_support": [
-        "Claiming the whole method is training-free.",
-        "Identified causal effects from a fixed-defense route comparison."
-      ]
+      "role": "Conceptual boundary between occupying and creating space; not implemented"
     },
     {
-      "id": "laurie_pitch_control",
-      "type": "official_project_source_code",
-      "title": "LaurieOnTracking / Metrica_PitchControl.py",
-      "authors": [
-        "Laurie Shaw"
-      ],
-      "repository": "Friends-of-Tracking-Data-FoTD/LaurieOnTracking",
-      "url": "https://github.com/Friends-of-Tracking-Data-FoTD/LaurieOnTracking/blob/7ed3ff857940d3f4611be55f3c08c79525c32171/Metrica_PitchControl.py",
-      "branch_at_review": "master",
-      "commit": "7ed3ff857940d3f4611be55f3c08c79525c32171",
-      "commit_date": "2021-06-15T08:40:03Z",
-      "blob_sha": "c599e6d5ba66c09f9a51b1210491ea611b914774",
-      "access_status": "Full source file read through GitHub connector.",
-      "anchors": [
-        {
-          "line": 69,
-          "symbol": "check_offsides"
-        },
-        {
-          "line": 153,
-          "symbol": "player.simple_time_to_intercept"
-        },
-        {
-          "line": 161,
-          "symbol": "player.probability_intercept_ball"
-        },
-        {
-          "line": 188,
-          "symbol": "max_player_accel is explicitly unused"
-        },
-        {
-          "line": 271,
-          "symbol": "calculate_pitch_control_at_target"
-        },
-        {
-          "line": 314,
-          "symbol": "target-based numerical integration"
-        }
-      ],
-      "supports": [
-        "Reaction extrapolation followed by immediate full-speed target travel.",
-        "Logistic arrival-time uncertainty and a control-rate accumulation.",
-        "Second-last-opponent plus ball/halfway offside line.",
-        "Ball travel time to a target followed by control integration."
-      ],
-      "does_not_support": [
-        "Finite-acceleration turning guarantees.",
-        "Full moving-ball lane-interception probabilities.",
-        "Universal validity of the numeric default parameters."
-      ]
+      "id": "vaep",
+      "title": "Socceraction VAEP documentation",
+      "url": "https://socceraction.readthedocs.io/en/latest/documentation/valuing_actions/vaep.html",
+      "role": "Explains action-value scope; not the numerical engine"
     },
     {
-      "id": "ifab_law11",
-      "type": "official_rule",
-      "title": "Laws of the Game: Law 11 — Offside",
-      "organization": "The International Football Association Board",
-      "url": "https://www.theifab.com/laws/latest/offside/",
-      "version_displayed": "2026/27",
-      "access_status": "Official live law page read.",
-      "sections_read": [
-        "11.1 Offside position",
-        "11.2 Offside offence",
-        "11.3 No offence",
-        "Relevant FAQs"
-      ],
-      "supports": [
-        "Relevant teammate touch time, ordinary kick first contact and goalkeeper-throw last contact.",
-        "Opponent-half, ball and second-last-opponent conditions; level positions are onside.",
-        "Head/body/feet definition and exclusion of hands and arms.",
-        "Direct goal-kick, throw-in, corner exceptions.",
-        "Offside position by itself is not an offence."
-      ],
-      "does_not_support": [
-        "Player-centre geometry as referee-grade adjudication.",
-        "A fixed 0.2 metre legal offside tolerance."
-      ]
+      "id": "hackathon",
+      "title": "Microsoft Premier League Hackathon official rules",
+      "url": "https://github.com/microsoft/insidethegamehackathon/blob/main/OFFICIAL%20RULES.md",
+      "role": "Competition requirements; no claim of organizer approval"
     },
     {
-      "id": "hackathon_rules",
-      "type": "official_repository_rule_document",
-      "title": "Microsoft Premier League Hackathon Official Rules",
-      "organization": "Microsoft",
-      "repository": "microsoft/insidethegamehackathon",
-      "path": "OFFICIAL RULES.md",
-      "url": "https://github.com/microsoft/insidethegamehackathon/blob/fec6ae2229917574898dc740fd2002381ac758cd/OFFICIAL%20RULES.md",
-      "branch_at_review": "main",
-      "commit": "fec6ae2229917574898dc740fd2002381ac758cd",
-      "commit_date": "2026-10-20T03:38:37Z",
-      "blob_sha": "98d696171070aabc178118d586921eb80711e0bd",
-      "access_status": "Official repository listing and full rules file read through GitHub connector.",
-      "sections_read": [
-        "1 Dates and Timing",
-        "3 Eligibility",
-        "4.1 Hackathon Challenge",
-        "4.4 Submission Requirements",
-        "4.7 Use of Footage",
-        "4.8 Testing",
-        "4.9 Language Requirements",
-        "6.2 Judging Criteria"
-      ],
-      "supports": [
-        "The year is explicitly 2026.",
-        "Football-realistic synthetic data is required; organizer footage is not distributed.",
-        "Video auto-eventing appears among features to consider.",
-        "Public GitHub, under-two-minute functional demo, working test access, English or translations.",
-        "Five equally weighted judging criteria; teams up to four."
-      ],
-      "dates": {
-        "registration_close_pacific": "2026-10-20T12:00:00-07:00",
-        "registration_close_beijing": "2026-10-21T03:00:00+08:00",
-        "submission_close_pacific": "2026-10-27T23:59:00-07:00",
-        "submission_close_beijing": "2026-10-28T14:59:00+08:00",
-        "judging_end_pacific": "2026-11-10T23:59:00-08:00",
-        "judging_end_beijing": "2026-11-11T15:59:00+08:00"
-      },
-      "does_not_support": [
-        "Calling arbitrary video reconstruction a mandatory first development step.",
-        "Assuming a project can join after registration has closed."
-      ]
-    },
-    {
-      "id": "hear_the_game_data",
-      "type": "reference_project_documentation",
-      "title": "Hear the Game — Data: synthetic, but calibrated on real football",
-      "repository": "klckerim/hear-the-game",
-      "path": "docs/data.md",
-      "url": "https://github.com/klckerim/hear-the-game/blob/54dbb473043519eae460a0207c0be9433813653b/docs/data.md",
-      "branch_at_review": "main",
-      "commit": "54dbb473043519eae460a0207c0be9433813653b",
-      "commit_date": "2026-10-21T21:17:00Z",
-      "blob_sha": "ea313390573acaa591b360081c09872eb4da5723",
-      "access_status": "Full data documentation read through GitHub connector.",
-      "supports": [
-        "A seeded event generator calibrated from real-data aggregates, with synthetic runtime data.",
-        "Ball-only 10 Hz tracking, physical aggregates and hidden injected scenario labels."
-      ],
-      "does_not_support": [
-        "A 22-player continuous tracking dataset.",
-        "Independent reproduction of the reference's claimed statistical performance."
-      ]
-    },
-    {
-      "id": "hear_the_game_generator",
-      "type": "reference_project_source_code",
-      "title": "Hear the Game — synthetic generator",
-      "repository": "klckerim/hear-the-game",
-      "path": "htg/generate.py",
-      "url": "https://github.com/klckerim/hear-the-game/blob/54dbb473043519eae460a0207c0be9433813653b/htg/generate.py",
-      "branch_at_review": "main",
-      "commit": "54dbb473043519eae460a0207c0be9433813653b",
-      "blob_sha": "591345f037c0792fdc4eb6ab7277cd8f1f345a26",
-      "access_status": "Full source file retrieved; output construction and generating methods inspected.",
-      "anchors": [
-        {
-          "line": 385,
-          "symbol": "ball_track"
-        },
-        {
-          "line": 404,
-          "symbol": "physical"
-        },
-        {
-          "line": 423,
-          "symbol": "save"
-        }
-      ],
-      "supports": [
-        "ball_track returns only t,x,y,in_play,team,period for the ball.",
-        "physical returns per-player per-minute aggregate statistics, not positions.",
-        "save writes meta, events, ball, physical and truth artifacts."
-      ],
-      "does_not_support": [
-        "Tracking-based marking, lane geometry, or off-ball routes without additional synthetic player trajectories."
-      ]
-    },
-    {
-      "id": "hear_the_game_foundry",
-      "type": "reference_project_source_code",
-      "title": "Hear the Game — Foundry narrator",
-      "repository": "klckerim/hear-the-game",
-      "path": "htg/narration/foundry.py",
-      "url": "https://github.com/klckerim/hear-the-game/blob/54dbb473043519eae460a0207c0be9433813653b/htg/narration/foundry.py",
-      "branch_at_review": "main",
-      "commit": "54dbb473043519eae460a0207c0be9433813653b",
-      "blob_sha": "e3afa60c96858b32e62c306001e7c63f8891b369",
-      "access_status": "Full 78-line source file read.",
-      "anchors": [
-        {
-          "line": 50,
-          "symbol": "FoundryNarrator"
-        },
-        {
-          "line": 63,
-          "symbol": "write"
-        },
-        {
-          "line": 70,
-          "symbol": "chat.completions.create"
-        }
-      ],
-      "supports": [
-        "Prepared facts are supplied to a structured-output narrator.",
-        "Numerical computation can be separated from language generation."
-      ],
-      "does_not_support": [
-        "This file implementing a model-selected analysis function/tool loop.",
-        "Independent execution or benchmarking of the reference service."
-      ]
-    }
-  ],
-  "proposed_derivations": [
-    {
-      "id": "continuous_lane_minimum",
-      "location": "research.md section 6",
-      "provenance": "Independent algebraic derivation for the explicitly stated zero-radius reaction/full-speed surrogate.",
-      "validation": {
-        "random_seed": 20261022,
-        "cases": 200,
-        "dense_grid_points": 10001,
-        "max_grid_minus_closed_form_seconds": 4.057492879461222e-7,
-        "checks": [
-          "Closed-form minimum no larger than dense-grid minimum.",
-          "Every grid gap is within the stated Lipschitz bound."
-        ]
-      },
-      "limits": [
-        "Not a football-accuracy validation.",
-        "Does not apply unchanged to capture-radius, drag or bounded-acceleration models."
-      ]
-    },
-    {
-      "id": "lane_exposure_index",
-      "location": "research.md section 5",
-      "provenance": "Proposed defender-only survival-shaped heuristic inspired by the moving-ball control framework; not a reproduction or calibrated probability.",
-      "source_ids": [
-        "spearman2017"
-      ],
-      "limits": [
-        "Requires time-scaled quadrature.",
-        "Endpoint-only contact needs explicit diagnostic handling.",
-        "No data-fitted calibration is claimed."
-      ]
+      "id": "foundry-responses",
+      "title": "Microsoft Azure OpenAI Responses API",
+      "url": "https://learn.microsoft.com/en-us/rest/api/aifoundry/azureopenai/responses",
+      "role": "Actual REST adapter protocol; real cloud run pending deployment"
     }
   ]
 }
-

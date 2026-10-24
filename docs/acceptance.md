@@ -1,97 +1,78 @@
-# Independent acceptance record
+# Independent v2 acceptance record
 
-Date: 22 October 2026. Scope: the authorized offline demo and a configurable Microsoft Foundry interface. Live Azure deployment verification is outside this acceptance run because no Azure account or deployment was supplied.
+Date: 24 October 2026. Scope: the rebuilt author-model receiving-space application. This report replaces the earlier heuristic-index acceptance report in full; no earlier release, CI run, screenshot or public demo is evidence that v2 has passed.
 
-The acceptance role received the requested “GPT-6 Astra / max” configuration. This record does not independently establish which underlying model or reasoning setting the platform actually used.
+Status: **PASS for the executed local v2 acceptance scope.** Both defects discovered by this role were repaired by the implementers and independently retested. The final data use `tactical-state-v2.0.1`. This is not an acceptance of live Microsoft inference, a public deployment, or real-match scientific accuracy; the outstanding gates are listed below.
 
-## Current result
+The acceptance role received the requested “GPT-6 Astra / max” configuration. It cannot inspect the platform's hidden runtime configuration and does not independently attest the actual model or reasoning setting.
 
-The frozen **receiving-index-v1.3** implementation passes the local automated and browser acceptance checks described below. After the cross-platform fixture-comparison correction described below, both the local test suite and [GitHub's Ubuntu CI run](https://github.com/cabbage1999/Off-Ball-Lens/actions/runs/39786189316) completed with **59 tests passed, 0 failed, 0 skipped**. Twelve of these tests were added by the independent acceptance role in `tests/acceptance.test.mjs`; the role did not modify the scoring, scenario, server, explanation implementation, or exported scene data. The main agent separately verified the remote job's logs and successful data-validation and syntax-check steps at commit `5233ad455be813da3e2934e0fa7681a9cc8bcb4d`.
+## Independent tests actually executed
 
-The first unprivileged run passed the non-network tests but could not bind the local HTTP test server (`listen EPERM`). The HTTP test and then the complete suite were rerun successfully with local loopback access. This was an execution-environment restriction, not an ignored failing assertion.
+The acceptance role authored `tests/acceptance-v2.test.mjs` and `analytics/tests/test_acceptance_independent.py`. It did not implement or repair the application. The direct author-parity check builds its own long table from the exported tracking, reverses the input player order, and calls `accessible-space==2.1.0` without the application's adapter helpers.
 
-Commands actually executed:
+| Check | Executed result | Scope |
+| --- | --- | --- |
+| Current tracking bytes, parsed-input digest and model-config digest | PASS on the final v2.0.1 exports | Exact file hashes, canonical JSON hashes, configuration hashes and all frame IDs/times match. Rechecked after the scene correction. |
+| Direct author API parity | PASS on all eligible outputs in all three final exports | Independent 23-row-per-valid-frame long tables over all 381 valid model frames, reversed roster order, explicit attack-direction normalization; AS and DAS match official results within stated numerical tolerances. Ball-row NaNs and author carrier/offside zeros are checked separately from product nulls. Statuses are also checked directly against raw possession/team/float32 offside geometry. |
+| Single-frame versus batch | PASS | Ten selected frames, including flight, offside, reception, keeper possession and B-team possession; full outputs including heatmap bytes agree exactly. |
+| Every tracking-time moment prefix | PASS | All 963 tracking cutoffs, including the 10 Hz events between 5 Hz model samples, agree with an independently truncated rerun. No future peak, ending or outcome appears. |
+| Every time/player UI fact projection | PASS | 963 cutoffs × 22 players: samples and trail points are historical, invalid values remain null, curves break at unavailable states or carrier changes, moments use known revisions. This is a shared-module test, not a claim that every combination was visually inspected. |
+| Every time/player explanation prefix | PASS | 21,186 full-versus-truncated-data comparisons are exactly equal. Evidence refers to real elapsed frames and original model values; offline source remains explicit. |
+| Bilingual numeric consistency | PASS | English and Chinese analyst responses for 330 selected player/time combinations preserve context, evidence, summary values and claim references. |
+| Position/velocity and possession chain | PASS | All player intervals obey trapezoidal position integration and the 3.2 m/s² vector-acceleration bound; releases and arrivals match IDs/times, flight has no carrier, possession returns only at the recorded arrival. |
+| Invalid-input window outcome counterexample | FAIL FOUND, FIX RETESTED | Unknown direction, inconsistent team IDs, unsupported pitch, out-of-pitch inputs and unknown ball state initially generated `not_selected`. The root implementer changed invalid-input closures to indeterminate `closed`; the independent regression now passes. |
+| Saved-shot geometry | FAIL FOUND, FIX RETESTED | Independently extending the straight release rays to the goal line now gives y = 0.157282 m for `used` and −1.399346 m for `unused`, both inside ±3.66 m. |
 
-```text
-node --test tests/acceptance.test.mjs
-node --test tests/server.test.mjs
-node --test tests/*.test.mjs
+Commands executed by this acceptance role:
+
+```sh
+node --test tests/acceptance-v2.test.mjs
+.venv-das/bin/python -m pytest analytics/tests/test_acceptance_independent.py -q
 ```
 
-The latest complete local run took approximately 1.02 seconds on this machine (macOS arm64, Node 22.20.0). This is a test-suite duration, not a browser-performance or cloud-latency benchmark.
+The final independent Node suite passed **6/6**, with no failures or skips. The Python suite first passed 7/8 and exposed the invalid-input outcome defect; after the implementer's repair and final scene export it passed **8/8**, with no failures or skips. These counts are separate from implementation tests and simulated-provider protocol tests.
 
-## Cross-platform fixture comparison
+Final exact tracking-file SHA-256 values independently checked:
 
-The initial local suite passed 58 tests, but the subsequent GitHub run on Ubuntu 24.04/x64 with Node 22.23.4 passed 55 and failed the three exported-scene equality checks. The CI log identified last-digit differences in motion values compared by whole-object `deepEqual`. The generator uses `Math.sin`, `Math.hypot`, and related floating-point operations; [ECMAScript's implementation-approximated mathematics](https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-math.sin) does not establish cross-platform bit-for-bit identity.
+| Scene | Tracking / model frames | SHA-256 |
+| --- | ---: | --- |
+| `used` | 321 / 161 | `f1fb9c9a473184242096d554d94b69a7222d115d78a336332ab807961bebb62f` |
+| `unused` | 341 / 171 | `8c8dbeee60d313fd2e0bb4bbeeb53cb1671a321459e7e4e71420f1651924f1c1` |
+| `blocked` | 301 / 151 | `0925b9872d7f353b3767e41d406a4574d920989469ac35dba27bf937b92a9133` |
 
-The corrected fixture check permits an **absolute difference of at most 1e-10 only for ball/player `x`, `y`, `vx`, and `vy`** (metres or metres per second). Both compared values must be finite. Metadata, events, frame times, IDs, counts, remaining fields and structure still require exact equality. The existing same-process repeated-generation exact checks are unchanged; no simulation or fixture values were rounded or regenerated to make the test pass.
+## Browser observations
 
-A focused corruption check verifies that tiny permitted rounding is accepted, while 1e-7 motion changes, NaN/Infinity, metadata changes, even 1e-11 timestamp changes, altered identities, missing coordinates and changed player counts are rejected. The full corrected suite passed locally and on the subsequent Ubuntu/Node 22.23.4 CI run linked above. This confirms agreement within the declared tolerance on the tested environments; it does not establish cross-platform bitwise identity.
+The local Node service was opened in the Codex in-app browser. Actual UI observations include:
 
-## Independent numerical and data checks
+- At `used` 12.2 s, A7 is in the pass-flight state, both metrics and the heatmap are unavailable, the moment says pass released, and the explanation does not claim reception.
+- At 12.4 s, A7 is carrying the ball with null receiving metrics; the occurred reception changes the moment to received.
+- Selecting A9 at 12.4 s shows its own AS/DAS, source frame and evidence. Selecting B3 shows defending and unavailable metrics.
+- Seeking, switching language, selecting another player and changing scene clear the earlier explanation and evidence.
+- The `blocked` 8.2 s view shows A7's geometric offside status and null metrics; the bilingual explanation preserves the model boundary.
+- Every one of the 22 selectable roster entries was actually selected at `blocked` 8.2 s. A6 is the carrier, A7 is offside, the other A players are eligible and all B players are defending.
+- At `blocked` 20.2 s the occurred interception changes the attacking team and direction to B / left; selecting B7 displays its own eligible receiving metrics.
+- At `unused` 16.8 s A7's window remains open. At the 16.9 s release to A11 it changes to not used, and the current flight immediately hides the preceding 16.8 s heatmap. Clicking that window returns to its 13.6 s detection frame and restores the historical open status.
+- Playback advances at the selected 2× control setting and clears an earlier answer. Pause and seeking work. The `unused` end review correctly reports two observed windows and zero receptions for A7, without calling the carrier's decisions wrong.
+- A final reload successfully reads the matching frozen files. The final server answer at `used` 11.0 s is labelled local template, shows the actual analyzed interval and replay cutoff, and agrees with the displayed 242.5 m² AS and 0.586 danger-weighted m² DAS. Clicking its 5.0 s evidence button moves the replay to `used:0050` and clears the old answer.
+- During a temporary scene/analysis mismatch while implementers regenerated files, the API returned 409 and the cached browser used an explicit local fallback. The server's health endpoint subsequently reported offline, unconfigured and unverified. A restricted command's failed loopback connection was not treated as proof of service failure.
+- The final evidence download was actually triggered through the UI at `used` 6.2 s, then read and compared with the final stored analysis. The full model frame matches exactly; all 26 curve samples and both events are historical. The exported file also matches `inputFileHash`, canonical `inputHash`, generator version and seed. A copy is retained in [acceptance-v2-export.json](acceptance-v2-export.json); the test-created file in Downloads was removed after verification.
 
-| Check | Executed result | What it establishes |
-|---|---|---|
-| Analytic controller arrival-time bound | Passed at 1, 4, 12, and 25 m from rest with a 0.2 s reaction delay | The one-dimensional constructive motion controller never arrives earlier than the bounded-acceleration/bounded-speed physical solution in these cases; its delay is within one integration interval. This controller is distinct from the final defensive optimistic lower-bound model. |
-| Smooth stopping distance | Passed | From 1.2 m/s, the alternative travels 0.228 m before stopping, compared with the exact minimum of 0.225 m. The 0.003 m surplus is within the bound for the final discrete braking step. |
-| Added lane defender | Passed | With release legality unchanged, adding a defender reduces the best opportunity and never increases an individual candidate's score. Location utility and receiver readiness remain unchanged. |
-| Irrelevant teammate removal | Passed | Removing other attackers leaves the selected player's direct receiving analysis unchanged. |
-| Data-file reproducibility | Passed locally and in Ubuntu CI for all three scenes with the corrected comparator | Regeneration from the declared scene ID and seed matches all structure and non-motion fields exactly; only finite ball/player motion fields allow an absolute tolerance of 1e-10. Same-process regeneration still requires exact equality. |
-| Ball and event coherence | Passed for all three scenes | The ball stays in bounds; consecutive positions do not teleport; straight-flight positions agree with the recorded velocity, including reception; actual pass targets are onside under the point-player release screen. |
-| Player separation | Passed at every recorded frame | No pair falls within 0.8 m. Observed minimum separations are approximately 3.68, 3.81, and 3.63 m for diagonal, crowded, and early. This is not a full collision or football-realism certification. |
-| Frozen-input/read-only analysis | Passed | Scoring, comparison, and local explanation do not mutate deeply frozen inputs; repeated local explanations are identical. |
-| Unused-future independence | Passed | Corrupting all frames after the completed comparison horizon and changing later events leaves that window's comparison unchanged. The existing current-snapshot future-change test also passes. |
-| Release, flight, and clip-end starts | Passed | These starts cannot fabricate a positive-duration comparison. An unavailable window is described as unavailable rather than as a meaningful zero-effect comparison. |
-| Missing/failed cloud configuration | Passed with a fetch spy and simulated failure | Missing configuration makes no network request. A simulated provider failure returns `offline-template`, `fallback`, and `verified: false`, without credentials in the result. |
+Visual records from the final local app: [overview](acceptance-v2-overview.png) and [metrics, curve and explanation](acceptance-v2-desktop.png).
 
-The existing suite additionally covers identical-route zero difference; attack-direction reflection and coordinate translation; same initial position/velocity and vector acceleration limits; current carrier exclusion; offside boundaries; pre-pass truncation and actual sampled-duration normalization; factor consistency and score bounds; lane evidence geometry; sampling refinement; parameter sensitivity; distinction between personal opportunity and team-best opportunity; explanation evidence validation; and HTTP input, source, and concurrency controls. The final run also includes the defensive lower-bound witness, reaction-phase boundary, and stationary grazing-interception regressions added during adversarial review.
+**NOT RUN by this role:** a narrow-screen viewport test and a deliberately delayed/out-of-order cloud response in the browser. A source-code check of generation/abort guards is not equivalent to that runtime race test. The root implementer separately reports a simulated historical-window overlay test; that is not counted here as an independently executed browser test or as live Azure evidence.
 
-## What the authored examples show
+## Reported issues and disposition
 
-Default comparison: 2.5–5.0 s, A7, smooth braking/hold-width alternative, default model parameters.
+1. Invalid numerical-input closures incorrectly asserted `not_selected`. **Fixed and independently retested.** The initial failing regression is retained as a permanent test.
+2. The original `used` shot at 29.6 s would cross x = 52.5 m at y = −6.437 m if extended beyond the keeper, outside the ±3.66 m goal mouth, although the event was labelled shot/save. **Fixed and independently retested.** The scene author changed the relevant goalkeeper/shot geometry, versioned the generator and regenerated the trajectories; the official analysis was recomputed. The new independent shot-ray test passes.
+3. The authored `blocked` interception's straight ball ray does not point exactly through the eventual A9 position. This is an authored interception approximation, not a solved pass-target/interception interaction. Its existence does not invalidate DAS snapshots, but it cannot support a claim of learned tactical realism.
 
-| Scene | Observed mean index | Alternative mean index | Difference |
-|---|---:|---:|---:|
-| Diagonal option | 36.40 | 32.43 | +3.97 |
-| Into traffic | 30.52 | 35.03 | −4.51 |
-| Too early | 23.94 | 44.83 | −20.89 |
+Other adversarial-review issues and their fixes belong to `docs/adversarial-review.md`. They must not be silently counted as independently retested here.
 
-These values were independently recomputed from the frozen v1.3 implementation, after the receiver-residence, defensive lower-bound, and supplemental lane-sampling corrections. They are index points, not success percentages. The three scene labels are authored hypotheses, not independently measured outcome labels.
+## Release gates and scientific limits
 
-The crowded scene has a substantive modelled lane threat: at 5.0 s its winning candidate has a lane component of approximately 0.056, while the alternative is approximately 0.963. The defensive estimate is optimistic; this does not prove an interception is executable. In the early scene, the first large separation also includes an interval where the finite candidate/controller search finds no reachable candidate; offside occurs later. The entire negative difference must not be attributed exclusively to offside.
+**NOT RUN by this role:** a real Microsoft Foundry/Azure model request, authentication/deployment compatibility, actual cloud tool trace, production latency/cost, v2 public deployment, a clean-machine dependency installation, independent football-practitioner adjudication, and independent viewing of the final under-120-second recorded demonstration. The root implementer separately reports a 108.04 s local recording; this acceptance role has not verified that recording. No Azure deployment was supplied. Mock provider success is not evidence for any live Microsoft check.
 
-## Browser compatibility and delivery status
+For the planned live AI submission, the real Microsoft request/trace and accessible final public demo remain delivery gates. No unresolved blocking software defect was found in the local checks executed by this role. A static offline demonstration is usable within this checked scope and must be labelled as precomputed author-model analysis plus local deterministic wording. Public release, CI, presentation-file QA and any later cloud activation need their own recorded verification.
 
-The core `agent.mjs → scenarios.mjs/model.mjs` import graph was executed in an isolated ECMAScript-module context without Node globals or `fetch`. The deterministic local explanation completed with an offline source and no cloud-verification claim. This checks the core module graph's independence from Node-only imports; it does not replace a real browser UI test.
-
-Real-browser checks were executed in a separate Codex in-app browser tab. The application was tested through its local Node server and through a temporary Python static server with no API backend. The temporary server was stopped after acceptance.
-
-| Browser check | Observed result |
-|---|---|
-| Rendering, three scenarios, replay | All three scenes rendered. Play advanced the clock and current-frame score; pause stopped playback; setting the timeline to 8.0 s showed F80 and the in-flight state. |
-| Identical-route control | The visible comparison reported +0.0 with equal run and alternative means. |
-| Chinese and analyst controls | Labels switched to Chinese; analyst mode exposed arrival times, margin, and candidate coordinates. An initially untranslated sensitivity hint was reported and corrected. |
-| Local explanation | Both the Node-server path and static-only worker path produced a grounded answer labelled “Local template”. The answer explicitly said no cloud model generated it. The final server answer displayed v1.3 and the same rounded means as the chart. |
-| Evidence navigation | Clicking the 5.0 s peak evidence button moved the replay to F50 while the answer remained explicitly bound to its 2.5–5.0 s comparison window. |
-| Answer invalidation | Switching language cleared the prior answer. Changing ball speed from 15 to 16 m/s cleared the old answer and recomputed the comparison. Scenario/window changes also cleared prior evidence. |
-| Sensitivity and team-best controls | Both completed and displayed their distinct semantics. Sensitivity was labelled as assumption checks rather than a confidence interval; team-best was explicitly not a sum of personal scores. |
-| Invalid comparison window | In the final v1.3 page, starting at 8.0 s returned no valid window; both sensitivity and team-best buttons were disabled. |
-| Narrow-screen layout | At 390 × 844 pixels the replay, controls and explanation cards were visible. Both body and document width equalled 390 pixels, with no horizontal overflow. The viewport override was reset. |
-| Export | The final v1.3 JSON was actually downloaded through the UI and independently regenerated from its recorded scene ID, seed, parameters, start and horizon on the acceptance machine. All 26 run/alternative/difference samples matched exactly; maximum absolute replay error was zero. Summary values also matched exactly. This observed same-machine result is not a cross-platform bitwise guarantee. The included explanation retained `offline-template` and `cloud.verified: false`. |
-
-The explanation button initially failed with `Unsupported model parameter`; this was reported to the main implementer, corrected by sending only supported parameters, and successfully retested through both serving modes. No unresolved delivery blocker was found in the executed checks.
-
-Source inspection confirms revision checks and a per-question request ID before asynchronous answers are applied. Normal state-change invalidation was exercised above; a deliberately delayed, out-of-order live-cloud response was not simulated in the browser. This distinction is retained rather than treating source inspection as that runtime test.
-
-Visual records: [desktop screenshot](acceptance-desktop.jpg) and [390-pixel screenshot](acceptance-mobile.jpg). The accepted download was `off-ball-lens-diagonal-evidence (1).json`; the first download was from an earlier development version and was not used for final v1.3 acceptance.
-
-Publication smoke check (main agent, separate from the independent local checks): the [public GitHub Pages demo](https://cabbage1999.github.io/Off-Ball-Lens/) loaded in Chrome. The visible comparison showed 36.4 versus 32.4 (+4.0 points); English/Chinese switching, a Chinese local explanation carrying `receiving-index-v1.3`, evidence-frame buttons, and the nine-perturbation result (+2.2 to +5.6) all rendered successfully. The answer explicitly identified its deterministic local source. GitHub Pages deployment completed successfully.
-
-## Limits of this acceptance
-
-- No live Microsoft Foundry request, deployed-model compatibility, Azure permissions, cloud latency, or cloud cost was verified. Provider-contract tests use simulated responses.
-- No independent football analyst judged unseen scenarios, and no real-match labels were used. Test passing does not establish tactical-value accuracy or generalization.
-- The index remains an uncalibrated geometric heuristic. Its finite candidates, constructive receiver controller, optimistic defensive arrival lower bound, sampled interception search, hand-selected parameters, and fixed other-player trajectories limit the interpretation.
-- Passing the one-dimensional controller cases does not prove minimum-time optimality or continuous-time correctness for every multidimensional motion. Receiver readiness uses a constructive controller; the defensive lower bound deliberately ignores turn costs and is not a feasible pursuit trajectory. A negative defensive margin only means interception cannot be ruled out; positive sampled margins do not certify the entire continuous line.
-- The comparison is retrospective in a fixed environment. It cannot identify real defender attraction, indirect space creation, causal contribution, or total team value.
-- Sensitivity ranges are deterministic assumption checks, not confidence intervals. Desktop/browser performance must be reported separately from Node timing and from cloud measurements.
+Scientific limits are separate from software defects: these are authored synthetic scenes; individual possibility fields overlap; AS/DAS are not probabilities, causal contribution or team-value shares; point-coordinate offside is not an officiating decision; the display interpolation is not the author's scalar integration. The notification threshold is an exploratory product rule. The existing sensitivity report shows that reduced temporal sampling can remove a short window, and small positional changes can alter peak timing. None of these checks establishes real-match calibration, total off-ball value or independent tactical accuracy.

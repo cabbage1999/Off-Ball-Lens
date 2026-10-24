@@ -1,0 +1,554 @@
+{
+  "modelConfigHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4",
+  "python": "3.12.14",
+  "platform": "macOS-15.3-arm64-arm-64bit",
+  "machine": "arm64",
+  "timingScope": "Local Python process only, warm author import; includes validation, official integration, heatmap conversion and moments where stated; excludes browser, network and LLM. Not a production SLA.",
+  "scenes": {
+    "used": {
+      "inputHash": "5585fd9f71c0dc12f9d1f705a10b6deb772088405529300c240badf4dbc7f127",
+      "inputFileHash": "f1fb9c9a473184242096d554d94b69a7222d115d78a336332ab807961bebb62f",
+      "warmBatchSeconds": 0.4477530409931205,
+      "authorSeconds": 0.3018679589731619,
+      "displaySeconds": 0.13792266699601896,
+      "analysisFrames": 161,
+      "validFrames": 126,
+      "rawShape": [
+        126,
+        22,
+        30,
+        46
+      ],
+      "singleFrameMsMedian": 9.89814598869998,
+      "singleFrameMsP95": 17.357881560747032,
+      "prefixChecks": 161,
+      "mirror": {
+        "maxAbsoluteDas": 0.0,
+        "medianRelativeDasAbove0p1": 0.0,
+        "maxRelativeDasAbove0p1": 0.0,
+        "statusChanges": 0
+      },
+      "directWorldVsCanonicalMaxAbsoluteDas": 0.28100904415065564,
+      "coarseVs60Angles1p5m": {
+        "maxAbsoluteDas": 0.2386453387578018,
+        "medianRelativeDasAbove0p1": 0.05542153747106813,
+        "maxRelativeDasAbove0p1": 0.40625663107761484,
+        "statusChanges": 0
+      },
+      "positionNoise0p1m": {
+        "maxAbsoluteDas": 0.585901246595375,
+        "medianRelativeDasAbove0p1": 0.020513639184893642,
+        "maxRelativeDasAbove0p1": 0.39255480449237135,
+        "statusChanges": 0
+      },
+      "A7Windows": [
+        {
+          "startTime": 10.4,
+          "detectedAtTime": 11,
+          "endTime": 11.2,
+          "peakTime": 11,
+          "peakDas": 0.5860696908798216,
+          "outcome": "received"
+        },
+        {
+          "startTime": 18.8,
+          "detectedAtTime": 19.4,
+          "endTime": 21,
+          "peakTime": 20.8,
+          "peakDas": 3.7396516510935682,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 22,
+          "detectedAtTime": 22.6,
+          "endTime": 25.3,
+          "peakTime": 25.2,
+          "peakDas": 3.489982501691401,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 27.2,
+          "detectedAtTime": 27.8,
+          "endTime": 29.6,
+          "peakTime": 29.4,
+          "peakDas": 1.3185560199492015,
+          "outcome": "not_selected"
+        }
+      ],
+      "A7WindowsWithPositionNoise": [
+        {
+          "startTime": 10.4,
+          "detectedAtTime": 11,
+          "endTime": 11.2,
+          "peakTime": 11,
+          "peakDas": 0.5914856922295538,
+          "outcome": "received"
+        },
+        {
+          "startTime": 18.8,
+          "detectedAtTime": 19.4,
+          "endTime": 21,
+          "peakTime": 20.2,
+          "peakDas": 3.8142000985117863,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 22,
+          "detectedAtTime": 22.6,
+          "endTime": 25.3,
+          "peakTime": 23.8,
+          "peakDas": 3.456213908398165,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 27.6,
+          "detectedAtTime": 28.2,
+          "endTime": 29.6,
+          "peakTime": 29,
+          "peakDas": 1.0133236232493128,
+          "outcome": "not_selected"
+        }
+      ],
+      "A7WindowsAt2p5Hz": [
+        {
+          "startTime": 18.8,
+          "detectedAtTime": 19.6,
+          "endTime": 21,
+          "peakTime": 20.8,
+          "peakDas": 3.7396516510935682,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 22,
+          "detectedAtTime": 22.8,
+          "endTime": 25.3,
+          "peakTime": 25.2,
+          "peakDas": 3.489982501691401,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 27.2,
+          "detectedAtTime": 28,
+          "endTime": 29.6,
+          "peakTime": 29.2,
+          "peakDas": 0.9739973434658105,
+          "outcome": "not_selected"
+        }
+      ],
+      "thresholdSensitivity": {
+        "0.25": {
+          "totalWindows": 27,
+          "A7": [
+            {
+              "startTime": 6.4,
+              "detectedAtTime": 7,
+              "endTime": 11.2,
+              "peakTime": 11,
+              "peakDas": 0.5860696908798216,
+              "outcome": "received"
+            },
+            {
+              "startTime": 18.8,
+              "detectedAtTime": 19.4,
+              "endTime": 21,
+              "peakTime": 20.8,
+              "peakDas": 3.7396516510935682,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 22,
+              "detectedAtTime": 22.6,
+              "endTime": 25.3,
+              "peakTime": 25.2,
+              "peakDas": 3.489982501691401,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 26.8,
+              "detectedAtTime": 27.4,
+              "endTime": 29.6,
+              "peakTime": 29.4,
+              "peakDas": 1.3185560199492015,
+              "outcome": "not_selected"
+            }
+          ]
+        },
+        "0.5": {
+          "totalWindows": 21,
+          "A7": [
+            {
+              "startTime": 10.4,
+              "detectedAtTime": 11,
+              "endTime": 11.2,
+              "peakTime": 11,
+              "peakDas": 0.5860696908798216,
+              "outcome": "received"
+            },
+            {
+              "startTime": 18.8,
+              "detectedAtTime": 19.4,
+              "endTime": 21,
+              "peakTime": 20.8,
+              "peakDas": 3.7396516510935682,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 22,
+              "detectedAtTime": 22.6,
+              "endTime": 25.3,
+              "peakTime": 25.2,
+              "peakDas": 3.489982501691401,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 27.2,
+              "detectedAtTime": 27.8,
+              "endTime": 29.6,
+              "peakTime": 29.4,
+              "peakDas": 1.3185560199492015,
+              "outcome": "not_selected"
+            }
+          ]
+        },
+        "1.0": {
+          "totalWindows": 15,
+          "A7": [
+            {
+              "startTime": 18.8,
+              "detectedAtTime": 19.4,
+              "endTime": 21,
+              "peakTime": 20.8,
+              "peakDas": 3.7396516510935682,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 22,
+              "detectedAtTime": 22.6,
+              "endTime": 25.3,
+              "peakTime": 25.2,
+              "peakDas": 3.489982501691401,
+              "outcome": "not_selected"
+            }
+          ]
+        }
+      },
+      "heatmapMax": 0.07697004339848845,
+      "saturatedCells": 0
+    },
+    "unused": {
+      "inputHash": "1893e4a60172f3911811f9f98eded7adab2984b4a8d9de55359d4555e249d34b",
+      "inputFileHash": "8c8dbeee60d313fd2e0bb4bbeeb53cb1671a321459e7e4e71420f1651924f1c1",
+      "warmBatchSeconds": 0.49115195899503306,
+      "authorSeconds": 0.3330727079883218,
+      "displaySeconds": 0.14618545898701996,
+      "analysisFrames": 171,
+      "validFrames": 131,
+      "rawShape": [
+        131,
+        22,
+        30,
+        46
+      ],
+      "singleFrameMsMedian": 10.246478996123187,
+      "singleFrameMsP95": 11.29588284966303,
+      "prefixChecks": 171,
+      "mirror": {
+        "maxAbsoluteDas": 0.0,
+        "medianRelativeDasAbove0p1": 0.0,
+        "maxRelativeDasAbove0p1": 0.0,
+        "statusChanges": 0
+      },
+      "directWorldVsCanonicalMaxAbsoluteDas": 0.5212934963307765,
+      "coarseVs60Angles1p5m": {
+        "maxAbsoluteDas": 0.3690309564055707,
+        "medianRelativeDasAbove0p1": 0.046617231039134344,
+        "maxRelativeDasAbove0p1": 0.29527906201503656,
+        "statusChanges": 0
+      },
+      "positionNoise0p1m": {
+        "maxAbsoluteDas": 1.0058167873091177,
+        "medianRelativeDasAbove0p1": 0.02623131289815462,
+        "maxRelativeDasAbove0p1": 0.3175824102417828,
+        "statusChanges": 0
+      },
+      "A7Windows": [
+        {
+          "startTime": 13,
+          "detectedAtTime": 13.6,
+          "endTime": 16.9,
+          "peakTime": 13.2,
+          "peakDas": 0.7128033846162022,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 31.2,
+          "detectedAtTime": 31.8,
+          "endTime": 32.6,
+          "peakTime": 32.4,
+          "peakDas": 3.012966356666789,
+          "outcome": "not_selected"
+        }
+      ],
+      "A7WindowsWithPositionNoise": [
+        {
+          "startTime": 13,
+          "detectedAtTime": 13.6,
+          "endTime": 16.9,
+          "peakTime": 13.2,
+          "peakDas": 0.7090785188259305,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 31.2,
+          "detectedAtTime": 31.8,
+          "endTime": 32.6,
+          "peakTime": 32.4,
+          "peakDas": 3.0918217069921208,
+          "outcome": "not_selected"
+        }
+      ],
+      "A7WindowsAt2p5Hz": [
+        {
+          "startTime": 13.2,
+          "detectedAtTime": 14,
+          "endTime": 16.9,
+          "peakTime": 13.2,
+          "peakDas": 0.7128033846162022,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 31.2,
+          "detectedAtTime": 32,
+          "endTime": 32.6,
+          "peakTime": 32.4,
+          "peakDas": 3.012966356666789,
+          "outcome": "not_selected"
+        }
+      ],
+      "thresholdSensitivity": {
+        "0.25": {
+          "totalWindows": 33,
+          "A7": [
+            {
+              "startTime": 13,
+              "detectedAtTime": 13.6,
+              "endTime": 16.9,
+              "peakTime": 13.2,
+              "peakDas": 0.7128033846162022,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 28.2,
+              "detectedAtTime": 28.8,
+              "endTime": 30,
+              "peakTime": 29.8,
+              "peakDas": 0.4388568714805792,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 31.2,
+              "detectedAtTime": 31.8,
+              "endTime": 32.6,
+              "peakTime": 32.4,
+              "peakDas": 3.012966356666789,
+              "outcome": "not_selected"
+            }
+          ]
+        },
+        "0.5": {
+          "totalWindows": 25,
+          "A7": [
+            {
+              "startTime": 13,
+              "detectedAtTime": 13.6,
+              "endTime": 16.9,
+              "peakTime": 13.2,
+              "peakDas": 0.7128033846162022,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 31.2,
+              "detectedAtTime": 31.8,
+              "endTime": 32.6,
+              "peakTime": 32.4,
+              "peakDas": 3.012966356666789,
+              "outcome": "not_selected"
+            }
+          ]
+        },
+        "1.0": {
+          "totalWindows": 16,
+          "A7": [
+            {
+              "startTime": 31.2,
+              "detectedAtTime": 31.8,
+              "endTime": 32.6,
+              "peakTime": 32.4,
+              "peakDas": 3.012966356666789,
+              "outcome": "not_selected"
+            }
+          ]
+        }
+      },
+      "heatmapMax": 0.07599609005719077,
+      "saturatedCells": 0
+    },
+    "blocked": {
+      "inputHash": "27cb1ab0b677852dd86d72ba1d9dad8e1b9553874d75dd58c1292dbe3d7aa995",
+      "inputFileHash": "0925b9872d7f353b3767e41d406a4574d920989469ac35dba27bf937b92a9133",
+      "warmBatchSeconds": 0.4485155419970397,
+      "authorSeconds": 0.30484779199468903,
+      "displaySeconds": 0.135526750003919,
+      "analysisFrames": 151,
+      "validFrames": 124,
+      "rawShape": [
+        124,
+        22,
+        30,
+        46
+      ],
+      "singleFrameMsMedian": 10.61416648735758,
+      "singleFrameMsP95": 10.885583692288492,
+      "prefixChecks": 151,
+      "mirror": {
+        "maxAbsoluteDas": 0.0,
+        "medianRelativeDasAbove0p1": 0.0,
+        "maxRelativeDasAbove0p1": 0.0,
+        "statusChanges": 0
+      },
+      "directWorldVsCanonicalMaxAbsoluteDas": 0.29856875603765065,
+      "coarseVs60Angles1p5m": {
+        "maxAbsoluteDas": 0.23202153567172468,
+        "medianRelativeDasAbove0p1": 0.03550489148614505,
+        "maxRelativeDasAbove0p1": 0.4092120207141767,
+        "statusChanges": 0
+      },
+      "positionNoise0p1m": {
+        "maxAbsoluteDas": 0.40624223433088424,
+        "medianRelativeDasAbove0p1": 0.021174306113745378,
+        "maxRelativeDasAbove0p1": 0.2729502769573256,
+        "statusChanges": 1
+      },
+      "A7Windows": [
+        {
+          "startTime": 5.8,
+          "detectedAtTime": 6.4,
+          "endTime": 8.2,
+          "peakTime": 8,
+          "peakDas": 1.7919034456133096,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 16.6,
+          "detectedAtTime": 17.2,
+          "endTime": 19.6,
+          "peakTime": 16.6,
+          "peakDas": 1.110559296185586,
+          "outcome": "not_selected"
+        }
+      ],
+      "A7WindowsWithPositionNoise": [
+        {
+          "startTime": 5.6,
+          "detectedAtTime": 6.2,
+          "endTime": 8.2,
+          "peakTime": 8,
+          "peakDas": 1.7946497901595537,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 16.8,
+          "detectedAtTime": 17.4,
+          "endTime": 19.6,
+          "peakTime": 16.8,
+          "peakDas": 1.1013297432091438,
+          "outcome": "not_selected"
+        }
+      ],
+      "A7WindowsAt2p5Hz": [
+        {
+          "startTime": 6,
+          "detectedAtTime": 6.8,
+          "endTime": 8.4,
+          "peakTime": 8,
+          "peakDas": 1.7919034456133096,
+          "outcome": "not_selected"
+        },
+        {
+          "startTime": 16.8,
+          "detectedAtTime": 17.6,
+          "endTime": 19.6,
+          "peakTime": 17.2,
+          "peakDas": 1.0047054418632695,
+          "outcome": "not_selected"
+        }
+      ],
+      "thresholdSensitivity": {
+        "0.25": {
+          "totalWindows": 13,
+          "A7": [
+            {
+              "startTime": 4.4,
+              "detectedAtTime": 5,
+              "endTime": 8.2,
+              "peakTime": 8,
+              "peakDas": 1.7919034456133096,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 16.6,
+              "detectedAtTime": 17.2,
+              "endTime": 19.6,
+              "peakTime": 16.6,
+              "peakDas": 1.110559296185586,
+              "outcome": "not_selected"
+            }
+          ]
+        },
+        "0.5": {
+          "totalWindows": 12,
+          "A7": [
+            {
+              "startTime": 5.8,
+              "detectedAtTime": 6.4,
+              "endTime": 8.2,
+              "peakTime": 8,
+              "peakDas": 1.7919034456133096,
+              "outcome": "not_selected"
+            },
+            {
+              "startTime": 16.6,
+              "detectedAtTime": 17.2,
+              "endTime": 19.6,
+              "peakTime": 16.6,
+              "peakDas": 1.110559296185586,
+              "outcome": "not_selected"
+            }
+          ]
+        },
+        "1.0": {
+          "totalWindows": 6,
+          "A7": [
+            {
+              "startTime": 6.8,
+              "detectedAtTime": 7.4,
+              "endTime": 8.2,
+              "peakTime": 8,
+              "peakDas": 1.7919034456133096,
+              "outcome": "not_selected"
+            }
+          ]
+        }
+      },
+      "heatmapMax": 0.039891357488817634,
+      "saturatedCells": 0
+    }
+  },
+  "authorSourceSha256": {
+    "interface.py": "e769500fba0e463f7e2656c55b380b03885f964befd13ab4b7608675ed83fa09",
+    "core.py": "6fe0573baf7c0b505e1f055c8d5bd3341a94952a89eaf6926abeb254f24554fc",
+    "motion_models.py": "2b732c5d6fa5e0fb43ed950b324e870043811f43c876dc31744648c8c947dcae",
+    "utility.py": "67f52664e31b4bd5766b75ac1723d1ce8f0c83143cff2358df55fed5f43149fb"
+  },
+  "authorWheelSha256": "8effa617f9df6e04416b7c5db78ff0c731a05ce080497e66da504bc8802c9eab"
+}

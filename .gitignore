@@ -8,3 +8,12 @@ tmp/
 *.log
 test-results/
 playwright-report/
+.venv-das/
+analytics/.cache/
+__pycache__/
+*.pyc
+.pytest_cache/
+artifacts/private/
+.playwright/
+.playwright-cli/
+output/playwright/

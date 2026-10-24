@@ -1,323 +1,129 @@
-# Off-Ball Lens 对抗审查
+# Independent adversarial review — v2
 
-审查日期：2026-10-22。审查依据：工作区 `项目设计说明`，尤其第五、八、十节，以及当前实现任务。第 1–8 节是先于实现形成的审查要求；第 9 节记录实代码复现与修复复验。用户已接受没有 Azure 账号时交付离线演示与可配置接口，因此缺少真实云调用不作为未完成项；仍须如实标明未联调。
+Date: 24 October 2026. Reviewed build: independently authored tactical scenes v2.0.1 and `accessible-space==2.1.0`, with the rebuilt AS/DAS application. This report replaces the old heuristic-index review in full. Earlier v1 test results and release claims do not establish anything about this build.
 
-## 结论与优先级
+**Result:** this review reproduced five P2 defects, all now repaired. Four repairs were independently retested here; the historical-overlay repair passed independent protocol/source checks and the integration agent’s separate browser regression. No unresolved P1/P2 defect was found in the inspected scope. This is a bounded engineering review, not approval of a complete competition submission or validation against professional football ground truth.
 
-该演示的合理目标是解释**给定运动与传球假设下的直接接应机会**。确定性分数、合成场景和固定环境路线对比，不能单独证明真实比赛中的战术价值、接球成功概率或因果贡献。
+The review was requested with GPT-6 Astra / max. That records the requested orchestration configuration; the reviewer could not independently inspect hidden model-serving configuration and does not claim to have verified it.
 
-必须先解决的风险：
+## Scope and method
 
-1. **P0：未来信息和比较窗口泄漏。** 当前帧评分不能读取后续帧；固定原球轨迹的对比必须在首次出球前停止。
-2. **P0：云集成和解释来源虚标。** 可配置接口、请求模拟、模板输出与真实 Foundry 调用成功是四种不同证据。
-3. **P1：候选域把速度直接变成收益。** 仅用当前位置和速度外推点，会给静止球员一个候选、跑动球员多个候选，产生搜索域偏差。
-4. **P1：越位使用错误时刻、位置或防线。** 应检查出球时刻的接应者位置、球和第二倒数对手，不能检查候选接球点。
-5. **P1：不可行基线或不一致时间归一化。** 两路线必须同初态、同运动约束、同环境、同比较时间窗。
-6. **P1：拦截最小值实现错误或证据不对应。** 必须对所有对手和整条线路取最小裕量，并保留实际极小点证据。
-7. **P1：合成场景循环验证。** 三个预设场景的预期排序是回归测试，不能算独立的价值准确率。
+The review read the v2 contract, model integration, method and scene documentation, and the project objectives and acceptance requirements. Inspection concentrated on `src/evidence.mjs`, `src/agent.mjs`, `server.mjs`, the browser analysis loader, the opportunity detector, the numerical adapter and the installed author's integration code. It examined actual evidence construction, provider-plan validation, event outcomes, time bounds, source binding, units and heatmap mapping rather than accepting documentation or the existing tests as proof.
 
-## 1. 指标定义应保持可审计
+Independent counterexamples were added in:
 
-每一候选接应点只生成一组一致的分量：
+- [tests/adversarial-v2.test.mjs](../tests/adversarial-v2.test.mjs): narrow windows, a real intercepted pass, unrelated events, adversarial provider plans, historical window selection, and stale-data rejection through both loading paths.
+- [analytics/tests/test_adversarial_v2.py](../analytics/tests/test_adversarial_v2.py): a source-rewrite race and independent reconstruction of the author's area integral and exported display fields.
 
-\[
-A_i(S)=100\,O_i(S)\max_{g\in\mathcal G_i(S)}U(g)R_i(g\mid S)B(g\mid S).
-\]
+The other independent acceptance reviewer covers the broader all-frame prefix, trajectory/physics and ordinary browser acceptance checks; see [acceptance.md](acceptance.md). Their results are not presented here as tests independently performed by this reviewer.
 
-- `U` 是透明的几何区域偏好；不是 xG 或 EPV。
-- `R` 只衡量接应者自身是否能赶到，不再加入防守竞争，避免与 `B` 的终点风险重复惩罚。
-- `B` 是防守到达与球到达之间的启发式线路裕量映射；不是已校准的传球成功概率。
-- `O` 是当前假想直传给该球员的越位位置筛选；中心点位置不足以复现正式裁判判定。
-- 分数不得由不同候选的 `max(U)`、`max(R)`、`max(B)` 相乘拼成。
-- 持球人不能成为自己的接应者。
-- `NaN`、无穷数、越界参数或空候选不能被悄悄渲染为有意义的分数。
+## Reproduced defects and repair status
 
-### 速度与候选域
+### V2-A01 — P2: a known interception was described as an unresolved reception
 
-速度通过到达时间改变机会是合理的；“候选点更多所以最高分更高”则可能是搜索偏差。建议两分支使用相同结构的局部候选网格，并以当前状态计算可达性；速度外推点可作为额外诊断，不能用其存在本身证明跑动价值。若出于工期保留 `p, p+0.5v, p+v`，应明确这是一项离散搜索假设，并记录速度改变时最优候选的变化。
+**Original reproduction:** with the actual `blocked` export, request player `A9`, `asOfTime=20.2`, `windowSeconds=6`, English analyst mode. The explanation stated that the carrier passed towards A9 at 19.6 s and that reception was “not yet confirmed.” The same result already included event `blocked:p4:arrival`: B6 intercepted that pass at 20.2 s.
 
-至少加入以下对抗例：同位置、不同速度；快速朝边线/己方球门/拥挤区域移动；缓慢但已占据优良接应位置。不能规定“更快一定更好”，也不能规定“速度永远不能带来收益”。测试应定位收益来自到达时间、线路几何，还是只来自候选数量。
+The fact builder gathered interceptions but the wording only distinguished received, selected and another target. It therefore presented a completed failure as pending. This affected an actual selectable player in the default data, not only a fabricated malformed input.
 
-## 2. 线路拦截
+**Repair:** the fact builder recognizes terminal events for the same pass ID before choosing pending wording. The interception claim includes B6 in its entity references.
 
-\[
-m(g)=\min_{d,k}\{T_d(z_k)-T_b(z_k)\}.
-\]
+**Independent verification: PASS.** English and Chinese explanations identify the interception at 20.2 s. At 20.1 s they still correctly leave reception unconfirmed and reveal no later interception evidence. An interception carrying a different pass ID cannot settle the selected pass.
 
-### 必须保存的证据
+### V2-A02 — P2: an empty selected interval borrowed a sample from outside its bounds
 
-`defenderId`、`interceptionPoint`、`defenderArrivalTime`、`ballArrivalTime`、`margin`、线路样本密度、选中候选点。界面标记的点必须正是返回最小裕量的点。
+**Original reproduction:** a request at `asOfTime=0.1`, `windowSeconds=0.05` selected 0.05–0.10 s, but returned a current numeric claim and evidence from 0.00 s. The same issue occurred when the model chose 0.41–0.49 s: the code fetched the latest sample before the end without checking the interval start.
 
-### 常见失败
+There was no future leakage, but the evidence did not belong to the tool's declared interval. This matters because the cloud model is explicitly permitted to shorten the selected past window.
 
-- 对裕量取最大值，或只检查终点。
-- 漏掉门将，或仅检查被人工指定的局部防守球员。
-- 球到达时间使用整条传球距离，而不是从出球点到当前采样点的距离。
-- 传球越长、采样越稀，从而跳过贴线防守者。
-- 只计算防守者到线的垂距，不比较球到达该位置的时间。
-- 用当前位置距离除以最高速度，却宣称已经严格考虑加速度与转向。
+**Repair:** the current sample must also be at or after the interval start. A window containing no model sample returns an explicit availability explanation, no numerical summary and no borrowed metric evidence.
 
-建议按固定米距取样，并包含接球端点；减半采样间距后，分数与最危险点应收敛到可解释的容差。压力接近出球点时，说明模型是否包含出球准备时间，避免无声改变设定。
+**Independent verification: PASS.** Separate tests cover the original request bounds and a narrower model-selected subwindow.
 
-对于固定状态、固定候选点：增加可拦截的防守者不能提升 `B`；提高球速不能降低 `B`。总分可以因为球更快、接应者来不及而降低，因此单独检查 `B`。
+### V2-A03 — P2: runtime loaders accepted analysis from a different trajectory revision
 
-LaurieOnTracking 的到达模型使用反应时间加“速度外推后的距离 / 最高速度”；其源码的 `max_player_accel` 参数未用于该到达函数。引用该实现不能据此宣称接应/防守到达时间严格满足加速度约束。[源码](https://github.com/Friends-of-Tracking-Data-FoTD/LaurieOnTracking/blob/master/Metrica_PitchControl.py)
+**Original reproduction:** copy a real scene and its analysis into an isolated temporary root, change one tracking coordinate while preserving the scene ID, frame IDs and timestamps, and invoke the actual server request handler. It returned status 200 and analytical facts even though `analysis.inputFileHash` did not match the scene bytes. Browser loading checked IDs and frame/time alignment but also ignored this hash.
 
-## 3. 越位
+The server's old `sourceDigest` changed the response-cache key; it did not establish that the model had analyzed those trajectories. A normal trajectory re-export without a matching numerical re-export could therefore associate old values with new displayed movement.
 
-将所有位置转换成进攻方向一致的纵坐标 `q` 后，接应者同时满足以下条件才处于本演示筛选的越位位置：
+**Repair:** both server and browser hash the exact loaded source text and compare it with `inputFileHash` before exposing the bundle. The server returns 409 on a mismatch.
 
-1. 在对方半场；
-2. 比球更接近对方球门线；
-3. 比第二倒数对手更接近对方球门线。
+**Independent verification: PASS.** A changed coordinate is rejected by each loader; exact unmodified files are accepted with unchanged numerical payloads. All three final scene files independently match their current analysis hashes.
 
-平齐合法，门将没有排序豁免。应使用当前假想出球时刻的接应者位置，不能使用前方候选接球点；合法位置启动后越过防线可以合法接球。位置越位本身并不等于犯规，本演示假设该球员是拟议直传的参与接应者。采用球员中心点是明确简化；不得称为 VAR 或正式越位判罚。[IFAB Law 11](https://www.theifab.com/laws/latest/offside/)
+The server regression invokes the real request handler using a stream request and captured response. An initial attempt to bind an additional local listener was denied by the execution environment; this reviewer does not mislabel the handler test as a completed network transport test.
 
-关键测试：与倒数第二人平齐、与球平齐、己方半场、门将离门形成不同排序、进攻方向镜像、当前位置合法而候选点越过防线、当前位置越位而候选点回撤。
+### V2-A04 — P2: historical cloud evidence did not produce its requested visible overlay
 
-## 4. 路线比较
+**Original reproduction:** a simulated provider performed both tools, selected interval 0–0.4 s for a request whose replay cutoff was 0.8 s, and selected a valid current claim and `receiving_heatmap` overlay at `used:0004`. The valid result was accepted. The UI labeled the interval using 0.8 s and silently ignored the overlay because its frame was not the currently displayed `used:0008`. The fan wording referred to a highlighted area that had not been shown.
 
-两分支应从完全相同的 `p(t0), v(t0)` 出发，使用相同速度上限、加速度上限、时间步长和环境。不能让替代路线瞬间停车、掉头、瞬移到宽度位置。位置更新与速度更新应遵循一致积分方法，不能分别裁剪后生成互相矛盾的轨迹。
+This was an allowed model action, not a fabricated reference. It also applies to a valid historical peak selected while replay remains at a later time.
 
-当前帧的机会指标只取决于当前状态，因此两分支在 `t0` 的分数必须相同。若分数已不同，需检查是否把分支策略名、目标点或未来坐标泄漏进当前评分。
+**Repair inspected:** the UI separately labels the analyzed interval and replay cutoff, adds an explicit “View heatmap/evidence at …” action for historical frames, and applies the layer after that action seeks to its evidence frame. Current fan wording invites viewing the frame instead of claiming the area is already highlighted. Event overlays use the last relevant known event and the tracking-frame clock.
 
-共同结束时刻：
+**Independent protocol verification: PASS.** The past interval and evidence frame are preserved. **Separate integration-agent browser verification: PASS, reported by the integration agent and not independently operated by this reviewer.** Its Playwright regression, whose script this reviewer inspected, asserted the visible `Analyzed 4.0–9.6 s` and `Replay cutoff 10.0 s` labels, clicked `View heatmap at 9.6 s`, and asserted the pitch label referenced `9.6 seconds` and `used:0096`. The route supplied the prepared response for the actual `used` scene; the deployment and response IDs explicitly identified it as a protocol mock. The route was removed and the page reloaded in `finally`. No real Azure call is implied.
 
-\[
-t_e=\min\{t_0+H,\text{首次出球},\text{控球变化},\text{任一分支失效}\}.
-\]
+### V2-A05 — P2: the exporter could hash a newer source than the one it analyzed
 
-比较应覆盖半开区间 `[t0, te)`；如果时间窗被截短，按实际共同持续时间 `te-t0` 归一化。不得分别用不同长度的分支窗口再相减，也不得用请求的 `H` 稀释短窗口结果。空窗口需要明确返回不可比较。
+**Original reproduction:** `compute_das.main` parsed the source, ran analysis, then reread the file to calculate `inputFileHash`. A deterministic temporary-directory fixture changed the file during the computation: the analysis observed `x=1`, the current source contained `x=999`, and the output hash matched the new source. Runtime hash checking would accept that stale analysis.
 
-“个人机会变化”与“球队最佳接应选择变化”应分开输出。若他人已有更高分，个人分数上升可能完全不改变球队最佳选择；不能将个人差值求和后叫作球队总贡献。
+This is a source-consistency race in the exporter, independent of the runtime-loader fix.
 
-固定其他球员轨迹的结果只支持“在固定环境下，相对于所选路线的模型机会变化”，不支持“他吸引防守、从而为队友创造空间”。该后者需要两分支中一致且可检查的防守响应模型。
+**Repair:** the exporter reads `source_bytes` once. Both JSON parsing and `inputFileHash` use those same bytes. If the on-disk file changes during calculation, the exported hash continues to identify the data actually analyzed, and runtime loading rejects the changed file.
 
-## 5. 时间因果性与界面
+**Independent verification: PASS.** The regression deliberately changes the temporary source during analysis and verifies that the output hash matches only the original analyzed bytes.
 
-当前帧评分函数最好仅接收一个完整状态及参数。速度应来自已知当前状态或向后差分；中心差分会访问未来帧。候选短时外推可用当前状态和明确动力学，不能查真实后续接球位置。
+## Independent numerical and display audit
 
-若路线对比使用已存的未来环境轨迹，必须标为**回顾性固定环境模拟**；如果标为在线预测，环境也必须从当前状态向前外推。完整窗口的平均值属于窗口分析，不能伪装成当前帧已知事实。
+The installed author's `integrate_surfaces` was inspected directly. It integrates radial possibility density multiplied by the midpoint radial width and the polar area element. The application uses the author's scalar outputs, and its display conversion multiplies dangerous player density by that radial width before interpolation. Raw density, effective area and dimensionless displayed intensity are not interchangeable.
 
-拖动时轴、切换场景、改变参数或路线后，旧解释需要清除、标记过期或明确锁定其原始分析窗口。证据帧、可视化接应点、分数、解释必须引用同一场景、时刻、分支和参数版本。
+A fresh audit rebuilt long-table rows independently, put the ball first, reversed player order and resolved every returned frame/player index. It independently reconstructed midpoint radial widths, angular sector areas and display cell centres. Display interpolation was evaluated radially on each ray first and then across rays, using the opposite evaluation order from production. The checks did not call the adapter's row builder, heatmap conversion helpers or `compute_frames`.
 
-## 6. 合成数据与验证
+Checked tracking indices: `used` 0, 104 and 200; `unused` 104; `blocked` 168 and 214. The final case has B in possession attacking in the negative x direction.
 
-22 人数据需满足：11 对 11、稳定身份、单位为米/秒、时间递增、位置速度一致、合理的速度和加速度上限、球与持球者和事件一致。局部场景不必成为完整足球模拟器，但其他 16–18 人不能通过瞬移或异常防线位置改变越位/拦截判断。
+| Check on final frozen exports | Observed result |
+| --- | --- |
+| Eligible player fields checked | 60 |
+| Rectangular display cells checked | 48,300 |
+| Largest uint8 code difference from independent conversion | 0 |
+| Largest absolute difference in independently reconstructed DAS integral | 0.000000550153 danger-weighted m² |
+| Largest absolute difference in independently reconstructed AS integral | 0.000227136 m² |
+| Fixed display scale and layout | 35 × 23, scale maximum 0.1, dimensionless intensity |
 
-三个场景是设计样例，标签只能称作预期行为。通过“通道打开为正、拥挤为负、早启动被 gate”的断言，不等于获得三条独立足球真值。
+The small integral differences arise from separately ordered floating-point arithmetic against author float32 integration. These are numerical consistency checks on selected frames, not accuracy bounds for all possible football states. Rectangular heatmap sums are still not official AS/DAS integrals. Angular/radial discretization sensitivity and quantization remain distinct limitations.
 
-建议留下独立于公式预期的验证层：
+## Final checks and explicit non-runs
 
-- 运动约束、时间与身份一致性；
-- 相同路线差值为零、进攻方向镜像不变；
-- 拦截、越位等规则边界；
-- 未参与调参的场景与人工判断记录；
-- 参数微扰的结论符号稳定性。
+After the v2.0.1 scene and analysis freeze, this reviewer ran:
 
-参数网格或扰动范围不是统计置信区间。若微小参数改变导致符号反转，应报告“对这些假设敏感”，不要只显示平均正收益。
-
-## 7. Foundry 与解释事实边界
-
-真实集成的可验收链条是：模型请求 → 模型提出工具调用 → 应用验证并执行工具 → 结果返回模型 → 带证据解释。直接把指标填入本地模板并不构成真实云调用；模拟响应只能验证协议处理。
-
-界面至少区分：未配置云、模板解释；云调用失败、已回退模板；云调用成功且结果通过核验。状态应来自本次执行结果，不能只看是否设置了环境变量。无凭证时可交付接口与示例配置，但应直说真实云联调尚未验证。
-
-工具参数需要校验球员、场景、时间窗、路线名；工具执行必须限制在预定义分析动作。API 密钥只留在服务端。工具返回的事实应带上场景、时间、参数版本和证据引用。
-
-解释核验应覆盖：虚构球员、虚构数值、错用场景、将指数写成概率、固定环境下使用“牵制/导致”强因果表述、无证据帧、引用过期参数。仅检查 JSON 格式不等于检查事实。
-
-## 8. 最终对抗验收清单
-
-最终复验对象为 `receiving-index-v1.3`。以下“通过”限定于所列测试与作者合成场景，不代表真实比赛效度。浏览器交互时序未由本审查者单独注入延迟验收，A15 特别注明静态检查。
-
-| 编号 | 操作 | 可接受结果 | 最终状态 |
-|---|---|---|---|
-| A01 | 两条完全相同路线 | 每帧和平均差值在浮点容差内为零 | 通过；每帧差值严格为零 |
-| A02 | 同初始位置速度，不同路线策略 | `t0` 分数相同；此后按有界加速度分离 | 通过；三场景初始差值为零，运动及停车距离检查通过 |
-| A03 | 镜像 x 与进攻方向 | 分量、越位与比较结论一致 | 通过；帧、完整比较、平移均检查 |
-| A04 | 更改当前时刻之后的全部录制轨迹 | 当前评分不变；在线预测不应读取它们 | 通过；当前评分不变。路线比较明确为回顾性固定环境 |
-| A05 | 在窗口内安排首次出球 | 比较截断于出球前，共同实际时长归一化 | 通过；7.5 s 出球前截止到最后有效样本 7.4 s |
-| A06 | 同位置设置高速坏方向 | 不出现无解释的速度奖励；展示最优候选变化 | 通过限定检查；候选域不随速度扩大，向边线高速运动不获奖励。有限网格仍可能漏掉快跑者的可行接应 |
-| A07 | 给固定传球线加贴线对手 | `B` 不升高；最危险点证据对应新增风险 | 通过；加防守者不改变 U/R，指数与 B 不增 |
-| A08 | 固定 g 提高球速 | `B` 不降低，`R` 可降低 | 通过；三场景六时刻的 89 对共同可达候选未出现违反 |
-| A09 | 线路采样间距减半 | 风险与排序在记录的容差内稳定 | 三场景通过；发现并修复静止擦线反例 D06。没有全局连续线路误差保证 |
-| A10 | 六类越位边界 | 使用当前接应者位置、球和全体对手排序 | 通过；平齐、己方半场、门将排序、候选点与出球位置区分 |
-| A11 | 检查全员连续运动与球事件 | 无瞬移，速度/加速度/持球关系符合配置 | 通过；22 人轨迹、球连续性、事件、实际出球接应者合法性与导出一致性 |
-| A12 | 将某队友设置为始终更优 | 个人提高可与球队最佳选择不变同时成立 | 通过；A9 为更优选项的对照未将个人增益误算为球队最佳增益 |
-| A13 | 云配置缺失和网络失败 | 回放与指标可用，明确模板来源与失败状态 | 通过离线/模拟协议检查；没有真实 Azure 联调声明 |
-| A14 | 云输出伪造数字或强因果结论 | 拒绝/修复/回退，不能直接展示为核验事实 | 通过；只允许已核验 claim ID，任意数字文本、未知证据均被拒绝；无效窗口另见 D04 |
-| A15 | 解释生成中切换时刻/场景 | 旧结果不会覆盖新状态的当前解释 | 静态修复复查通过；窗口/场景版本与独立问题请求序号共同防旧结果覆盖。未单独做浏览器延迟注入 |
-| A16 | 参数小幅改变 | 报告变化范围与符号反转，不声称置信区间 | 通过；独立重算三场景九项扰动，数值与最终报告一致 |
-
-## 9. 实代码对抗记录
-
-### 9.1 已运行的基础检查
-
-- 独立运行 `node --test tests/model.test.mjs tests/scenarios.test.mjs tests/agent.test.mjs`：修复前版本 38 项通过，0 失败。
-- 独立运行 `node --test tests/server.test.mjs`：本机临时端口的 HTTP 集成检查通过。首次沙箱内运行被本机监听权限阻止，允许本机监听后重跑通过；这不是应用逻辑失败。
-- 将 `data/diagonal.json`、`data/crowded.json`、`data/early.json` 解析后与当前生成器比较：三份全部一致。
-- 以下专门复现均为本地计算或内存模拟云响应，没有向真实 Azure 发送请求。
-
-### 9.2 D01 — P1：可行追赶路径的到达时间被误用为防守安全依据
-
-**修复前已复现。** 防守者在 `(50,30)`，速度 `(5,0)`，反应时间 `0.35 s`，接球目标为 `(57.75,34)`。当前直接追赶控制器估计到达时间为 `5.35 s`。
-
-然而有一条独立、明确满足约束的拦截路径：先按原速度运动 `0.35 s`，然后用恒定加速度 `(-2,2)` 运动 `2 s`。此时：
-
-\[
-p(2.35)=(50,30)+0.35(5,0)+2(5,0)+\tfrac12(2^2)(-2,2)=(57.75,34).
-\]
-
-加速度范数为 `√8≈2.828<3.2 m/s²`；速度从 `(5,0)` 变到 `(1,4)`，沿途速度范数不超过 `5 m/s<7.8 m/s`。这是准时接触的构造性证据，不依赖待审查评分公式。
-
-将球放在 `(22.5,34)`、球速设为默认 `15 m/s`，球恰好在 `2.35 s` 到目标。接应者静止于目标，其他对手放远，则修复前 `analyzeFrame` 的 `g0` 得到：
-
-```text
-ballArrival = 2.35
-laneMargin = 1.5
-B = 0.9864230830562556
-critical = B1, release point, capped = true
+```sh
+node --test tests/adversarial-v2.test.mjs
+.venv-das/bin/python -m pytest analytics/tests/test_adversarial_v2.py -q -s
+.venv-das/bin/python -m pip check
 ```
 
-明确存在的准时拦截被漏掉，接近满分的线路分量反而指向无关的门将。提高线路采样密度不能修复劣质追赶策略造成的时间高估。
+Results: **11 JavaScript tests passed; 2 Python tests passed; no broken installed requirements found.** The provider tests include free-prose injection despite otherwise valid IDs, stale claim IDs after changing a model window, bounded correction and transparent fallback. They all use in-memory protocol responses, not a Microsoft service.
 
-**修复方向：** 接应端保留构造性控制器，证明候选点至少有一条所建模的可行路线；防守端改用乐观到达时间下界，以避免用一个次优控制器的上界宣称安全。新下界在反应期使用 `p+vt` 与控制圆的解析首交；反应期后允许立即把当前速度转向目标，按加速度上限加速至最高速度再巡航。
+**NOT RUN by this reviewer:** real Microsoft Foundry/Azure authentication or inference; production deployment, cost or latency; a clean-machine installation from the dependency lock; cross-platform binary reproducibility; professional football-practitioner adjudication; final recorded-video acceptance. The team has no supplied Azure deployment. These must not be closed by a mock returning `cloud-verified` in a protocol test.
 
-独立检查：若初始速度不超过最高速度，且反应期确实保持速度，则反应后任意可行路径的弧长不超过
+The dependency versions are pinned and the current environment is internally consistent. This is narrower evidence than a fresh reproducible installation. Local files and author-model parity do not establish that every future provider deployment supports the selected Responses API schema.
 
-\[
-L(s)=\int_0^s\min\{v_{\max},\|v_0\|+a_{\max}u\}\,du.
-\]
+## Remaining interpretation boundaries
 
-到达控制圆所需弧长至少为 `d=max(0,||z−(p+vτ)||−r)`。解 `L(s)=d` 得到必要到达时间下界；忽略转向限制可以产生保守的假警报，但不能因控制器绕路而夸大到达时间。
+- AS and DAS describe direct receiving opportunity under the author's model. They are not pass or goal probabilities and do not establish individual causal contribution. Individual areas may overlap.
+- The detector thresholds are a disclosed product preset. They are not externally calibrated football quality labels. Already-disclosed grid/noise sensitivity and missed short windows at lower sampling rates remain limitations, not defects concealed by this review.
+- Synthetic tactical choreography supports a reproducible demonstration; it is not observed-match ground truth or an empirical accuracy study. A useful decoy can have a lower individual DAS.
+- Current source/analysis hashes prevent accidental version mixing. They are not a cryptographic signature proving trusted authorship of an arbitrarily supplied analysis file.
+- A finite adversarial review cannot prove absence of every malformed-input, service or semantic failure. The submission still requires the delivery gates recorded in [handoff.md](handoff.md).
 
-注意：不得把超速初态静默截成 `vMax`；不得把负下界裕量解释为已经证明能拦截；解析计算若已删除时间截断，也必须删除“1.5 秒搜索截断”的旧文案。
+## Reviewed source fingerprints
 
-**状态：已修复并独立复验。** v1.3 在该反例中返回 `B=0.03920791`、`laneMargin=−1.11960783 s`，对应防守者为 `B6`；接球端点的到达下界为 `1.32898751 s`。另外独立生成 10,000 条满足速度与加速度约束的分段恒加速见证轨迹，没有出现下界晚于见证到达的情况。随机检查不代替上面的推导。
+SHA-256 at the final local test snapshot:
 
-### 9.3 D02 — P2：接应者离开又返圈，准备裕量仍从零开始
-
-**修复前已复现，且影响默认演示。**
-
-```js
-arrivalEstimate(
-  { x: 70, y: 34, vx: 3.2, vy: 0 },
-  { x: 70, y: 34 },
-  DEFAULT_PARAMS,
-  { reactionTime: 0.1, radius: 1.2, maxTime: 1.9, settle: true }
-)
-```
-
-控制器在 `1.7 s` 时处于 `(71.344,34)`，在控制半径外；到 `1.9 s` 时才回到 `(70.94267,34)`，但修复前仍返回 `time=0`。`R` 因此把整个飞行时间当作准备裕量。
-
-默认 `crowded` 场景 `t=3.3` 的最优候选 `g0` 同样受影响：`ballArrival=1.640247`、`receiverArrival=0`、`R=0.987880`，但球员在未来 `1.6 s` 时仍位于控制半径外。另有 `crowded t=3.2`、`early t=3.0/3.1` 的最优点受影响。
-
-**修复：** 接应模式应记录球到达前最后一段连续占据控制圆的入圈时刻，而非历史上第一次到达的时刻；首次接触可单独保留为诊断值。
-
-**状态：已修复并独立复验。** 构造例返回最后入圈 `time=1.8 s`，单独保留 `firstContactTime=0`。默认 `crowded t=3.3` 返回 `receiverArrival=1.64024733 s`、`R=0.42905340`。最终数值报告已重算并独立核对。
-
-### 9.4 D03 — P2：等待请求体时并发闸门可被穿过
-
-**修复前已通过真实本机 HTTP 复现。** 三个请求先 `flushHeaders()`，延迟后同时发送 JSON 请求体；并发检查位于 `await readJson(req)` 之前，三个请求均看到 `active<2`，随后全部进入解释流程。Azure 响应用内存函数模拟。
-
-```text
-HTTP statuses = [200, 200, 200]
-peakConcurrentFakeCloudCalls = 3
-declaredMaximum = 2
-```
-
-**修复：** 读取请求体后重新检查并立即占用并发名额，或在异步读取前预留并可靠释放名额。
-
-**状态：已修复并独立复验。** 完整测试中的本机延迟请求体回归通过：并发名额不再被穿过，第三个请求被限制。测试使用假云响应，没有外部网络调用。
-
-### 9.5 D04 — P2：无效比较窗口仍能输出已核验的平均差值
-
-**修复前已通过模拟协议复现。** 请求 `startTime=7.4,horizon=2.5`，比较被首次出球截成单帧，`valid=false`。模拟模型依次完成三个工具，再返回 `C_AVG,C_LIMIT`，应用仍给出：
-
-```text
-status = cloud-verified
-valid = false
-From 7.4 to 7.4 s ... 35.8 versus 35.8 ... +0.0 ... approximately unchanged.
-```
-
-缺少有效持续时间不能证明两种跑法近似相同。离线默认计划正确选择了无窗口说明，但云端证据选择校验没有强制这一点。
-
-**修复：** 无有效比较窗口时，直接返回 `C_NO_WINDOW` 与限制说明；事实包不得提供比较平均值/峰值结论供模型选择。无需调用云端来解释一个不存在的窗口。
-
-**状态：已修复并独立复验。** 相同请求返回 `status=unavailable`，只包含 `C_NO_WINDOW,C_LIMIT`，模拟云请求次数为零。
-
-### 9.6 D05 — P2：浮点误差遗漏反应期切线接触
-
-新防守下界的数学方向正确，但最初实现对二次方程判别式使用严格 `D>=0`。构造 `p=(50,30), v=(5,0), target=(51,30.8), r=0.8`，真实切线接触发生在 `0.2 s`，程序却因舍入得到微负判别式，返回 `0.40823201 s`。将同一问题旋转 1,000 个角度，有 482 个漏接触；仅在坐标原点测试切线不足。
-
-**状态：已修复并独立复验。** 判别式加入尺度相关的舍入容差，并在近零时向保守接触方向处理；平移实例现在返回 `0.2 s`，1,000 个旋转实例的回归通过。反应期端点、零速、初始在控制圆内和非法超速初态的检查也通过。
-
-### 9.7 D06 — P2：均匀采样遗漏采样点之间的静止擦线拦截
-
-在球从 `(50,34)` 向 `(65,34)` 以 `15 m/s` 运动时，静止防守者位于 `(57.5,34.75)`，控制半径为 `0.8 m`。其他对手远离线路。
-
-v1.2 的一米均匀采样得到 `margin=+0.06839546 s, B=0.54869903`；半米采样则得到 `margin=−0.5 s, B=0.19332137`。这是实际可在初始控制圆中完成的静止拦截，说明三条默认场景的细化回归不能代替对抗几何检查。
-
-**状态：已修复并独立复验。** v1.3 保留原有均匀采样，额外加入防守者初始位置与反应期末位置对线路的投影、控制圆与线路的交点。该反例现在精确命中后侧圆交点：
-
-\[
-m=-\frac{7.5+\sqrt{0.8^2-0.75^2}}{15}=-0.51855921\text{ s},\qquad B=0.18518621.
-\]
-
-对应防守者为 `B6`。此增强修复了已知静止擦线漏检，**不构成对任意动态连续线路的完备保证**。
-
-### 9.8 UI 事实边界补查
-
-静态检查发现并推动了两项补充修复：同一窗口多个快捷问题并发时，旧回答可能覆盖最新问题；无效窗口仍可请求球队指标与敏感性并显示零变化。最终代码为每次提问加入独立请求序号，并在窗口/场景/语言切换时使旧请求失效；无有效比较窗口时禁用相关按钮。
-
-独立执行 `analysis-worker.mjs` 的无效窗口调用，`team` 和 `sensitivity` 均返回 `No common pre-pass comparison window.`，不会返回零变化或稳定性结论。问题请求序号与按钮状态仅作静态复核；没有由本审查者另行完成浏览器延迟注入测试。中文方法说明现已正确区分接应可行控制器与防守乐观到达下界。
-
-### 9.9 仍需保留的模型限制
-
-- 防守到达时间的下界在采样点成立，不自动构成连续整条传球线路的安全证书。静止启动的时间与距离呈平方根关系，不能直接套用匀速到达模型的 `1/vMax` Lipschitz 误差界。
-- 如需整条线路的保守界，可对每段中点把拦截半径扩大半个段长，再减去该段末端的球到达时间；这覆盖该段所有点。但返回的证据必须是一个区间下界，不能伪装成某精确点的实际到达差。
-- 接应端控制器与有限候选网格仍会漏掉其他可行接应方案。零分不等于真实比赛中不存在接应可能。
-- 保留同环境、同初态的回顾性路线对比含义；不得升级为真实防守响应或球队总贡献。
-
-### 9.10 最终复验结果与文件指纹
-
-v1.3 首轮独立运行 `node --test tests/*.test.mjs`：**58 项通过，0 失败**。覆盖两项本机 HTTP 测试，未使用真实云凭证。对 D01、D02、D04、D05、D06 的独立原始复现再次运行，均得到上述修复后结果。发布后的跨平台测试修复及新增第 59 项检查见第 9.11 节。
-
-默认共同窗口为 `2.5–5.0 s`。独立重算的个人平均指数变化与 `data/validation.json` 完全一致：
-
-| 场景 | 平均指数变化 | 九项逐一扰动范围 |
-|---|---:|---:|
-| 斜向接应 | +3.969235 | +2.232263 至 +5.619643 |
-| 跑入封锁区 | −4.513358 | −5.533007 至 −3.493708 |
-| 启动过早 | −20.886443 | −22.047421 至 −19.725465 |
-
-这些范围是设定扰动下的结果，不是统计置信区间；三场景也不是独立真实比赛标签。对早启动场景，部分零分先来自有限候选不可达，越位随后出现；不能把整个负差值归因于越位。
-
-本次核心复验的 SHA-256：
-
-| 文件 | SHA-256 |
-|---|---|
-| `src/model.mjs` | `c04c908be6f9a3f325606d780751730ebac7f45288aca348099bf657034c29b0` |
-| `src/scenarios.mjs` | `cef5c861cb5fa4b3976364c2a0692c1edbd886a027b2469ccdfd1df92044b1ad` |
-| `src/agent.mjs` | `9a0ce2d901f02a78ee2b816ea818be1a3c713b6ae2f45a51f1e100548d9c3424` |
-| `server.mjs` | `13111cefd4ea315fcee720f86fbc897458a2b85053f5c51ba5085f532e6fd05f` |
-
-在离线演示、固定环境短时比较和明确模型边界的已授权范围内，本次审查没有剩余的核心发布阻断项。未核验的真实 Azure 联调和浏览器延迟注入不能记为通过。
-
-### 9.11 发布后跨平台导出一致性测试修复
-
-macOS arm64 / Node `22.20.0` 的首轮测试通过后，Ubuntu x64 / Node `22.23.4` 曾在三份导出轨迹与重新生成轨迹的逐数值严格相等检查中失败，其余 55 项通过。旧检查对含 `Math.sin`、`Math.hypot` 等计算结果要求跨运行时逐位一致，超出了本演示对轨迹复现的实际约定。
-
-本轮只审查了 `tests/acceptance.test.mjs` 的修复，没有改动生成器、模型或服务代码。新的比较器仅允许球员和足球的 `x,y,vx,vy` 存在不超过 **`1e-10` 的绝对误差**，且两侧必须是有限数值。以下内容仍严格比较：场景元数据与事件、帧时间和索引、场地参数、球状态、身份/球队/角色、数组长度和排列顺序，以及所有非运动字段。相同运行时内两次生成的确定性检查也没有改为近似比较。
-
-独立检查结果：
-
-- 本地执行 `node --test tests/acceptance.test.mjs`，12 项全部通过。
-- 直接加载实际比较器进行额外变异检查：16 种 `±5e-11` 运动舍入均被接受；18 种损坏均被拒绝，包括 `2e-10` 运动误差、非数值/非有限运动字段、身份/角色/球状态改变、球员乱序、缺帧，以及仅 `1e-11` 的帧时间、事件时间和场地参数变化。
-- `src/model.mjs`、`src/scenarios.mjs`、`src/agent.mjs`、`server.mjs` 的 SHA-256 与第 9.10 节完全一致，确认此次没有通过改变业务结果让测试通过。
-- 独立读取 GitHub 作业状态和日志，确认 [提交 5233ad4 的验证运行](https://github.com/cabbage1999/Off-Ball-Lens/actions/runs/39786189316) 在 Ubuntu x64 / Node `22.23.4` 上 **59 项通过、0 失败**；测试、数据验证及前端/worker 语法检查步骤均成功。
-
-结论：该修复将跨平台运动数值一致性限定在极小且显式的绝对容差内，仍能拒绝结构、语义和更大数值变化，没有发现借容差掩盖实质缺陷的问题。原失败的最大实际数值误差没有完整记录，因此不报告一个未经测量的数值；新的绿色 CI 证明三份轨迹差异均通过当前 `1e-10` 上界检查，不等于证明跨平台逐位相同。
-
-本次审查的测试文件 SHA-256：`1461757dd4a95d87fd620982637edfd99a7226d9139c16135ff2cfed6469f857`。
+| File | SHA-256 |
+| --- | --- |
+| `src/scenarios.mjs` | `b059d47c14f9f073d80f74da098a0907b910c511151a085700be20afcb0dacb6` |
+| `src/evidence.mjs` | `b67984e0d1dd55e1a416975f02ff02fc4ba77cbaf16a218a83b1d14394bd62a5` |
+| `src/agent.mjs` | `5985ee00976ea4cfa8d60c33d1be43129036e4c1dfbe2b1d9e66351cb44fa0a0` |
+| `src/analysis.mjs` | `cef3e82a8320ee45400a37fc2da44fbefcbee85893ace28c3f9aa492f7d5f5b6` |
+| `server.mjs` | `535fd738c8f7f6cf79c31110b147642fbba674cd216911b94fbd98efccb6d63e` |
+| `analytics/compute_das.py` | `7a6ad819c14a70f1384ebe3b30425271c7feecc4b6f7f4409df759fc306fcfa9` |
+| `analytics/heatmap.py` | `45c80ff3269d4ba45e7aee743750e80e8b2c5bc46e36aec563130cb2f81df333` |

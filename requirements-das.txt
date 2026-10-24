@@ -1,0 +1,3 @@
+# Install in an isolated Python 3.12 environment. Fully resolved versions are in requirements-das.lock.
+accessible-space==2.1.0
+pytest==9.1.1

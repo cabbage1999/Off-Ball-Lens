@@ -1,266 +1,1071 @@
 {
-  "generatedAt": "2026-10-22T12:43:22.223Z",
-  "modelVersion": "receiving-index-v1.3",
-  "data": "Synthetic; independently authored trajectories. Scene hypotheses are not validation labels.",
-  "cloudIntegration": "Not validated by this script; requires the separate cloud smoke check with a configured deployment.",
+  "schemaVersion": "2.0",
+  "generatedAt": "2026-10-24T14:01:14.805Z",
+  "generatorVersion": "tactical-state-v2.0.1",
+  "generatorSha256": "b059d47c14f9f073d80f74da098a0907b910c511151a085700be20afcb0dacb6",
+  "dataSource": "Independently authored synthetic tactical scripts. No match-data source, borrowed scene code, or AS/DAS score drives motion.",
+  "scope": "Reproducible structural, kinematic, continuous-chord separation and event audit. This is not a professional football-realism validation or an interception-success model.",
+  "thresholds": {
+    "maxPlayerSpeed": 7.6,
+    "maxVectorAcceleration": 3.2,
+    "maxGoalkeeperSpeed": 4.5,
+    "maxBallSpeed": 30,
+    "minimumPlayerSeparation": 0.8,
+    "minimumPassNonParticipantClearance": 1.2,
+    "goalHalfWidth": 3.66,
+    "shotRequirement": "Ground-shot ray crosses the attacked goal mouth after the save point",
+    "units": "metres, seconds",
+    "continuousBound": "Linear-chord minima minus the maximum constant-acceleration sag: a*dt²/8 for one player, a*dt²/4 for two."
+  },
   "results": [
     {
-      "scenario": "diagonal",
-      "frames": 161,
-      "players": 22,
-      "maxSpeed": 4.900000000000001,
-      "maxAcceleration": 3.2000000000000135,
-      "minPlayerSeparation": 3.675421494497386,
-      "comparison": {
-        "meanRun": 36.402260776271405,
-        "meanAlternative": 32.43302571956967,
-        "meanDelta": 3.9692350567017436,
-        "peakRun": 42.485973914915306,
-        "peakAlternative": 32.8470643271712,
-        "peakDelta": 10.339618267398286,
-        "peakTime": 5
+      "scenarioId": "used",
+      "status": "passed",
+      "issues": [],
+      "frames": 321,
+      "events": 12,
+      "stages": 7,
+      "minimumPlayerSeparationLowerBound": 1.801878,
+      "closestPlayerPair": {
+        "frameId": "used:0252",
+        "t": 25.2,
+        "players": [
+          "A11",
+          "B11"
+        ]
       },
-      "sensitivity": {
-        "results": [
-          {
-            "label": "baseline",
-            "meanDelta": 3.9692350567017436,
-            "params": {}
-          },
-          {
-            "label": "slower ball",
-            "meanDelta": 5.619643095133801,
-            "params": {
-              "ballSpeed": 13.5
-            }
-          },
-          {
-            "label": "faster ball",
-            "meanDelta": 2.2322632477770425,
-            "params": {
-              "ballSpeed": 16.5
-            }
-          },
-          {
-            "label": "quicker reaction",
-            "meanDelta": 3.943014375178066,
-            "params": {
-              "reactionTime": 0.24999999999999997
-            }
-          },
-          {
-            "label": "slower reaction",
-            "meanDelta": 3.9840007330437786,
-            "params": {
-              "reactionTime": 0.44999999999999996
-            }
-          },
-          {
-            "label": "less central preference",
-            "meanDelta": 3.4907336005309313,
-            "params": {
-              "centralityWeight": 0.30000000000000004
-            }
-          },
-          {
-            "label": "more central preference",
-            "meanDelta": 4.447736512872558,
-            "params": {
-              "centralityWeight": 0.5
-            }
-          },
-          {
-            "label": "receiver position -0.25 m",
-            "meanDelta": 4.045210384211896,
-            "params": {
-              "receiverLongitudinalOffset": -0.25
-            }
-          },
-          {
-            "label": "receiver position +0.25 m",
-            "meanDelta": 3.881824261669845,
-            "params": {
-              "receiverLongitudinalOffset": 0.25
-            }
-          }
+      "maxPositionIntegrationResidual": 1.0858783682503889e-14,
+      "maxPlayerSpeed": 5.057316,
+      "maxVectorAcceleration": 3.2,
+      "maxBallSpeed": 16.543679,
+      "maxPossessedBallDistance": 0.37,
+      "players": [
+        {
+          "id": "A1",
+          "team": "A",
+          "distance": 12.154952,
+          "maxSpeed": 1.987038,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.380411,
+          "stationaryFraction": 0.137072
+        },
+        {
+          "id": "A2",
+          "team": "A",
+          "distance": 54.717287,
+          "maxSpeed": 3.245467,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.710091,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "A3",
+          "team": "A",
+          "distance": 37.061478,
+          "maxSpeed": 1.77473,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.15851,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "A4",
+          "team": "A",
+          "distance": 36.162831,
+          "maxSpeed": 1.76776,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.130484,
+          "stationaryFraction": 0.009346
+        },
+        {
+          "id": "A5",
+          "team": "A",
+          "distance": 40.729903,
+          "maxSpeed": 2.032668,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.273245,
+          "stationaryFraction": 0.009346
+        },
+        {
+          "id": "A6",
+          "team": "A",
+          "distance": 40.392536,
+          "maxSpeed": 2.50971,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.262642,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "A7",
+          "team": "A",
+          "distance": 42.438861,
+          "maxSpeed": 3.391121,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.32669,
+          "stationaryFraction": 0.009346
+        },
+        {
+          "id": "A8",
+          "team": "A",
+          "distance": 35.418513,
+          "maxSpeed": 1.631809,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.107126,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "A9",
+          "team": "A",
+          "distance": 24.654359,
+          "maxSpeed": 1.010313,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.770855,
+          "stationaryFraction": 0.009346
+        },
+        {
+          "id": "A10",
+          "team": "A",
+          "distance": 33.840958,
+          "maxSpeed": 1.499991,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.057969,
+          "stationaryFraction": 0.009346
+        },
+        {
+          "id": "A11",
+          "team": "A",
+          "distance": 30.926888,
+          "maxSpeed": 1.697006,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.966878,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "B1",
+          "team": "B",
+          "distance": 15.409911,
+          "maxSpeed": 3.2,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.482372,
+          "stationaryFraction": 0.53271
+        },
+        {
+          "id": "B2",
+          "team": "B",
+          "distance": 28.649982,
+          "maxSpeed": 2.907445,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.895967,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "B3",
+          "team": "B",
+          "distance": 23.034348,
+          "maxSpeed": 1.997015,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.720213,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "B4",
+          "team": "B",
+          "distance": 21.726479,
+          "maxSpeed": 1.537091,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.679308,
+          "stationaryFraction": 0.003115
+        },
+        {
+          "id": "B5",
+          "team": "B",
+          "distance": 28.955227,
+          "maxSpeed": 2.795704,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.905989,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "B6",
+          "team": "B",
+          "distance": 49.157385,
+          "maxSpeed": 5.016278,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.536739,
+          "stationaryFraction": 0.009346
+        },
+        {
+          "id": "B7",
+          "team": "B",
+          "distance": 49.981062,
+          "maxSpeed": 4.069668,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.562474,
+          "stationaryFraction": 0.009346
+        },
+        {
+          "id": "B8",
+          "team": "B",
+          "distance": 38.511868,
+          "maxSpeed": 4.889353,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.204498,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "B9",
+          "team": "B",
+          "distance": 52.971722,
+          "maxSpeed": 4.457064,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.655822,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "B10",
+          "team": "B",
+          "distance": 47.746851,
+          "maxSpeed": 5.057316,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.492589,
+          "stationaryFraction": 0.006231
+        },
+        {
+          "id": "B11",
+          "team": "B",
+          "distance": 41.495978,
+          "maxSpeed": 4.565986,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.297528,
+          "stationaryFraction": 0.003115
+        }
+      ],
+      "distribution": {
+        "meanOfMeanSpeeds": 1.1172,
+        "medianMeanSpeed": 1.144497,
+        "playersBelowMeanSpeedPointFive": [
+          "A1",
+          "B1"
         ],
-        "min": 2.2322632477770425,
-        "max": 5.619643095133801,
-        "signStable": true,
-        "label": "One-at-a-time assumption range; not a confidence interval."
-      }
+        "outfieldDistanceRange": [
+          21.726479,
+          54.717287
+        ]
+      },
+      "flights": [
+        {
+          "passId": "used:p1",
+          "releaseType": "pass",
+          "from": "A3",
+          "intendedTarget": "A6",
+          "actualReceiver": "A6",
+          "outcome": "reception",
+          "releaseTime": 3.2,
+          "arrivalTime": 4.3,
+          "speed": 16.099178,
+          "minimumOpponentClearance": 1.629189,
+          "minimumNonParticipantClearance": 1.629189,
+          "closest": {
+            "playerId": "B9",
+            "t": 3.268469
+          }
+        },
+        {
+          "passId": "used:p2",
+          "releaseType": "pass",
+          "from": "A6",
+          "intendedTarget": "A7",
+          "actualReceiver": "A7",
+          "outcome": "reception",
+          "releaseTime": 11.2,
+          "arrivalTime": 12.4,
+          "speed": 13.226821,
+          "minimumOpponentClearance": 1.66137,
+          "minimumNonParticipantClearance": 1.66137,
+          "closest": {
+            "playerId": "B6",
+            "t": 11.338359
+          }
+        },
+        {
+          "passId": "used:p3",
+          "releaseType": "pass",
+          "from": "A7",
+          "intendedTarget": "A9",
+          "actualReceiver": "A9",
+          "outcome": "reception",
+          "releaseTime": 17.5,
+          "arrivalTime": 18.7,
+          "speed": 12.24696,
+          "minimumOpponentClearance": 3.180022,
+          "minimumNonParticipantClearance": 3.180022,
+          "closest": {
+            "playerId": "B2",
+            "t": 17.5
+          }
+        },
+        {
+          "passId": "used:p4",
+          "releaseType": "pass",
+          "from": "A9",
+          "intendedTarget": "A10",
+          "actualReceiver": "A10",
+          "outcome": "reception",
+          "releaseTime": 21,
+          "arrivalTime": 22,
+          "speed": 5.98417,
+          "minimumOpponentClearance": 3.934461,
+          "minimumNonParticipantClearance": 3.934461,
+          "closest": {
+            "playerId": "B8",
+            "t": 21.950512
+          }
+        },
+        {
+          "passId": "used:p5",
+          "releaseType": "pass",
+          "from": "A10",
+          "intendedTarget": "A11",
+          "actualReceiver": "A11",
+          "outcome": "reception",
+          "releaseTime": 25.3,
+          "arrivalTime": 26.8,
+          "speed": 9.454543,
+          "minimumOpponentClearance": 1.855963,
+          "minimumNonParticipantClearance": 1.855963,
+          "closest": {
+            "playerId": "B11",
+            "t": 26.8
+          }
+        },
+        {
+          "passId": "used:s1",
+          "releaseType": "shot",
+          "from": "A11",
+          "intendedTarget": "B1",
+          "actualReceiver": "B1",
+          "outcome": "save",
+          "releaseTime": 29.6,
+          "arrivalTime": 30.6,
+          "speed": 16.543679,
+          "minimumOpponentClearance": 2.725136,
+          "minimumNonParticipantClearance": 2.725136,
+          "closest": {
+            "playerId": "B5",
+            "t": 29.645207
+          },
+          "shotGoalLineProjection": {
+            "goalX": 52.5,
+            "y": 0.157282,
+            "timeToLine": 1.483807,
+            "goalHalfWidth": 3.66,
+            "groundShot": true,
+            "goalward": true,
+            "onTarget": true
+          }
+        }
+      ],
+      "targetGeometricOffsideIntervals": [],
+      "inputSha256": "f1fb9c9a473184242096d554d94b69a7222d115d78a336332ab807961bebb62f"
     },
     {
-      "scenario": "crowded",
-      "frames": 161,
-      "players": 22,
-      "maxSpeed": 4.900000000000001,
-      "maxAcceleration": 3.200000000000015,
-      "minPlayerSeparation": 3.811046193358246,
-      "comparison": {
-        "meanRun": 30.516263203024295,
-        "meanAlternative": 35.029620791831206,
-        "meanDelta": -4.513357588806912,
-        "peakRun": 36.13549525669271,
-        "peakAlternative": 35.30794157088428,
-        "peakDelta": -32.41432645051975,
-        "peakTime": 5
+      "scenarioId": "unused",
+      "status": "passed",
+      "issues": [],
+      "frames": 341,
+      "events": 14,
+      "stages": 7,
+      "minimumPlayerSeparationLowerBound": 1.585584,
+      "closestPlayerPair": {
+        "frameId": "unused:0213",
+        "t": 21.3,
+        "players": [
+          "A11",
+          "B11"
+        ]
       },
-      "sensitivity": {
-        "results": [
-          {
-            "label": "baseline",
-            "meanDelta": -4.513357588806912,
-            "params": {}
-          },
-          {
-            "label": "slower ball",
-            "meanDelta": -4.1221007930001665,
-            "params": {
-              "ballSpeed": 13.5
-            }
-          },
-          {
-            "label": "faster ball",
-            "meanDelta": -5.191691805677355,
-            "params": {
-              "ballSpeed": 16.5
-            }
-          },
-          {
-            "label": "quicker reaction",
-            "meanDelta": -5.280698496388772,
-            "params": {
-              "reactionTime": 0.24999999999999997
-            }
-          },
-          {
-            "label": "slower reaction",
-            "meanDelta": -3.7904140047116153,
-            "params": {
-              "reactionTime": 0.44999999999999996
-            }
-          },
-          {
-            "label": "less central preference",
-            "meanDelta": -5.533007013782635,
-            "params": {
-              "centralityWeight": 0.30000000000000004
-            }
-          },
-          {
-            "label": "more central preference",
-            "meanDelta": -3.493708163831196,
-            "params": {
-              "centralityWeight": 0.5
-            }
-          },
-          {
-            "label": "receiver position -0.25 m",
-            "meanDelta": -4.0983124317118085,
-            "params": {
-              "receiverLongitudinalOffset": -0.25
-            }
-          },
-          {
-            "label": "receiver position +0.25 m",
-            "meanDelta": -4.909898684475686,
-            "params": {
-              "receiverLongitudinalOffset": 0.25
-            }
-          }
+      "maxPositionIntegrationResidual": 1.0837512726658684e-14,
+      "maxPlayerSpeed": 5.324923,
+      "maxVectorAcceleration": 3.2,
+      "maxBallSpeed": 17.95976,
+      "maxPossessedBallDistance": 0.37,
+      "players": [
+        {
+          "id": "A1",
+          "team": "A",
+          "distance": 13.341021,
+          "maxSpeed": 2.353701,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.393049,
+          "stationaryFraction": 0.27566
+        },
+        {
+          "id": "A2",
+          "team": "A",
+          "distance": 43.423282,
+          "maxSpeed": 1.644431,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.277275,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A3",
+          "team": "A",
+          "distance": 41.687737,
+          "maxSpeed": 1.627905,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.226432,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A4",
+          "team": "A",
+          "distance": 40.587599,
+          "maxSpeed": 1.644433,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.194092,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A5",
+          "team": "A",
+          "distance": 64.7421,
+          "maxSpeed": 3.915418,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.904437,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A6",
+          "team": "A",
+          "distance": 37.013693,
+          "maxSpeed": 1.644433,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.088921,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A7",
+          "team": "A",
+          "distance": 48.694401,
+          "maxSpeed": 3.426651,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.432725,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A8",
+          "team": "A",
+          "distance": 39.667266,
+          "maxSpeed": 3.100222,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.167066,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A9",
+          "team": "A",
+          "distance": 24.684699,
+          "maxSpeed": 0.994556,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.726184,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "A10",
+          "team": "A",
+          "distance": 36.784524,
+          "maxSpeed": 1.622323,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.082491,
+          "stationaryFraction": 0.008798
+        },
+        {
+          "id": "A11",
+          "team": "A",
+          "distance": 30.505394,
+          "maxSpeed": 1.6,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.897672,
+          "stationaryFraction": 0.014663
+        },
+        {
+          "id": "B1",
+          "team": "B",
+          "distance": 15.224358,
+          "maxSpeed": 3.048431,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.448165,
+          "stationaryFraction": 0.565982
+        },
+        {
+          "id": "B2",
+          "team": "B",
+          "distance": 41.051683,
+          "maxSpeed": 4.6163,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.207935,
+          "stationaryFraction": 0.002933
+        },
+        {
+          "id": "B3",
+          "team": "B",
+          "distance": 20.567527,
+          "maxSpeed": 1.587931,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.605278,
+          "stationaryFraction": 0.002933
+        },
+        {
+          "id": "B4",
+          "team": "B",
+          "distance": 20.772342,
+          "maxSpeed": 1.574219,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.611473,
+          "stationaryFraction": 0.008798
+        },
+        {
+          "id": "B5",
+          "team": "B",
+          "distance": 28.698829,
+          "maxSpeed": 3.070807,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.845448,
+          "stationaryFraction": 0.01173
+        },
+        {
+          "id": "B6",
+          "team": "B",
+          "distance": 29.366408,
+          "maxSpeed": 1.874933,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.863992,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "B7",
+          "team": "B",
+          "distance": 41.351143,
+          "maxSpeed": 4.155935,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.216564,
+          "stationaryFraction": 0.002933
+        },
+        {
+          "id": "B8",
+          "team": "B",
+          "distance": 56.965342,
+          "maxSpeed": 5.324923,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.677013,
+          "stationaryFraction": 0.017595
+        },
+        {
+          "id": "B9",
+          "team": "B",
+          "distance": 58.581642,
+          "maxSpeed": 5.258923,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.723443,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "B10",
+          "team": "B",
+          "distance": 43.048069,
+          "maxSpeed": 3.791869,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.266468,
+          "stationaryFraction": 0.005865
+        },
+        {
+          "id": "B11",
+          "team": "B",
+          "distance": 46.634104,
+          "maxSpeed": 4.566221,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.372075,
+          "stationaryFraction": 0.002933
+        }
+      ],
+      "distribution": {
+        "meanOfMeanSpeeds": 1.101282,
+        "medianMeanSpeed": 1.180579,
+        "playersBelowMeanSpeedPointFive": [
+          "A1",
+          "B1"
         ],
-        "min": -5.533007013782635,
-        "max": -3.493708163831196,
-        "signStable": true,
-        "label": "One-at-a-time assumption range; not a confidence interval."
-      }
+        "outfieldDistanceRange": [
+          20.567527,
+          64.7421
+        ]
+      },
+      "flights": [
+        {
+          "passId": "unused:p1",
+          "releaseType": "pass",
+          "from": "A4",
+          "intendedTarget": "A8",
+          "actualReceiver": "A8",
+          "outcome": "reception",
+          "releaseTime": 3.5,
+          "arrivalTime": 4.6,
+          "speed": 17.95976,
+          "minimumOpponentClearance": 1.342598,
+          "minimumNonParticipantClearance": 1.342598,
+          "closest": {
+            "playerId": "B9",
+            "t": 3.587591
+          }
+        },
+        {
+          "passId": "unused:p2",
+          "releaseType": "pass",
+          "from": "A8",
+          "intendedTarget": "A10",
+          "actualReceiver": "A10",
+          "outcome": "reception",
+          "releaseTime": 11.8,
+          "arrivalTime": 13,
+          "speed": 11.220392,
+          "minimumOpponentClearance": 1.882567,
+          "minimumNonParticipantClearance": 1.882567,
+          "closest": {
+            "playerId": "B8",
+            "t": 12.17155
+          }
+        },
+        {
+          "passId": "unused:p3",
+          "releaseType": "pass",
+          "from": "A10",
+          "intendedTarget": "A11",
+          "actualReceiver": "A11",
+          "outcome": "reception",
+          "releaseTime": 16.9,
+          "arrivalTime": 18.3,
+          "speed": 12.963035,
+          "minimumOpponentClearance": 2.072936,
+          "minimumNonParticipantClearance": 2.072936,
+          "closest": {
+            "playerId": "B8",
+            "t": 16.9
+          }
+        },
+        {
+          "passId": "unused:p4",
+          "releaseType": "pass",
+          "from": "A11",
+          "intendedTarget": "A5",
+          "actualReceiver": "A5",
+          "outcome": "reception",
+          "releaseTime": 21.8,
+          "arrivalTime": 23,
+          "speed": 7.292004,
+          "minimumOpponentClearance": 1.623708,
+          "minimumNonParticipantClearance": 1.623708,
+          "closest": {
+            "playerId": "B5",
+            "t": 22.184199
+          }
+        },
+        {
+          "passId": "unused:p5",
+          "releaseType": "pass",
+          "from": "A5",
+          "intendedTarget": "A8",
+          "actualReceiver": "A8",
+          "outcome": "reception",
+          "releaseTime": 26.7,
+          "arrivalTime": 28.2,
+          "speed": 11.250023,
+          "minimumOpponentClearance": 1.63715,
+          "minimumNonParticipantClearance": 1.469383,
+          "closest": {
+            "playerId": "A11",
+            "t": 27.646669
+          }
+        },
+        {
+          "passId": "unused:p6",
+          "releaseType": "pass",
+          "from": "A8",
+          "intendedTarget": "A9",
+          "actualReceiver": "A9",
+          "outcome": "reception",
+          "releaseTime": 30,
+          "arrivalTime": 31.2,
+          "speed": 11.981344,
+          "minimumOpponentClearance": 1.529724,
+          "minimumNonParticipantClearance": 1.340635,
+          "closest": {
+            "playerId": "A10",
+            "t": 30.671274
+          }
+        },
+        {
+          "passId": "unused:s1",
+          "releaseType": "shot",
+          "from": "A9",
+          "intendedTarget": "B1",
+          "actualReceiver": "B1",
+          "outcome": "save",
+          "releaseTime": 32.6,
+          "arrivalTime": 33.2,
+          "speed": 12.995785,
+          "minimumOpponentClearance": 1.970946,
+          "minimumNonParticipantClearance": 1.970946,
+          "closest": {
+            "playerId": "B3",
+            "t": 32.893997
+          },
+          "shotGoalLineProjection": {
+            "goalX": 52.5,
+            "y": -1.399346,
+            "timeToLine": 1.067649,
+            "goalHalfWidth": 3.66,
+            "groundShot": true,
+            "goalward": true,
+            "onTarget": true
+          }
+        }
+      ],
+      "targetGeometricOffsideIntervals": [],
+      "inputSha256": "8c8dbeee60d313fd2e0bb4bbeeb53cb1671a321459e7e4e71420f1651924f1c1"
     },
     {
-      "scenario": "early",
-      "frames": 161,
-      "players": 22,
-      "maxSpeed": 6.400000000000001,
-      "maxAcceleration": 3.2000000000000157,
-      "minPlayerSeparation": 3.6252931789515883,
-      "comparison": {
-        "meanRun": 23.941165576785338,
-        "meanAlternative": 44.82760861135561,
-        "meanDelta": -20.886443034570263,
-        "peakRun": 46.731321542359815,
-        "peakAlternative": 45.12888035902591,
-        "peakDelta": -45.12888035902591,
-        "peakTime": 4.1
+      "scenarioId": "blocked",
+      "status": "passed",
+      "issues": [],
+      "frames": 301,
+      "events": 10,
+      "stages": 7,
+      "minimumPlayerSeparationLowerBound": 1.570321,
+      "closestPlayerPair": {
+        "frameId": "blocked:0089",
+        "t": 8.9,
+        "players": [
+          "A6",
+          "B6"
+        ]
       },
-      "sensitivity": {
-        "results": [
-          {
-            "label": "baseline",
-            "meanDelta": -20.886443034570263,
-            "params": {}
-          },
-          {
-            "label": "slower ball",
-            "meanDelta": -21.698979526786054,
-            "params": {
-              "ballSpeed": 13.5
-            }
-          },
-          {
-            "label": "faster ball",
-            "meanDelta": -20.562075090339285,
-            "params": {
-              "ballSpeed": 16.5
-            }
-          },
-          {
-            "label": "quicker reaction",
-            "meanDelta": -21.274054142094617,
-            "params": {
-              "reactionTime": 0.24999999999999997
-            }
-          },
-          {
-            "label": "slower reaction",
-            "meanDelta": -20.534924670429426,
-            "params": {
-              "reactionTime": 0.44999999999999996
-            }
-          },
-          {
-            "label": "less central preference",
-            "meanDelta": -22.047420626585385,
-            "params": {
-              "centralityWeight": 0.30000000000000004
-            }
-          },
-          {
-            "label": "more central preference",
-            "meanDelta": -19.72546544255516,
-            "params": {
-              "centralityWeight": 0.5
-            }
-          },
-          {
-            "label": "receiver position -0.25 m",
-            "meanDelta": -20.74150720482451,
-            "params": {
-              "receiverLongitudinalOffset": -0.25
-            }
-          },
-          {
-            "label": "receiver position +0.25 m",
-            "meanDelta": -21.026856239699157,
-            "params": {
-              "receiverLongitudinalOffset": 0.25
-            }
-          }
+      "maxPositionIntegrationResidual": 1.2638147130488621e-14,
+      "maxPlayerSpeed": 6.793531,
+      "maxVectorAcceleration": 3.2,
+      "maxBallSpeed": 17.184134,
+      "maxPossessedBallDistance": 0.37,
+      "players": [
+        {
+          "id": "A1",
+          "team": "A",
+          "distance": 15.749367,
+          "maxSpeed": 2.541511,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.525799,
+          "stationaryFraction": 0.043189
+        },
+        {
+          "id": "A2",
+          "team": "A",
+          "distance": 58.165381,
+          "maxSpeed": 2.906665,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.939627,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "A3",
+          "team": "A",
+          "distance": 43.138518,
+          "maxSpeed": 1.999998,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.438286,
+          "stationaryFraction": 0.013289
+        },
+        {
+          "id": "A4",
+          "team": "A",
+          "distance": 42.978733,
+          "maxSpeed": 1.860807,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.43285,
+          "stationaryFraction": 0.006645
+        },
+        {
+          "id": "A5",
+          "team": "A",
+          "distance": 45.833994,
+          "maxSpeed": 2.108185,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.527917,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "A6",
+          "team": "A",
+          "distance": 62.508141,
+          "maxSpeed": 6.313481,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 2.084304,
+          "stationaryFraction": 0.006645
+        },
+        {
+          "id": "A7",
+          "team": "A",
+          "distance": 79.633188,
+          "maxSpeed": 6.793531,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 2.655017,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "A8",
+          "team": "A",
+          "distance": 46.524241,
+          "maxSpeed": 2.287916,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.551068,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "A9",
+          "team": "A",
+          "distance": 27.918069,
+          "maxSpeed": 1.832487,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.930854,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "A10",
+          "team": "A",
+          "distance": 39.515061,
+          "maxSpeed": 2.379417,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.31796,
+          "stationaryFraction": 0.009967
+        },
+        {
+          "id": "A11",
+          "team": "A",
+          "distance": 37.21105,
+          "maxSpeed": 1.987613,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.24056,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "B1",
+          "team": "B",
+          "distance": 14.395874,
+          "maxSpeed": 3.2,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.480834,
+          "stationaryFraction": 0.355482
+        },
+        {
+          "id": "B2",
+          "team": "B",
+          "distance": 33.579734,
+          "maxSpeed": 2.222219,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.120192,
+          "stationaryFraction": 0.006645
+        },
+        {
+          "id": "B3",
+          "team": "B",
+          "distance": 23.116406,
+          "maxSpeed": 1.906152,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.770907,
+          "stationaryFraction": 0.009967
+        },
+        {
+          "id": "B4",
+          "team": "B",
+          "distance": 23.205341,
+          "maxSpeed": 1.71925,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 0.773791,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "B5",
+          "team": "B",
+          "distance": 30.166298,
+          "maxSpeed": 2.851616,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.006238,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "B6",
+          "team": "B",
+          "distance": 65.704262,
+          "maxSpeed": 5.179311,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 2.190797,
+          "stationaryFraction": 0.006645
+        },
+        {
+          "id": "B7",
+          "team": "B",
+          "distance": 56.880238,
+          "maxSpeed": 3.834347,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.896387,
+          "stationaryFraction": 0.006645
+        },
+        {
+          "id": "B8",
+          "team": "B",
+          "distance": 47.695844,
+          "maxSpeed": 4.092935,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.591353,
+          "stationaryFraction": 0.006645
+        },
+        {
+          "id": "B9",
+          "team": "B",
+          "distance": 64.026935,
+          "maxSpeed": 4.638116,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 2.134783,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "B10",
+          "team": "B",
+          "distance": 56.87074,
+          "maxSpeed": 4.68097,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.89635,
+          "stationaryFraction": 0.003322
+        },
+        {
+          "id": "B11",
+          "team": "B",
+          "distance": 51.374072,
+          "maxSpeed": 4.723736,
+          "maxAcceleration": 3.2,
+          "meanSpeed": 1.712661,
+          "stationaryFraction": 0.003322
+        }
+      ],
+      "distribution": {
+        "meanOfMeanSpeeds": 1.464479,
+        "medianMeanSpeed": 1.483102,
+        "playersBelowMeanSpeedPointFive": [
+          "B1"
         ],
-        "min": -22.047420626585385,
-        "max": -19.72546544255516,
-        "signStable": true,
-        "label": "One-at-a-time assumption range; not a confidence interval."
-      }
+        "outfieldDistanceRange": [
+          23.116406,
+          79.633188
+        ]
+      },
+      "flights": [
+        {
+          "passId": "blocked:p1",
+          "releaseType": "pass",
+          "from": "A3",
+          "intendedTarget": "A6",
+          "actualReceiver": "A6",
+          "outcome": "reception",
+          "releaseTime": 3.1,
+          "arrivalTime": 4.2,
+          "speed": 15.353015,
+          "minimumOpponentClearance": 1.639882,
+          "minimumNonParticipantClearance": 1.639882,
+          "closest": {
+            "playerId": "B9",
+            "t": 3.173415
+          }
+        },
+        {
+          "passId": "blocked:p2",
+          "releaseType": "pass",
+          "from": "A6",
+          "intendedTarget": "A8",
+          "actualReceiver": "A8",
+          "outcome": "reception",
+          "releaseTime": 10.4,
+          "arrivalTime": 11.8,
+          "speed": 13.378208,
+          "minimumOpponentClearance": 2.216941,
+          "minimumNonParticipantClearance": 2.216941,
+          "closest": {
+            "playerId": "B10",
+            "t": 11.094372
+          }
+        },
+        {
+          "passId": "blocked:p3",
+          "releaseType": "pass",
+          "from": "A8",
+          "intendedTarget": "A10",
+          "actualReceiver": "A10",
+          "outcome": "reception",
+          "releaseTime": 15.1,
+          "arrivalTime": 16.3,
+          "speed": 5.315338,
+          "minimumOpponentClearance": 2.111931,
+          "minimumNonParticipantClearance": 2.111931,
+          "closest": {
+            "playerId": "B8",
+            "t": 15.439913
+          }
+        },
+        {
+          "passId": "blocked:p4",
+          "releaseType": "pass",
+          "from": "A10",
+          "intendedTarget": "A9",
+          "actualReceiver": "B6",
+          "outcome": "interception",
+          "releaseTime": 19.6,
+          "arrivalTime": 20.2,
+          "speed": 7.091325,
+          "minimumOpponentClearance": 1.712361,
+          "minimumNonParticipantClearance": 1.712361,
+          "closest": {
+            "playerId": "B8",
+            "t": 19.737361
+          },
+          "interceptionDistanceFromIntendedLane": 1.386899,
+          "interceptionDistanceDefinition": "Ball-contact point to the segment from release to the intended target foot at interception time; not target-to-actual-ray error.",
+          "intendedTargetDistanceFromActualBallRay": 3.101862,
+          "intendedTargetDistanceDefinition": "Intended player centre at blocked:0202 to the forward extension of the actual released-ball velocity.",
+          "interceptionModel": "Authored misdirected pass and interception; no calibrated execution-error, anticipation, reaction, or technical-skill model."
+        },
+        {
+          "passId": "blocked:p5",
+          "releaseType": "pass",
+          "from": "B6",
+          "intendedTarget": "B7",
+          "actualReceiver": "B7",
+          "outcome": "reception",
+          "releaseTime": 24.1,
+          "arrivalTime": 25.4,
+          "speed": 17.184134,
+          "minimumOpponentClearance": 3.033245,
+          "minimumNonParticipantClearance": 3.033245,
+          "closest": {
+            "playerId": "A6",
+            "t": 24.1
+          }
+        }
+      ],
+      "targetGeometricOffsideIntervals": [
+        {
+          "startTime": 8.1,
+          "startFrameId": "blocked:0081",
+          "endTime": 16.5,
+          "endFrameId": "blocked:0165"
+        }
+      ],
+      "inputSha256": "0925b9872d7f353b3767e41d406a4574d920989469ac35dba27bf937b92a9133"
     }
   ]
 }
