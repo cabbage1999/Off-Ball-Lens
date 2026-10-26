@@ -6,7 +6,7 @@ Off-Ball Lens replays three independently authored synthetic football attacks, f
 
 **[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [108-second actual preview](https://cabbage1999.github.io/Off-Ball-Lens/assets/demo-preview.html) · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Acceptance](docs/acceptance.md)
 
-The default experience uses precomputed author-model results and works without an account or API key. **Real Microsoft Foundry verification is pending: the team does not yet have an Azure deployment.** The server includes the real Responses API tool loop and transparent local fallback. Mock protocol tests are not evidence of a successful cloud deployment.
+The default experience uses precomputed author-model results and works without an account or API key. **Real Microsoft Foundry verification is pending: no usable model deployment has been verified.** The server includes Responses and Chat Completions tool loops with transparent local fallback. Mock protocol tests are not evidence of a successful cloud deployment.
 
 ## Run the replay
 
@@ -75,7 +75,7 @@ node scripts/run-python.mjs -m analytics.compute_das used --frame 104
 
 ## Microsoft Foundry
 
-Follow the [Azure setup and local configuration guide](docs/foundry-setup.zh-CN.md). Copy `.env.example` to `.env`, configure the resource endpoint, model deployment and key locally, and run `npm start`. A deployment must support Responses API, function calling and structured outputs.
+Follow the [Azure setup and local configuration guide](docs/foundry-setup.zh-CN.md). Copy `.env.example` to `.env`, configure the resource endpoint, model deployment and key locally, and run `npm start`. The default Responses path requires function calling and strict structured outputs. Set `FOUNDRY_API_STYLE=chat-completions` for a resource-level Azure deployment supporting native tools and JSON mode. This alternative sends `/openai/v1/chat/completions`; JSON mode is not a provider-enforced schema, so the same local evidence validation remains mandatory. Project endpoints currently support the Responses path only. Model eligibility, quota and successful real tool execution must be checked separately.
 
 The model calls `analyze_window` and `get_evidence`, chooses a bounded past interval, factual clauses and an allowed overlay. The application validates every selected reference and renders deterministic bilingual facts. Invalid output receives one correction attempt, then an explicitly labelled fallback. It never lets the language model recompute a football score. Changing scene, player, time, language or audience discards an outdated response.
 

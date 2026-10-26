@@ -1,6 +1,6 @@
 # 将完整 Demo 部署到公网
 
-这一步在本机 Foundry 调用通过之后进行。当前 GitHub Pages 已提供可用的静态回放；包含真实模型解释的演示需要由同一个 Node 服务提供网页与 API。本轮没有创建 Azure 资源，也没有验证实际 App Service 部署。
+这一步在本机 Foundry 调用通过之后进行。当前 GitHub Pages 已提供可用的静态回放；包含真实模型解释的演示需要由同一个 Node 服务提供网页与 API。目前没有运行中的 App Service 部署，也尚未验证真实云端解释。
 
 ## 1. 先明确两个地址
 
