@@ -53,14 +53,14 @@ test('cloud configuration accepts resource paths and rejects secret-bearing or u
   for(const url of ['http://example.openai.azure.com','https://example.com','https://a:b@example.openai.azure.com','https://example.openai.azure.com?key=x','https://example.openai.azure.com/arbitrary'])assert(!foundryConfiguration({...env,AZURE_OPENAI_ENDPOINT:url}).configured);
 });
 
-function fakeProvider({invalidFinal=false}={}){
+function fakeProvider({invalidFinal=false,changePlan=plan=>plan}={}){
   let calls=0;return async (_url,opts)=>{
     calls++;const body=JSON.parse(opts.body);
     if(calls===1)return Response.json({id:'fixture-response-1',output:[{type:'function_call',call_id:'a',name:'analyze_window',arguments:JSON.stringify({player_id:'A7',start_time:0,end_time:.8})}]});
     if(calls===2)return Response.json({id:'fixture-response-2',output:[{type:'function_call',call_id:'b',name:'get_evidence',arguments:'{"evidence_ids":[]}'}]});
     const output=body.input.findLast(x=>x.type==='function_call_output');
     const pack=JSON.parse(output.output),claim=pack.claims.find(c=>c.kind==='current');
-    const plan={claim_ids:[invalidFinal?'C:invented':claim.id],evidence_ids:claim.evidence_ids,overlay_type:'receiving_heatmap'};
+    const plan=changePlan({claim_ids:[invalidFinal?'C:invented':claim.id],evidence_ids:claim.evidence_ids,overlay_type:'receiving_heatmap'});
     return Response.json({id:`fixture-response-${calls}`,output:[{type:'message',content:[{type:'output_text',text:JSON.stringify(plan)}]}]});
   };
 }
@@ -69,6 +69,55 @@ test('simulated provider must actually traverse both tools before verified rende
   assert.equal(r.source,'microsoft-foundry');assert(r.cloud.verified);
   assert.deepEqual(r.toolTrace.map(t=>t.name),['analyze_window','get_evidence']);
   assert(r.evidence.every(e=>e.t<=input.asOfTime));assert(!JSON.stringify(r).includes(env.AZURE_OPENAI_API_KEY));
+});
+test('every Responses round uses sequential tools and Azure-compatible strict schemas',async()=>{
+  const requests=[],provider=fakeProvider();
+  const result=await explain(input,{bundle:fixture(),env,fetchImpl:(url,options)=>{
+    requests.push({url,body:JSON.parse(options.body)});
+    return provider(url,options);
+  }});
+  assert.equal(result.status,'cloud-verified');assert.equal(requests.length,3);
+  function checkSchema(value){
+    if(!value||typeof value!=='object')return;
+    assert(!Object.hasOwn(value,'minItems'),'Azure strict schemas cannot contain minItems');
+    assert(!Object.hasOwn(value,'maxItems'),'Azure strict schemas cannot contain maxItems');
+    for(const child of Object.values(value))checkSchema(child);
+  }
+  for(const {url,body} of requests){
+    assert.equal(url,'https://example.openai.azure.com/openai/v1/responses');
+    assert.equal(body.model,env.AZURE_OPENAI_DEPLOYMENT);
+    assert.equal(body.parallel_tool_calls,false);
+    assert.deepEqual(body.tools.map(tool=>tool.name),['analyze_window','get_evidence']);
+    for(const tool of body.tools){
+      assert.equal(tool.strict,true);assert.equal(tool.parameters.additionalProperties,false);
+      assert.deepEqual(tool.parameters.required,Object.keys(tool.parameters.properties));
+      checkSchema(tool.parameters);
+    }
+    assert.equal(body.text.format.type,'json_schema');assert.equal(body.text.format.strict,true);
+    assert.equal(body.text.format.schema.additionalProperties,false);
+    assert.deepEqual(body.text.format.schema.required,['claim_ids','evidence_ids','overlay_type']);
+    checkSchema(body.text.format.schema);
+  }
+});
+test('evidence tools still enforce the local eight-item limit without schema length keywords',()=>{
+  const toolkit=createAnalysisTools(input,fixture());
+  toolkit.execute('analyze_window',{player_id:'A7',start_time:0,end_time:.8});
+  const id=toolkit.execute('get_evidence',{evidence_ids:[]}).evidence[0].id;
+  assert.doesNotThrow(()=>toolkit.execute('get_evidence',{evidence_ids:Array(8).fill(id)}));
+  assert.throws(()=>toolkit.execute('get_evidence',{evidence_ids:Array(9).fill(id)}),/Invalid evidence request/);
+});
+test('final plans still reject empty claims and oversized claim or evidence arrays',async t=>{
+  const cases=[
+    ['empty claims',plan=>({...plan,claim_ids:[]})],
+    ['nine claims',plan=>({...plan,claim_ids:Array(9).fill(plan.claim_ids[0])})],
+    ['nine evidence IDs',plan=>({...plan,evidence_ids:Array(9).fill(plan.evidence_ids[0])})]
+  ];
+  for(const [name,changePlan] of cases)await t.test(name,async()=>{
+    const result=await explain(input,{bundle:fixture(),env,fetchImpl:fakeProvider({changePlan})});
+    assert.equal(result.status,'fallback');assert.equal(result.cloud.verified,false);
+    assert.equal(result.fallbackReason,'invalid_model_output');
+    assert.equal(result.toolTrace.filter(item=>item.name==='fact_validation').length,1);
+  });
 });
 test('fabricated final reference gets exactly one correction then transparent fallback',async()=>{
   const r=await explain(input,{bundle:fixture(),env,fetchImpl:fakeProvider({invalidFinal:true})});

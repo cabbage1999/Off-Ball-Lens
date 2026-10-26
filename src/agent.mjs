@@ -2,12 +2,14 @@ import {validateExplainRequest,makeFactPack,defaultClaimPlan,renderFactPlan,LIMI
 export {validateExplainRequest} from './evidence.mjs';
 
 const OVERLAYS=['receiving_heatmap','player_trail','das_curve','event','none'];
+// Azure's strict JSON Schema subset omits array length keywords. Enforce the
+// evidence and claim limits locally in createAnalysisTools and validatePlan.
 const tool=(name,description,properties)=>({type:'function',name,description,strict:true,parameters:{type:'object',properties,required:Object.keys(properties),additionalProperties:false}});
 export const TOOL_DEFINITIONS=[
   tool('analyze_window','Read this player over a past interval contained in the selected window. Returns AS/DAS facts and candidate evidence IDs; never a causal contribution.',{player_id:{type:'string'},start_time:{type:'number'},end_time:{type:'number'}}),
-  tool('get_evidence','Read verified claims and exact frame references from the latest analysis. Empty evidence_ids requests all available evidence.',{evidence_ids:{type:'array',items:{type:'string'},maxItems:8}})
+  tool('get_evidence','Read verified claims and exact frame references from the latest analysis. Empty evidence_ids requests all available evidence.',{evidence_ids:{type:'array',items:{type:'string'}}})
 ];
-const OUTPUT_SCHEMA={type:'object',properties:{claim_ids:{type:'array',items:{type:'string'},minItems:1,maxItems:8},evidence_ids:{type:'array',items:{type:'string'},maxItems:8},overlay_type:{type:'string',enum:OVERLAYS}},required:['claim_ids','evidence_ids','overlay_type'],additionalProperties:false};
+const OUTPUT_SCHEMA={type:'object',properties:{claim_ids:{type:'array',items:{type:'string'}},evidence_ids:{type:'array',items:{type:'string'}},overlay_type:{type:'string',enum:OVERLAYS}},required:['claim_ids','evidence_ids','overlay_type'],additionalProperties:false};
 
 // This module also supplies offline explanations in browsers and workers.
 // Keep retry cancellation browser-compatible instead of importing Node timers.
@@ -95,7 +97,7 @@ export async function explain(input,options={}){
       if(Date.now()>=deadline)throw new Error('cloud_timeout');
       const timeoutSignal=AbortSignal.timeout(Math.min(options.timeoutMs??12000,deadline-Date.now()));
       const response=await (options.fetchImpl??fetch)(config.url,{method:'POST',headers:{'content-type':'application/json',...config.authHeaders},
-        body:JSON.stringify({model:config.deployment,input:messages,tools:TOOL_DEFINITIONS,tool_choice:'auto',store:false,max_output_tokens:1800,text:{format:{type:'json_schema',name:'receiving_evidence_plan',strict:true,schema:OUTPUT_SCHEMA}}}),
+        body:JSON.stringify({model:config.deployment,input:messages,tools:TOOL_DEFINITIONS,tool_choice:'auto',parallel_tool_calls:false,store:false,max_output_tokens:1800,text:{format:{type:'json_schema',name:'receiving_evidence_plan',strict:true,schema:OUTPUT_SCHEMA}}}),
         signal:options.signal?AbortSignal.any([options.signal,timeoutSignal]):timeoutSignal});
       options.signal?.throwIfAborted();
       if(!response.ok){
