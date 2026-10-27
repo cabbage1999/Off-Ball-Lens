@@ -34,6 +34,10 @@ Development used separate motion, interface, research/adversarial and independen
 
 The final fixed display mapping uses sqrt(q/255) for colour and 0.30+0.70×sqrt(q/255) for nonzero opacity, with transparent zero. This increases weak-field visibility without changing the field or rescaling each frame. Positive values below quantization resolution can still disappear. A7's direct receiving space is not a causal measure of the value of his hook or of a teammate's decoy movement.
 
+The implementation label “Fixed √ display scale” is omitted from both main views. The legend keeps its low/high meaning; the exact mapping remains in its tooltip, this method record and exported evidence.
+
+The first v3 Linux CI run exposed a pre-existing test timing issue: a 100 ms test budget could expire during cold MAF startup, before the intended tool wait. The timeout tests now trigger the real asyncio timeout at the tool or validation boundary and assert its expiry plus the absence of further model turns. Production timeout limits and runtime code are unchanged.
+
 The final data also passed a fresh **real MAF single-case check and all eight expanded cases**, recorded at 11:51 UTC on 27 October in the [single receipt](../artifacts/agent-framework-trace.json) and [suite receipt](../artifacts/agent-framework-suite.json). Each used three model requests, two native tools and no repair. The single case took 11.670 s; the expanded cases ranged from 6.585 to 9.284 s. These are measured examples, not a latency guarantee. The existing Free Trial subscription was rechecked as Enabled with spendingLimit On; no resource, upgrade or Marketplace purchase was created.
 
 The earlier [108-second preview](../assets/demo-preview.html) is a historical v2 recording; it predates these trajectories and this interface. The interactive replay is the current demonstrator. Public MAF hosting, a final submission video and human football/comprehension review remain separate delivery items in [handoff.md](handoff.md).

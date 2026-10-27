@@ -88,7 +88,6 @@ main { max-width: 1640px; margin: auto; padding: 30px 3.5% 24px; }
 .space-scale { margin-left: auto; flex-wrap: wrap; }
 .gradient-key { height: 14px; width: 132px; display: inline-block; border-radius: 3px; background: #214638; border: 1px solid #506453; }
 #scale-range { font-family: ui-monospace, monospace; font-size: 12px; }
-.scale-note { font-size: 12px; color: #5a6b5c; margin-left: auto; }
 .transport { display: flex; align-items: center; gap: 12px; padding: 15px 16px 10px; }
 .play { width: 40px; height: 40px; display: grid; place-items: center; flex-shrink: 0; background: var(--ink); color: #fff; border-radius: 50%; font-size: 15px; }
 .play:hover { background: var(--green); }
@@ -233,7 +232,6 @@ body:not(.analyst) .analyst-only { display: none !important; }
   .live-insight { font-size: 17px; }
   .pitch-legend { gap: 10px; }
   .space-scale { margin-left: 0; }
-  .scale-note { margin-left: 0; }
   .transport { gap: 8px; }
   .clock { font-size: 13px; }
   .clock span { font-size: 12px; }
@@ -247,7 +245,7 @@ body:not(.analyst) .analyst-only { display: none !important; }
   .workspace { grid-template-columns: 1fr; }
   .lens-column { grid-template-columns: 1fr 1fr; align-items: start; }
   .stage-title { display: inline; }
-  .space-scale, .scale-note { margin-left: auto; }
+  .space-scale { margin-left: auto; }
   .intro-copy { max-width: 540px; }
   .scene-card { padding: 14px 12px; }
   .scene-card strong { font-size: 14px; }
@@ -296,7 +294,6 @@ body:not(.analyst) .analyst-only { display: none !important; }
   .pitch-legend { gap: 9px 15px; padding: 12px 13px 0; font-size: 13px; }
   .space-scale { width: 100%; margin-left: 0; gap: 5px !important; }
   .gradient-key { width: 110px; }
-  .scale-note { margin-left: 0; font-size: 12px; }
   .transport { display: grid; grid-template-columns: 38px 29px 1fr 57px; gap: 8px; padding: 13px 12px 9px; }
   .play { width: 38px; height: 38px; }
   .restart { min-width: 29px; }

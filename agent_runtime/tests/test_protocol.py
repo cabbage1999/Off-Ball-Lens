@@ -27,26 +27,67 @@ def test_jsonl_rejects_partial_oversize_nonobject_and_invalid_utf8():
         asyncio.run(check(data))
 
 
-def test_tool_bridge_timeout_is_fatal_without_more_model_requests():
+def test_tool_bridge_timeout_is_fatal_without_more_model_requests(monkeypatch):
+    # Expire the real bridge-wait guard only after MAF dispatched a tool.
+    # A 100 ms whole-request budget also timed out cold SDK startup on CI,
+    # before reaching the behaviour this test is intended to verify.
+    original_timeout = asyncio.timeout
+    armed = False
+    targeted = []
+
+    def timeout_at_tool_wait(delay):
+        nonlocal armed
+        if armed:
+            armed = False
+            timeout = original_timeout(0)
+            targeted.append((delay, timeout))
+            return timeout
+        return original_timeout(delay)
+
+    monkeypatch.setattr(asyncio, "timeout", timeout_at_tool_wait)
+
     class MissingToolResult(MemoryNode):
         async def send(self, message):
+            nonlocal armed
             self.sent.append(message)
+            assert message["type"] == "tool_call"
+            armed = True
 
-    runtime, node, requests, error = asyncio.run(execute(normal_steps(), node=MissingToolResult(), run={**RUN, "per_request_timeout_ms": 100}))
+    runtime, node, requests, error = asyncio.run(execute(normal_steps(), node=MissingToolResult()))
     assert public_error_code(error) == "cloud_timeout", repr(error)
+    assert len(targeted) == 1 and targeted[0][1].expired()
+    assert 0 < targeted[0][0] <= runtime.config.per_request_timeout_ms / 1000
+    assert runtime.state.model_requests == 1
     assert len(requests) == 1 and len(node.sent) == 1
+    assert len(runtime.state.native_calls) == 1 and runtime.state.native_calls[0]["dispatched"]
 
 
-def test_total_deadline_includes_waiting_for_node_validation():
+def test_total_deadline_includes_waiting_for_node_validation(monkeypatch):
+    # Reschedule the existing end-to-end timer at the validation boundary.
+    # Framework startup and the preceding three turns keep their normal budget.
+    original_timeout = asyncio.timeout
+    timeouts = []
+
+    def record_timeout(delay):
+        timeout = original_timeout(delay)
+        timeouts.append(timeout)
+        return timeout
+
+    monkeypatch.setattr(asyncio, "timeout", record_timeout)
+
     class MissingValidation(MemoryNode):
         async def send(self, message):
             if message["type"] == "candidate":
                 self.sent.append(message)
+                timeouts[0].reschedule(asyncio.get_running_loop().time())
             else:
                 await super().send(message)
 
-    runtime, node, requests, error = asyncio.run(execute(normal_steps(), node=MissingValidation(), run={**RUN, "deadline_ms": 200}))
+    runtime, node, requests, error = asyncio.run(execute(normal_steps(), node=MissingValidation()))
     assert public_error_code(error) == "cloud_timeout", repr(error)
+    assert timeouts[0].expired()
+    assert node.sent[-1]["type"] == "candidate"
+    assert runtime.state.model_requests == 3
     assert len(requests) == 3 and all(item["type"] != "done" for item in node.sent)
 
 
