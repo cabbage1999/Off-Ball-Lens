@@ -1,0 +1,133 @@
+{
+  "kind": "Actual current v3 browser demonstration for the Microsoft Premier League Hackathon",
+  "recordingStartedUtc": "2026-10-27T15:53:54.936Z",
+  "recordingCompletedUtc": "2026-10-27T15:55:47Z",
+  "sourceCommit": "63e3dfe5bf15b61e837fd6fdee67529b1236bd80",
+  "durationSeconds": 113.4,
+  "mock": false,
+  "runtimeMode": "Local Node service → actual Microsoft Agent Framework Python runtime → Azure regional Responses endpoint, gpt-5-mini",
+  "publicBackendClaim": false,
+  "audio": "No audio or music",
+  "captions": "English captions rendered as recording overlays; optional companion WebVTT captions. Application wording and numerical output were not replaced.",
+  "editing": "Single continuous real browser recording with actual clicks, seeks and scrolls; no network mocks, synthetic UI, replacement answers, cuts, speed changes, or frame reordering. MP4 is a H.264 transcode of the WebM, scaled from 1440x1000 to 1556x1080 and padded to 1920x1080.",
+  "videos": {
+    "submission-demo.mp4": {
+      "path": "assets/submission-demo.mp4",
+      "bytes": 8767619,
+      "sha256": "9eeabd8d413f3fae3e7544b71536b2dc454337713117bd49a54f204e0328c3b7",
+      "durationSeconds": 113.4,
+      "frameRate": 25,
+      "frameCount": 2835,
+      "resolution": "1920x1080",
+      "codec": "H.264 / yuv420p"
+    },
+    "submission-demo.webm": {
+      "path": "assets/submission-demo.webm",
+      "bytes": 15610932,
+      "sha256": "cf9266ae7d224bf593390702358763653036c2c22c84d2564c001e89aaba8eea",
+      "durationSeconds": 113.4,
+      "frameRate": 25,
+      "frameCount": 2835,
+      "resolution": "1440x1000",
+      "codec": "VP8 / yuv420p"
+    }
+  },
+  "agentEvidence": {
+    "receipt": "assets/submission-agent-receipt.json",
+    "sha256": "d69bc9b4b57a0c9e64ea25024f37ce95d014ef6787ed1ea6a644d075a9b83dd1",
+    "recordedAtUtc": "2026-10-27T15:54:49.434257+00:00",
+    "httpStatus": 200,
+    "uiBadge": "Foundry + Agent Framework · verified",
+    "nativeTools": [
+      "analyze_window",
+      "get_evidence"
+    ],
+    "modelRequests": 3,
+    "validation": "accepted"
+  },
+  "uiAndDataSha256": {
+    "app.mjs": "9e4703343b6ea85523b096b79c4212faca0fca7d11e79599ed25d4c5f2cc44bb",
+    "index.html": "29895815a1d466beff6e0b7d1352844a310d007e5923cd1a03bcccafa8424e09",
+    "style.css": "82ee8b05476344f5c8b9746033890df035c96f40df4f79a83a8004b2f85ca510",
+    "server.mjs": "a245054dcd1a46f9d3c781204f4bb09ffb4a2a9a861e15fb9c806169aa0dcdd9",
+    "src/scenarios.mjs": "1d26df39175100ebf3908387321eb46f4c932d48577b1156a12f730ca61a2b71",
+    "src/analysis.mjs": "cef3e82a8320ee45400a37fc2da44fbefcbee85893ace28c3f9aa492f7d5f5b6",
+    "src/evidence.mjs": "b67984e0d1dd55e1a416975f02ff02fc4ba77cbaf16a218a83b1d14394bd62a5",
+    "src/evidence-session.mjs": "5fae69f718a5d7e22b0073d8647e7bfd10b0ee02e20ea56224fc9a8d9c433a06",
+    "src/maf-bridge.mjs": "0de7124a8541f556b562f21068f3f14fdeb1c825172b946b0a367d95cc4ec081",
+    "src/presentation.mjs": "693a837dec28a450839f05ae7455ae5bdd510605d3c731e7ee4b43d170cfe8de",
+    "requirements-agent.lock": "5e7cd4b66928de72dadf1ca3b4d12cdc8d1502590ee866f62e0736cecba14c7d",
+    "requirements-das.lock": "ed7687353c351a36d79e6675fb14bc395fac99de912dc62d09b62cf056d1d98a",
+    "agent_runtime/__init__.py": "9dd64af8a28799e28b5389ed88735f1873f396fd1ffb345e685e7debc45e8fcd",
+    "agent_runtime/config.py": "ff616fb61c2bd5bea6a2272d4fa72530efdd16980540fc56867d442259e65bbb",
+    "agent_runtime/protocol.py": "1be7e0587a9f55e83768e5005a597ccc0a87589ab04d62b6c7039b869156f347",
+    "agent_runtime/runtime.py": "0783ac54a3e9b26fd5262788aa3d94c6012eaaf98b2b3216525791c90d37c3a0",
+    "agent_runtime/worker.py": "f1b8b0936f59142734d0d8f22c57124276cb7efb9f6c525eb377db495e04ca1d",
+    "data/blocked.json": "a26082126925cf6448f4e1e9da34d3e86a0d596008df1b6fda977555f9ab0a08",
+    "data/unused.json": "9afaea12c5c2e45a339eb953dc54b85ebb6fdae6cd3fa158d6e1ce084358d3df",
+    "data/used.json": "a8ac74f2d5d48807559e0286be639fa4e71dc41b1b711618b2e43a4cb7c4a6f0",
+    "data/validation.json": "9f82ba0c09ecf83324e17fb32cc5b79056d2febf395488d135715668b97beab0",
+    "data/analysis/blocked.json": "419a8de4274f980e7536bdf0111305ff4555feea40447fa8c08e0d0eb2e7fc27",
+    "data/analysis/unused.json": "fc32f2c6a95a6d74291a7a91fa95131063ee62cf1e4536193a99c5999093edcf",
+    "data/analysis/used.json": "1deb67890f818060697dbc0d71ce18155f1f238f0bf859f9cd34f8bb6d43eed1"
+  },
+  "segments": [
+    {
+      "step": 1,
+      "start": 0.0,
+      "end": 27.809
+    },
+    {
+      "step": 2,
+      "start": 27.809,
+      "end": 45.888
+    },
+    {
+      "step": 3,
+      "start": 45.888,
+      "end": 69.137
+    },
+    {
+      "step": 4,
+      "start": 69.137,
+      "end": 86.307
+    }
+  ],
+  "visualQualityChecksSeconds": [
+    3,
+    10,
+    23,
+    33,
+    42,
+    55,
+    64,
+    78,
+    84,
+    100
+  ],
+  "visualQualityChecks": "Actual decoded WebM frames inspected for layout, caption readability, movement, alternative pass, offside, validated Agent result, native evidence tools, bilingual view and method limitations. Corresponding MP4 frames checked after format conversion.",
+  "rehearsal": "An earlier over-length caption-timing rehearsal is preserved locally under output/playwright/submission/rehearsal and is not the submission video.",
+  "browserPlaybackVerification": {
+    "durationSeconds": 113.4,
+    "resolution": "1920x1080",
+    "seekAndPlaySeconds": 56.208,
+    "error": null,
+    "browser": "Independent Playwright Chromium context",
+    "source": "assets/submission-demo.mp4"
+  },
+  "protectedSourceVerification": {
+    "baselineCommit": "63e3dfe5bf15b61e837fd6fdee67529b1236bd80",
+    "checkedFiles": 75,
+    "changedFiles": []
+  },
+  "publication": {
+    "youtubeUrl": "https://youtu.be/ejo0cYWsC94",
+    "visibility": "public",
+    "publishedDateBeijing": "2026-10-28",
+    "studioVisibilityVerified": true,
+    "signedOutBrowserPlaybackVerified": true,
+    "englishWebVttUploaded": true,
+    "copyrightCheck": "No issues found by YouTube at publication",
+    "recordingBoundary": "Video records the local build with real Azure inference; public Azure deployment was separately verified after recording."
+  }
+}

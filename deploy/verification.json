@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-27T16:43:58.227198+00:00",
+  "publicUrl": "https://offball-lens-hackathon-2026.azurewebsites.net/",
+  "checkedSourceCommit": "02e01156056e573d88dfa1b0affbb43f14b4af6a",
+  "sourceCommitNote": "Deployment adds only deployment helpers; runtime, model, and data were not edited.",
+  "hosting": {
+    "provider": "Azure App Service",
+    "region": "West US 3",
+    "sku": {
+      "capacity": 1,
+      "family": "F",
+      "name": "F1",
+      "size": "F1",
+      "tier": "Free"
+    },
+    "runtime": "PYTHON|3.12",
+    "observedPythonVersion": "3.12.15",
+    "bundledNodeVersion": "22.23.4",
+    "httpsOnly": true,
+    "alwaysOn": false,
+    "loginRequiredForJudges": false,
+    "judgeSuppliedApiKeyRequired": false
+  },
+  "deploymentArchiveSha256": "b20fc41c7d901c9e51054e7da41c0c3c54433a06503930c4c4f7bdfa0a4fc224",
+  "applicationFilesPackaged": 123,
+  "credentialPackagingCheck": {
+    "localEnvIncluded": false,
+    "privateDirectoryIncluded": false,
+    "configuredApiKeyFoundInArchive": false
+  },
+  "runs": [
+    {
+      "name": "initial",
+      "checkedAt": "2026-10-27T16:22:46.477Z",
+      "responseCapturedAt": "2026-10-27T16:23:04.961Z",
+      "passed": true,
+      "mock": false,
+      "staticAndDataFilesMatched": 14,
+      "orchestrator": "microsoft-agent-framework",
+      "source": "microsoft-foundry",
+      "status": "cloud-verified",
+      "frameworkVersion": "1.23.0",
+      "providerVersion": "1.17.0",
+      "model": "gpt-5-mini",
+      "modelRequests": 3,
+      "toolCalls": 2,
+      "nativeTools": [
+        {
+          "name": "analyze_window",
+          "status": "completed",
+          "callIdSha256": "a87cf46c89ac21ae23d0f3a8bcb448796877221c00761c47d7259ad04d4e1182",
+          "responseIdSha256": "cc817dc1848f5c2a0bdf70a944e1b66e833e14d73f39c427ff38b4ba94539ab0"
+        },
+        {
+          "name": "get_evidence",
+          "status": "completed",
+          "callIdSha256": "9a98069a7c014464de02f3c82777d33c772f52494f024fd2d80e691c351d834a",
+          "responseIdSha256": "005da8c0430df8c02daf127c093e55580adcafeb6702fdcf3a2354cf0e5a159a"
+        }
+      ],
+      "repairCount": 0,
+      "elapsedMs": 11171,
+      "requestContext": {
+        "scenarioId": "used",
+        "playerId": "A7",
+        "asOfTime": 5,
+        "startTime": 0,
+        "endTime": 5,
+        "analysisTime": 5,
+        "analysisFrameId": "used:0050",
+        "mode": "precomputed-prefix",
+        "modelVersion": "2.1.0",
+        "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+      },
+      "healthBefore": "cloud-configured",
+      "healthAfter": "cloud-verified",
+      "httpReceiptSha256": "0783904d2d3d7c1cd413b24a9affe5451b49e74a03ea9dc8c5b20dfd90446f72",
+      "rawResponseReceiptSha256": "2d24dc182670123703266440e84c1bfadcb37dcab9ffdfdeb9dcc307d54bafc2"
+    },
+    {
+      "name": "after_restart",
+      "checkedAt": "2026-10-27T16:34:38.756Z",
+      "responseCapturedAt": "2026-10-27T16:35:03.015Z",
+      "passed": true,
+      "mock": false,
+      "staticAndDataFilesMatched": 14,
+      "orchestrator": "microsoft-agent-framework",
+      "source": "microsoft-foundry",
+      "status": "cloud-verified",
+      "frameworkVersion": "1.23.0",
+      "providerVersion": "1.17.0",
+      "model": "gpt-5-mini",
+      "modelRequests": 3,
+      "toolCalls": 2,
+      "nativeTools": [
+        {
+          "name": "analyze_window",
+          "status": "completed",
+          "callIdSha256": "ebc55c6cb1b5804c28d08ff53ef776738ee09ba6b8e7fbba908035d4db4c4d78",
+          "responseIdSha256": "6e0baabf1310049c89c42083260670c8e6335cb1bf4dad1d16994a94687b05a7"
+        },
+        {
+          "name": "get_evidence",
+          "status": "completed",
+          "callIdSha256": "329711c44f98d87a6decced9dbcf126d394148f943a7115a9787fce2fc0632b4",
+          "responseIdSha256": "6400e883ef5f9845935325a093a4b60afbec4a107310fce81dcde1230246efec"
+        }
+      ],
+      "repairCount": 0,
+      "elapsedMs": 16068,
+      "requestContext": {
+        "scenarioId": "used",
+        "playerId": "A7",
+        "asOfTime": 5,
+        "startTime": 0,
+        "endTime": 5,
+        "analysisTime": 5,
+        "analysisFrameId": "used:0050",
+        "mode": "precomputed-prefix",
+        "modelVersion": "2.1.0",
+        "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+      },
+      "healthBefore": "cloud-configured",
+      "healthAfter": "cloud-verified",
+      "httpReceiptSha256": "08b70e2f229a5be6eac56037eebc00fe9e1767c41acd79a5a8ab29988f004eac",
+      "rawResponseReceiptSha256": "d5af14b02b9038829e055bd4b51a1aa6a15429c0b5003d772b82e3393b5e741f"
+    }
+  ],
+  "azureProviderMetrics": {
+    "source": "Azure Monitor resource metrics, read through authenticated Azure CLI",
+    "metrics": [
+      {
+        "metric": "AzureOpenAIRequests",
+        "totalInTestWindows": 6.0,
+        "nonzeroMinutes": [
+          {
+            "timeStamp": "2026-10-27T16:23:00Z",
+            "total": 1.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:24:00Z",
+            "total": 2.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:35:00Z",
+            "total": 2.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:36:00Z",
+            "total": 1.0
+          }
+        ]
+      },
+      {
+        "metric": "TotalCalls",
+        "totalInTestWindows": 6.0,
+        "nonzeroMinutes": [
+          {
+            "timeStamp": "2026-10-27T16:23:00Z",
+            "total": 1.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:24:00Z",
+            "total": 2.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:35:00Z",
+            "total": 2.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:36:00Z",
+            "total": 1.0
+          }
+        ]
+      },
+      {
+        "metric": "ModelRequests",
+        "totalInTestWindows": 6.0,
+        "nonzeroMinutes": [
+          {
+            "timeStamp": "2026-10-27T16:23:00Z",
+            "total": 1.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:24:00Z",
+            "total": 2.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:35:00Z",
+            "total": 2.0
+          },
+          {
+            "timeStamp": "2026-10-27T16:36:00Z",
+            "total": 1.0
+          }
+        ]
+      }
+    ],
+    "boundary": "Resource-level aggregate counts align with the two public test windows; aggregates are not a per-response-ID attestation. The preceding unrelated local test minutes are excluded."
+  },
+  "verificationBoundary": "Real public HTTPS calls reached the deployed application, installed MAF runtime and configured Azure provider, without a simulated provider. The HTTP checker itself keeps realCloudVerified=false because HTTP alone is not independent provider authentication. Azure-side aggregate metrics are recorded separately.",
+  "operatingLimits": {
+    "concurrentExplanationRequests": 2,
+    "requestsPer60SecondsPerServerObservedAddress": 20,
+    "agentDeadlineMs": 40000,
+    "maxModelRequests": 6,
+    "maxNativeToolCalls": 10,
+    "maxRepairs": 1,
+    "freeTierMaySleep": true,
+    "availabilityGuaranteed": false
+  },
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 13743,
+      "localSha256": "29895815a1d466beff6e0b7d1352844a310d007e5923cd1a03bcccafa8424e09",
+      "remoteSha256": "29895815a1d466beff6e0b7d1352844a310d007e5923cd1a03bcccafa8424e09",
+      "matched": true
+    },
+    {
+      "path": "app.mjs",
+      "bytes": 55141,
+      "localSha256": "9e4703343b6ea85523b096b79c4212faca0fca7d11e79599ed25d4c5f2cc44bb",
+      "remoteSha256": "9e4703343b6ea85523b096b79c4212faca0fca7d11e79599ed25d4c5f2cc44bb",
+      "matched": true
+    },
+    {
+      "path": "style.css",
+      "bytes": 24359,
+      "localSha256": "82ee8b05476344f5c8b9746033890df035c96f40df4f79a83a8004b2f85ca510",
+      "remoteSha256": "82ee8b05476344f5c8b9746033890df035c96f40df4f79a83a8004b2f85ca510",
+      "matched": true
+    },
+    {
+      "path": "src/analysis.mjs",
+      "bytes": 8848,
+      "localSha256": "cef3e82a8320ee45400a37fc2da44fbefcbee85893ace28c3f9aa492f7d5f5b6",
+      "remoteSha256": "cef3e82a8320ee45400a37fc2da44fbefcbee85893ace28c3f9aa492f7d5f5b6",
+      "matched": true
+    },
+    {
+      "path": "src/agent.mjs",
+      "bytes": 14657,
+      "localSha256": "8b41a0ac13baee2018e803d6807f177ee0a2c9953ba58d98d7ce74cae0fa5ad4",
+      "remoteSha256": "8b41a0ac13baee2018e803d6807f177ee0a2c9953ba58d98d7ce74cae0fa5ad4",
+      "matched": true
+    },
+    {
+      "path": "src/evidence.mjs",
+      "bytes": 17457,
+      "localSha256": "b67984e0d1dd55e1a416975f02ff02fc4ba77cbaf16a218a83b1d14394bd62a5",
+      "remoteSha256": "b67984e0d1dd55e1a416975f02ff02fc4ba77cbaf16a218a83b1d14394bd62a5",
+      "matched": true
+    },
+    {
+      "path": "src/evidence-session.mjs",
+      "bytes": 4609,
+      "localSha256": "5fae69f718a5d7e22b0073d8647e7bfd10b0ee02e20ea56224fc9a8d9c433a06",
+      "remoteSha256": "5fae69f718a5d7e22b0073d8647e7bfd10b0ee02e20ea56224fc9a8d9c433a06",
+      "matched": true
+    },
+    {
+      "path": "src/presentation.mjs",
+      "bytes": 2211,
+      "localSha256": "693a837dec28a450839f05ae7455ae5bdd510605d3c731e7ee4b43d170cfe8de",
+      "remoteSha256": "693a837dec28a450839f05ae7455ae5bdd510605d3c731e7ee4b43d170cfe8de",
+      "matched": true
+    },
+    {
+      "path": "data/used.json",
+      "bytes": 1221662,
+      "localSha256": "a8ac74f2d5d48807559e0286be639fa4e71dc41b1b711618b2e43a4cb7c4a6f0",
+      "remoteSha256": "a8ac74f2d5d48807559e0286be639fa4e71dc41b1b711618b2e43a4cb7c4a6f0",
+      "matched": true
+    },
+    {
+      "path": "data/analysis/used.json",
+      "bytes": 1846741,
+      "localSha256": "1deb67890f818060697dbc0d71ce18155f1f238f0bf859f9cd34f8bb6d43eed1",
+      "remoteSha256": "1deb67890f818060697dbc0d71ce18155f1f238f0bf859f9cd34f8bb6d43eed1",
+      "matched": true
+    },
+    {
+      "path": "data/unused.json",
+      "bytes": 1295480,
+      "localSha256": "9afaea12c5c2e45a339eb953dc54b85ebb6fdae6cd3fa158d6e1ce084358d3df",
+      "remoteSha256": "9afaea12c5c2e45a339eb953dc54b85ebb6fdae6cd3fa158d6e1ce084358d3df",
+      "matched": true
+    },
+    {
+      "path": "data/analysis/unused.json",
+      "bytes": 1931264,
+      "localSha256": "fc32f2c6a95a6d74291a7a91fa95131063ee62cf1e4536193a99c5999093edcf",
+      "remoteSha256": "fc32f2c6a95a6d74291a7a91fa95131063ee62cf1e4536193a99c5999093edcf",
+      "matched": true
+    },
+    {
+      "path": "data/blocked.json",
+      "bytes": 1149741,
+      "localSha256": "a26082126925cf6448f4e1e9da34d3e86a0d596008df1b6fda977555f9ab0a08",
+      "remoteSha256": "a26082126925cf6448f4e1e9da34d3e86a0d596008df1b6fda977555f9ab0a08",
+      "matched": true
+    },
+    {
+      "path": "data/analysis/blocked.json",
+      "bytes": 1687353,
+      "localSha256": "419a8de4274f980e7536bdf0111305ff4555feea40447fa8c08e0d0eb2e7fc27",
+      "remoteSha256": "419a8de4274f980e7536bdf0111305ff4555feea40447fa8c08e0d0eb2e7fc27",
+      "matched": true
+    }
+  ]
+}

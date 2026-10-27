@@ -5,7 +5,7 @@
 **Representative:** Jingbang Yang  
 **Entry:** [Innovation Studio project 126816](https://innovationstudio.microsoft.com/hackathons/insidethegamedeveloperhackathon/project/126816)
 
-This directory contains the entry text and testing instructions for the current v3 replay. Preparation and publication of these files are not proof that the competition entry is complete; the video URL and full Agent testing access must also be checked on the project page.
+This directory contains the entry text and testing instructions for the current v3 replay. The complete cloud Agent is available for free testing. The video was published publicly on YouTube on 28 October 2026; the project materials are saved in Innovation Studio and the project appears in the event Projects collection. The uploaded MP4 also plays in the project page. The platform did not expose a separate Submit/Finalize control or formal receipt; this record does not claim an independent organizer acceptance.
 
 ## Entry materials
 
@@ -13,12 +13,13 @@ This directory contains the entry text and testing instructions for the current 
 | --- | --- |
 | English pitch and project description | [Project description](project-description.md) |
 | Public code | [cabbage1999/Off-Ball-Lens](https://github.com/cabbage1999/Off-Ball-Lens) |
-| Free interactive replay | [GitHub Pages](https://cabbage1999.github.io/Off-Ball-Lens/); precomputed analysis and local explanations |
+| Full cloud experience | [Azure App Service](https://offball-lens-hackathon-2026.azurewebsites.net/); replay, analysis, and real MAF explanations; no account or key required |
+| Static fallback | [GitHub Pages](https://cabbage1999.github.io/Off-Ball-Lens/); precomputed analysis and local explanations |
 | Testing and reproduction instructions | [Testing guide](testing-guide.md) |
 | Current implementation and verification | [V3 record](../replay-v3.md) and [real MAF receipts](../../artifacts/agent-framework-suite.json) |
-| Current-version demonstration video | In preparation; the historical v2 preview is not the final submission video |
-| Full Agent access for judges | Real local execution verified; a free hosted service or equivalent access arrangement remains outstanding |
-| Submission receipt | Not yet recorded |
+| Current-version demonstration video | [YouTube](https://youtu.be/ejo0cYWsC94), **public since 28 October 2026**; 113.40 seconds, English captions; [recording provenance](../../assets/submission-provenance.json) |
+| Full Agent access for judges | Two successful real calls through the public Azure service, including a check after restart, on 27 October 2026 UTC / 28 October Beijing time |
+| Project-page delivery | Required materials saved; project appears in the event Projects collection. [Observed delivery record](submission-record.json); no separate receipt or finalization control was exposed |
 
 ## Official delivery requirements
 
@@ -31,7 +32,7 @@ The [official rules](https://github.com/microsoft/insidethegamehackathon/blob/ma
 - Testing must be free and available through **10 November 2026, 23:59 Pacific Standard Time**, equivalent to **11 November 2026, 15:59 Beijing time**.
 - Use synthetic football-realistic data, preserve required third-party attribution, and provide English materials or English translations.
 
-The static replay requires no account or key. The reproduction instructions for the local cloud Agent require authorized Azure access and do not by themselves establish free access for judges. The project implements **one** Microsoft Agent Framework Agent; development-time collaboration is not a multi-agent runtime feature.
+Both public sites require no account or key. The full service runs on Azure App Service F1 using the project's Azure allowance, so judges do not need an Azure subscription. A cold start can take time; if a request times out or falls back locally, wait and retry. A successful real response shows **Foundry + Agent Framework · verified**. The video records the current local build making a real Azure-backed MAF call; it was recorded before public deployment. The project implements **one** Microsoft Agent Framework Agent; development-time collaboration is not a multi-agent runtime feature.
 
 ## Repository organization
 

@@ -1,6 +1,6 @@
 # Documentation
 
-Start with the [project overview](../README.md) and [interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/). The current replay revision is v3, documented on 27 October 2026. Historical reports retain their original dates and scope.
+Start with the [project overview](../README.md) and [full online demo](https://offball-lens-hackathon-2026.azurewebsites.net/), which includes real Microsoft Agent Framework explanations without a judge account or API key. The [static replay fallback](https://cabbage1999.github.io/Off-Ball-Lens/) provides precomputed analysis and local explanations. The current replay revision is v3, documented on 27 October 2026; deployment and delivery status were updated on 28 October Beijing time. Historical reports retain their original dates and scope.
 
 ## Getting started
 
@@ -32,8 +32,9 @@ Start with the [project overview](../README.md) and [interactive replay](https:/
 | [Numerical audit](../analytics/reports/validation.json) | Author-model checks, source/configuration hashes, sampling, noise, and resolution sensitivity. |
 | [Real MAF single-case receipt](../artifacts/agent-framework-trace.json) | Recorded Node → MAF → Azure explanation and native evidence-tool calls. |
 | [Real MAF expanded-suite receipt](../artifacts/agent-framework-suite.json) | Recorded cases across scenes, languages, and interpretation limits. |
+| [Public deployment evidence](../deploy/verification.json) | Two real public MAF calls, including one after restart, on 27 October UTC / 28 October Beijing time; 14 matching application/data files and separate Azure resource-level request metrics. |
 
-These records describe their stated execution scope. The real MAF receipts establish the recorded local cloud calls; public hosting, final video, and human-review status are tracked in the [handoff checklist](handoff.md).
+These records describe their stated execution scope. Local MAF receipts and public deployment checks are separate evidence. Public hosting has been verified; the current 113.40-second video was publicly published on [YouTube](https://youtu.be/ejo0cYWsC94) on 28 October 2026 Beijing time, with public visibility confirmed in YouTube Studio and playback verified without signing in. Project-page materials are saved and listed in the event Projects collection; the platform exposed no separate finalization control or receipt. Continued service availability and the scope of human review are tracked in the [handoff checklist](handoff.md).
 
 ## Historical acceptance and release records
 

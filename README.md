@@ -4,9 +4,9 @@
 
 Off-Ball Lens replays three independently authored synthetic football attacks, follows any of the 22 players, and connects receiving-space heatmaps and past opportunity windows to exact evidence frames. Its numerical engine is the authors' [accessible-space 2.1.0](https://github.com/jonas-bischofberger/accessible-space), implementing individual Dangerous Accessible Space (DAS).
 
-**[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [Submission materials](docs/submission/README.md) · [Documentation index](docs/README.md) · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Replay refinement](docs/replay-v3.md) · [Acceptance](docs/acceptance.md)
+**[Live Azure demo](https://offball-lens-hackathon-2026.azurewebsites.net/)** · [Static replay](https://cabbage1999.github.io/Off-Ball-Lens/) · [113-second demonstration](https://youtu.be/ejo0cYWsC94) · [Submission materials](docs/submission/README.md) · [Documentation index](docs/README.md) · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Replay refinement](docs/replay-v3.md) · [Acceptance](docs/acceptance.md)
 
-The default replay uses precomputed author-model results and works without an account or API key. The server includes **one genuine Microsoft Agent Framework (MAF) Agent** with native evidence tools. **On 27 October 2026, the complete local Node → MAF → Azure path passed a real smoke and all eight expanded cases**, using `gpt-5-mini` at `https://westus3.api.cognitive.microsoft.com/openai/v1/responses`. See the sanitized [single-run record](artifacts/agent-framework-trace.json) and [eight-case record](artifacts/agent-framework-suite.json), both marked `mock:false`. Public backend deployment, the final MAF video and human review remain pending. GitHub Pages continues to provide deterministic local explanations.
+The default replay uses precomputed author-model results and works without an account or API key. The server includes **one genuine Microsoft Agent Framework (MAF) Agent** with native evidence tools. **On 27 October 2026, the complete local Node → MAF → Azure path passed a real smoke and all eight expanded cases**, using `gpt-5-mini` at `https://westus3.api.cognitive.microsoft.com/openai/v1/responses`. See the sanitized [single-run record](artifacts/agent-framework-trace.json) and [eight-case record](artifacts/agent-framework-suite.json), both marked `mock:false`. **On 28 October Beijing time, the complete public Azure demo passed real MAF checks before and after a restart**; see [deployment evidence and operating limits](deploy/README.md). Judges can use it without signing in or supplying a key. Free hosting may sleep, so allow a cold start and retry a timed-out explanation. GitHub Pages continues to provide deterministic local explanations. The [current demonstration](https://youtu.be/ejo0cYWsC94) records the local v3 build with real Azure inference and English captions.
 
 ## Run the replay
 
@@ -24,9 +24,9 @@ Open `http://127.0.0.1:4173`. The replay and local server have no third-party Ja
 
 | Scene | Duration | Actual interaction to inspect |
 | --- | ---: | --- |
-| Near-side combination (`used`) | 32 s | A7 offers a receiving option, receives, then participates in a longer attack |
-| Alternative option (`unused`) | 34 s | A7's opportunity changes while the carrier chooses a different teammate |
-| Defensive recovery (`blocked`) | 30 s | A7 has opportunities, an offside interval, then renewed access before an interception and counter |
+| Right-side combination (`used`) | 32 s | A7 offers a receiving option, receives, then participates in a longer attack |
+| Switch across the block (`unused`) | 34 s | A7's opportunity changes while the carrier chooses a different teammate |
+| Run beyond the line (`blocked`) | 30 s | A7 has opportunities, an offside interval, then renewed access before an interception and counter |
 
 The scene labels describe authored events, not score targets. The generator never reads DAS. Each scene includes stage-specific roles for all players, bounded continuous motion, pressure/marking/cover, alternative receivers, and ball events from the same clock. The v3 choreography adds A7's check, curved turn and acceleration; passes travel at 10.20–20.09 m/s while a carried ball follows its carrier. These are audited synthetic choices, not empirically calibrated football norms.
 
@@ -110,7 +110,7 @@ The Free Trial subscription was rechecked on 27 October and retains `spendingLim
 
 The existing `FOUNDRY_ORCHESTRATOR=native` path remains available with `npm start` and `npm run smoke:foundry`; it supports Responses or resource-level Chat Completions. MAF currently requires Responses. Chat Completions JSON mode is not a provider-enforced schema, so the same local evidence checks remain necessary.
 
-For public cloud use, follow the [deployment guide](docs/deployment.zh-CN.md) and host the UI and API together with both required runtimes. A TLS reverse proxy can set an explicit `PUBLIC_ORIGIN`. GitHub Pages has no public MAF backend. `smoke:deployment` checks a chosen service's HTTP contract and evidence; it does not independently authenticate that service's Azure backend.
+For the verified public deployment, see the [Azure runtime and packaging guide](deploy/README.md). The [general deployment guide](docs/deployment.zh-CN.md) explains hosting the UI and API together with both required runtimes. A TLS reverse proxy can set an explicit `PUBLIC_ORIGIN`. GitHub Pages has no public MAF backend. `smoke:deployment` checks a chosen service's HTTP contract and evidence; it does not independently authenticate that service's Azure backend.
 
 ## Repository map
 
@@ -123,6 +123,7 @@ For public cloud use, follow the [deployment guide](docs/deployment.zh-CN.md) an
 | `src/evidence.mjs`, `src/evidence-session.mjs`, `src/agent.mjs` | Canonical facts, evidence ledger/validation and legacy native provider path |
 | `agent_runtime/`, `src/maf-bridge.mjs`, `server.mjs` | MAF Agent, bounded Python/Node bridge and same-origin HTTP server |
 | `tests/`, `agent_runtime/tests/`, `analytics/tests/` | Contract, temporal, MAF/protocol, numerical and HTTP checks |
+| `deploy/` | Azure Free-tier packaging, startup, and sanitized public verification evidence |
 | `docs/` | Model/data rationale, setup, independent reviews, walkthrough and delivery status |
 
 ## Scope and attribution
@@ -131,4 +132,4 @@ The [official hackathon rules](https://github.com/microsoft/insidethegamehackath
 
 The DAS paper and package are credited in [research.md](docs/research.md). Their original MIT notice is retained in [analytics/ACCESSIBLE_SPACE_LICENSE.txt](analytics/ACCESSIBLE_SPACE_LICENSE.txt). This repository is MIT licensed and is not affiliated with or endorsed by Microsoft or the Premier League.
 
-The [handoff checklist](docs/handoff.md) records the completed MAF cloud check separately from pending public backend availability, final video, human review and submission evidence. The local real-cloud pass does not complete those remaining items.
+The [submission materials](docs/submission/README.md) provide the current judging links and testing steps. The [handoff checklist](docs/handoff.md) records delivery evidence and the status of independent human review and portal confirmation separately from engineering checks.

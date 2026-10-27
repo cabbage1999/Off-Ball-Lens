@@ -2,7 +2,9 @@
 
 新版沿实际跑动展示球员何时拥有危险接应空间、空间如何变化，以及一次机会后来是否被传球利用。数值来自论文作者的 `accessible-space==2.1.0`，已停止默认使用旧版自拟0–100指数和两条预设路线比较。
 
-[打开回放](https://cabbage1999.github.io/Off-Ball-Lens/) · [完整方法](method.md) · [场景说明](scenarios.md) · [Foundry开通与本机配置](foundry-setup.zh-CN.md) · [公网部署与验收](deployment.zh-CN.md)
+[完整在线演示](https://offball-lens-hackathon-2026.azurewebsites.net/) · [静态回放备份](https://cabbage1999.github.io/Off-Ball-Lens/) · [完整方法](method.md) · [场景说明](scenarios.md) · [Foundry开通与本机配置](foundry-setup.zh-CN.md) · [公网部署与验收](deployment.zh-CN.md)
+
+当前状态更新于**2026年10月28日（北京时间）**：完整在线演示已接通真实 MAF/Azure 解释，无需评委登录或自备密钥。初次部署及重启后的两次公网调用均通过，见[部署验收记录](../deploy/verification.json)。113.40秒英文字幕演示已在[YouTube](https://youtu.be/ejo0cYWsC94)公开发布，YouTube Studio 已确认公开范围及10月28日发布日期，且已通过未登录播放检查。参赛页必需材料已保存，项目已列入赛事 Projects；页面未提供独立 Submit/Finalize 按钮或正式回执，详见[交付记录](submission/submission-record.json)。下文保留各次历史检查的日期和范围。
 
 ## 本机运行
 
@@ -29,7 +31,7 @@ npm run test:agent
 
 每项 MAF 请求共享 40 秒、6 次模型请求和10次工具调用的上限；一次候选修复也计入这些上限。单次提供方或工具等待不超过12秒，SDK不自动重试。取消请求会终止对应子进程。模型没有可见的文件系统或命令执行工具，但这不等于操作系统级文件访问隔离。
 
-10月27日已复核 Free Trial 的 `spendingLimit=On`，本次检查没有新建资源、升级订阅或购买 Marketplace 模型。云端推理并非天然免费，符合条件的用量会消耗试用额度。密钥只保存在本机 `.env` 或服务端环境设置中，不放入聊天、前端、录像或 GitHub。公开 GitHub Pages 仍使用确定性本地解释，没有公开的 MAF 后端。
+10月27日本机验收时已复核 Free Trial 的 `spendingLimit=On`；那次检查没有新建资源、升级订阅或购买 Marketplace 模型。10月28日已另行完成 Azure App Service F1 免费层部署，并保持试用支出上限开启。托管免费不代表推理没有用量；Azure 推理使用项目方的试用额度，评委无需自备订阅或密钥。密钥只保存在本机 `.env` 或服务端环境设置中，不放入聊天、前端、录像或 GitHub。完整在线演示提供公开 MAF 后端；GitHub Pages 备份仍使用确定性本地解释。
 
 ## 体验内容
 
@@ -49,6 +51,6 @@ AS是模型中的有效可接应面积，单位平方米；DAS是危险度加权
 
 MAF 当前使用 Responses API 和严格结构化的最终计划。旧版 native 模式另支持显式选择的 Chat Completions；JSON 模式并不替代本地证据校验。配置齐全、直接推理成功、完整 MAF 工具调用通过和公网服务可用是不同的验收项。
 
-本项目已完成本机 MAF 真实云端检查；公网后端、最终 MAF 演示录像、人工评审及最终提交仍待完成，见[交付清单](handoff.md)。
+本项目已完成本机和公网 MAF 真实调用检查，并录制113.40秒的当前版本演示。录像在公网部署前使用本机版本完成，包含真实 Azure 支持的 MAF 调用；不能将录像当作公网部署验收。视频已公开发布并通过未登录播放检查，官网必需材料已保存；独立人工评估未作完成声明，平台也未显示单独的提交回执，见[交付清单](handoff.md)。
 
-下一步需从部署后的同源 Node 服务网址验收整个作品。公网检查脚本会核对文件、HTTP 路由、工具和证据，但不能独立鉴证 Azure 后端；不能将模拟响应或离线通过算作真实云端通过。[团队人工审查记录](team-review.zh-CN.md)仍待填写，供足球合理性与两位初次使用者的易懂性检查分别使用。
+公网验收已核对14个应用与数据文件、HTTP 路由、两项原生工具和证据，并记录对应时段的 Azure 请求指标。HTTP 检查器本身不能独立鉴证 Azure 后端，资源级指标也不是逐响应鉴证；范围说明见[部署验收记录](../deploy/verification.json)。F1 服务可能休眠，现有验收不等于整个评审期的可用性保证；需保持服务至北京时间11月11日15:59。[团队人工审查记录](team-review.zh-CN.md)仍待填写，供足球合理性与两位初次使用者的易懂性检查分别使用。
