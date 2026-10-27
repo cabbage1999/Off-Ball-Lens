@@ -1,0 +1,6 @@
+# Dedicated Python 3.12 environment; keep separate from the DAS analytics runtime.
+# Tested together. requirements-agent.lock records the complete resolved environment.
+agent-framework-core==1.23.0
+agent-framework-openai==1.17.0
+openai==3.39.0
+httpx2==2.16.0

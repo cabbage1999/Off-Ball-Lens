@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-27T10:04:13.573Z",
+  "passed": true,
+  "mode": "real-azure-smoke",
+  "mock": false,
+  "orchestrator": "microsoft-agent-framework",
+  "endpointKind": "azure-regional",
+  "verificationBoundary": "This script runs the local Node server and actual Python MAF worker against the configured Azure provider. It does not prove that the GitHub Pages site hosts a backend, or establish football causal validity.",
+  "cases": [
+    {
+      "request": {
+        "scenarioId": "used",
+        "playerId": "A7",
+        "asOfTime": 5,
+        "windowSeconds": 5,
+        "language": "en",
+        "audience": "analyst",
+        "question": "Explain this receiving opportunity and select evidence I can revisit."
+      },
+      "passed": true,
+      "elapsedMs": 9778,
+      "source": "microsoft-foundry",
+      "status": "cloud-verified",
+      "orchestrator": "microsoft-agent-framework",
+      "cloud": {
+        "configured": true,
+        "verified": true,
+        "endpointKind": "azure-regional",
+        "apiStyle": "responses",
+        "orchestrator": "microsoft-agent-framework"
+      },
+      "trace": {
+        "framework": "microsoft-agent-framework",
+        "provider": "azure-openai-responses",
+        "frameworkVersion": "1.23.0",
+        "providerVersion": "1.17.0",
+        "modelDeployment": "gpt-5-mini",
+        "modelRequests": 3,
+        "rounds": 3,
+        "toolCalls": 2,
+        "responseIds": [
+          "resp_0afcafa8bf3d03c4016ae077216b18819083399413fbc3b4ed",
+          "resp_0afcafa8bf3d03c4016ae0772393348190ac0eeffab69b341d",
+          "resp_0afcafa8bf3d03c4016ae07725192481908202cb4fe089cb8b"
+        ],
+        "nativeToolCalls": [
+          {
+            "response_id": "resp_0afcafa8bf3d03c4016ae077216b18819083399413fbc3b4ed",
+            "call_id": "call_TtOaOqWbDjUmU720s1lu9unp",
+            "name": "analyze_window",
+            "status": "completed",
+            "dispatched": true
+          },
+          {
+            "response_id": "resp_0afcafa8bf3d03c4016ae0772393348190ac0eeffab69b341d",
+            "call_id": "call_kTDoheovV4J0ye38Lqz4vgwm",
+            "name": "get_evidence",
+            "status": "completed",
+            "dispatched": true
+          }
+        ],
+        "repairCount": 0,
+        "elapsedMs": 9757,
+        "apiStyle": "responses",
+        "outputMode": "strict_json_schema",
+        "asOfTime": 5,
+        "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+      },
+      "agentTrace": [
+        {
+          "agent": "receiving-space-analyst",
+          "event": "agent_run",
+          "status": "started"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "model_request",
+          "status": "started",
+          "modelRequest": 1
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "model_request",
+          "status": "completed",
+          "modelRequest": 1,
+          "responseId": "resp_0afcafa8bf3d03c4016ae077216b18819083399413fbc3b4ed"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "tool_call",
+          "status": "started",
+          "responseId": "resp_0afcafa8bf3d03c4016ae077216b18819083399413fbc3b4ed",
+          "callId": "call_TtOaOqWbDjUmU720s1lu9unp",
+          "tool": "analyze_window"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "tool_call",
+          "status": "completed",
+          "responseId": "resp_0afcafa8bf3d03c4016ae077216b18819083399413fbc3b4ed",
+          "callId": "call_TtOaOqWbDjUmU720s1lu9unp",
+          "tool": "analyze_window"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "model_request",
+          "status": "started",
+          "modelRequest": 2
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "model_request",
+          "status": "completed",
+          "modelRequest": 2,
+          "responseId": "resp_0afcafa8bf3d03c4016ae0772393348190ac0eeffab69b341d"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "tool_call",
+          "status": "started",
+          "responseId": "resp_0afcafa8bf3d03c4016ae0772393348190ac0eeffab69b341d",
+          "callId": "call_kTDoheovV4J0ye38Lqz4vgwm",
+          "tool": "get_evidence"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "tool_call",
+          "status": "completed",
+          "responseId": "resp_0afcafa8bf3d03c4016ae0772393348190ac0eeffab69b341d",
+          "callId": "call_kTDoheovV4J0ye38Lqz4vgwm",
+          "tool": "get_evidence"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "model_request",
+          "status": "started",
+          "modelRequest": 3
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "model_request",
+          "status": "completed",
+          "modelRequest": 3,
+          "responseId": "resp_0afcafa8bf3d03c4016ae07725192481908202cb4fe089cb8b"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "agent_run",
+          "status": "completed"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "candidate",
+          "status": "submitted"
+        },
+        {
+          "agent": "receiving-space-analyst",
+          "event": "validation",
+          "status": "accepted"
+        }
+      ],
+      "toolTrace": [
+        {
+          "name": "analyze_window",
+          "status": "completed",
+          "source": "microsoft-foundry",
+          "framework": "microsoft-agent-framework",
+          "provider": "azure-openai-responses",
+          "callId": "call_TtOaOqWbDjUmU720s1lu9unp",
+          "responseId": "resp_0afcafa8bf3d03c4016ae077216b18819083399413fbc3b4ed",
+          "arguments": {
+            "player_id": "A7",
+            "start_time": 0,
+            "end_time": 5
+          }
+        },
+        {
+          "name": "get_evidence",
+          "status": "completed",
+          "source": "microsoft-foundry",
+          "framework": "microsoft-agent-framework",
+          "provider": "azure-openai-responses",
+          "callId": "call_kTDoheovV4J0ye38Lqz4vgwm",
+          "responseId": "resp_0afcafa8bf3d03c4016ae0772393348190ac0eeffab69b341d",
+          "arguments": {
+            "evidence_ids": []
+          }
+        }
+      ],
+      "context": {
+        "scenarioId": "used",
+        "playerId": "A7",
+        "asOfTime": 5,
+        "startTime": 0,
+        "endTime": 5,
+        "analysisTime": 5,
+        "analysisFrameId": "used:0050",
+        "mode": "precomputed-prefix",
+        "modelVersion": "2.1.0",
+        "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
+      },
+      "text": "At 5.0 s, A7 has 0.19 danger-weighted m² of receiving space and 322.68 m² of accessible space.\n\nUp to the selected time, the largest DAS observed in this supported segment is 0.19 at 4.4 s.\n\nDuring the supported segment 4.4–5.0 s, A7's DAS changes from 0.19 to 0.19 (-0.00 danger-weighted m²). This describes changing opportunities in the scene.\n\nDAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
+      "claims": [
+        {
+          "id": "C:current:0.000:5.000",
+          "kind": "current",
+          "text": "At 5.0 s, A7 has 0.19 danger-weighted m² of receiving space and 322.68 m² of accessible space.",
+          "fanText": "The model records A7's dangerous receiving space at 5.0 s; open the evidence to view that frame's heatmap.",
+          "claim": "At 5.0 s, A7 has 0.19 danger-weighted m² of receiving space and 322.68 m² of accessible space.",
+          "player_ids": [
+            "A7"
+          ],
+          "frame_ids": [
+            "used:0050"
+          ],
+          "metric_refs": [
+            "M:used:0050:A7:AS",
+            "M:used:0050:A7:DAS"
+          ],
+          "evidence_ids": [
+            "E:used:0050:A7"
+          ],
+          "overlay_type": "receiving_heatmap",
+          "limitations": [
+            "Direct receiving opportunity, not causal contribution."
+          ]
+        },
+        {
+          "id": "C:peak:0.000:5.000",
+          "kind": "peak",
+          "text": "Up to the selected time, the largest DAS observed in this supported segment is 0.19 at 4.4 s.",
+          "fanText": "So far in this supported segment, the largest dangerous receiving space occurs at 4.4 s; open the evidence to revisit it.",
+          "claim": "Up to the selected time, the largest DAS observed in this supported segment is 0.19 at 4.4 s.",
+          "player_ids": [
+            "A7"
+          ],
+          "frame_ids": [
+            "used:0044"
+          ],
+          "metric_refs": [
+            "M:used:0044:A7:AS",
+            "M:used:0044:A7:DAS"
+          ],
+          "evidence_ids": [
+            "E:used:0044:A7"
+          ],
+          "overlay_type": "receiving_heatmap",
+          "limitations": [
+            "Direct receiving opportunity, not causal contribution."
+          ]
+        },
+        {
+          "id": "C:change:0.000:5.000",
+          "kind": "change",
+          "text": "During the supported segment 4.4–5.0 s, A7's DAS changes from 0.19 to 0.19 (-0.00 danger-weighted m²). This describes changing opportunities in the scene.",
+          "fanText": "Between 4.4 and 5.0 s, A7's dangerous receiving space decreases; open the evidence to revisit the changing scene.",
+          "claim": "During the supported segment 4.4–5.0 s, A7's DAS changes from 0.19 to 0.19 (-0.00 danger-weighted m²). This describes changing opportunities in the scene.",
+          "player_ids": [
+            "A7"
+          ],
+          "frame_ids": [
+            "used:0050",
+            "used:0044"
+          ],
+          "metric_refs": [
+            "M:used:0050:A7:AS",
+            "M:used:0050:A7:DAS",
+            "M:used:0044:A7:AS",
+            "M:used:0044:A7:DAS"
+          ],
+          "evidence_ids": [
+            "E:used:0044:A7",
+            "E:used:0050:A7"
+          ],
+          "overlay_type": "das_curve",
+          "limitations": [
+            "Direct receiving opportunity, not causal contribution."
+          ]
+        },
+        {
+          "id": "C:limits:0.000:5.000",
+          "kind": "limits",
+          "text": "DAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
+          "fanText": "DAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
+          "claim": "DAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
+          "player_ids": [
+            "A7"
+          ],
+          "frame_ids": [],
+          "metric_refs": [],
+          "evidence_ids": [],
+          "overlay_type": "none",
+          "limitations": [
+            "Direct receiving opportunity, not causal contribution."
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "id": "E:used:0050:A7",
+          "frameId": "used:0050",
+          "frameIndex": 50,
+          "t": 5,
+          "playerId": "A7",
+          "status": "eligible",
+          "reason": null,
+          "carrierId": "A6",
+          "as": 322.6833190917969,
+          "das": 0.1856894307352538,
+          "metric_refs": [
+            "M:used:0050:A7:AS",
+            "M:used:0050:A7:DAS"
+          ]
+        },
+        {
+          "id": "E:used:0044:A7",
+          "frameId": "used:0044",
+          "frameIndex": 44,
+          "t": 4.4,
+          "playerId": "A7",
+          "status": "eligible",
+          "reason": null,
+          "carrierId": "A6",
+          "as": 339.43017578125,
+          "das": 0.18628998562597415,
+          "metric_refs": [
+            "M:used:0044:A7:AS",
+            "M:used:0044:A7:DAS"
+          ]
+        }
+      ],
+      "overlay": {
+        "type": "receiving_heatmap",
+        "frameId": "used:0050",
+        "playerIds": [
+          "A7"
+        ]
+      }
+    }
+  ],
+  "failure": null
+}

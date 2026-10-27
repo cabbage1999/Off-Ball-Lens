@@ -9,6 +9,7 @@ tmp/
 test-results/
 playwright-report/
 .venv-das/
+.venv-maf/
 analytics/.cache/
 __pycache__/
 *.pyc

@@ -7,7 +7,7 @@ import {MODEL_VERSION,makeFactPack,renderFactPlan,validateExplainRequest} from '
 import {listScenarios} from '../src/scenarios.mjs';
 
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
-const STATIC_FILES=['index.html','app.mjs','style.css','src/analysis.mjs','src/agent.mjs','src/evidence.mjs'];
+const STATIC_FILES=['index.html','app.mjs','style.css','src/analysis.mjs','src/agent.mjs','src/evidence.mjs','src/evidence-session.mjs'];
 const OVERLAYS=['receiving_heatmap','player_trail','das_curve','event','none'];
 const MAX_FILE_BYTES=16*1024*1024,MAX_JSON_BYTES=128*1024;
 const digest=value=>createHash('sha256').update(value).digest('hex');
@@ -86,7 +86,7 @@ function checkExplanation(result,bundle,request,offline){
   }else{
     requireCheck(result.source==='microsoft-foundry'&&result.status==='cloud-verified'&&result.cloud.configured===true&&result.cloud.verified===true&&!result.fallbackReason,'cloud_not_verified');
     requireCheck(result.cached!==true,'cached_cloud_response');
-    requireCheck(['azure-resource','foundry-project'].includes(result.cloud.endpointKind),'invalid_cloud_endpoint_kind');
+    requireCheck(['azure-resource','foundry-project','azure-regional'].includes(result.cloud.endpointKind),'invalid_cloud_endpoint_kind');
   }
   let pack;try{pack=makeFactPack(bundle,request,result.context.startTime,result.context.endTime);}catch{throw new CheckError('invalid_explanation_window');}
   equal(result.context,pack.context,'context_mismatch');

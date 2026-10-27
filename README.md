@@ -6,7 +6,7 @@ Off-Ball Lens replays three independently authored synthetic football attacks, f
 
 **[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [108-second actual preview](https://cabbage1999.github.io/Off-Ball-Lens/assets/demo-preview.html) · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Acceptance](docs/acceptance.md)
 
-The default experience uses precomputed author-model results and works without an account or API key. **Real Microsoft Foundry verification is pending: no usable model deployment has been verified.** The server includes Responses and Chat Completions tool loops with transparent local fallback. Mock protocol tests are not evidence of a successful cloud deployment.
+The default replay uses precomputed author-model results and works without an account or API key. The server includes **one genuine Microsoft Agent Framework (MAF) Agent** with native evidence tools. **On 27 October 2026, the complete local Node → MAF → Azure path passed a real smoke and all eight expanded cases**, using `gpt-5-mini` at `https://westus3.api.cognitive.microsoft.com/openai/v1/responses`. See the sanitized [single-run record](artifacts/agent-framework-trace.json) and [eight-case record](artifacts/agent-framework-suite.json), both marked `mock:false`. Public backend deployment, the final MAF video and human review remain pending. GitHub Pages continues to provide deterministic local explanations.
 
 ## Run the replay
 
@@ -18,7 +18,7 @@ cd Off-Ball-Lens
 npm start
 ```
 
-Open `http://127.0.0.1:4173`. The replay and local server have no third-party JavaScript runtime dependencies. Python is only needed to regenerate the included analysis. Serve the files over HTTP; do not open `index.html` as a local file.
+Open `http://127.0.0.1:4173`. The replay and local server have no third-party JavaScript runtime dependencies. Python is needed for the optional MAF runtime or to regenerate the included analysis, each in its own environment. Serve the files over HTTP; do not open `index.html` as a local file.
 
 ## What to explore
 
@@ -73,19 +73,44 @@ On Windows, create the same environment with `py -3.12 -m venv .venv-das` and in
 node scripts/run-python.mjs -m analytics.compute_das used --frame 104
 ```
 
-## Microsoft Foundry
+## Microsoft Agent Framework and Azure
 
-Follow the [Azure setup and local configuration guide](docs/foundry-setup.zh-CN.md). Copy `.env.example` to `.env`, configure the resource endpoint, model deployment and key locally, and run `npm start`. The default Responses path requires function calling and strict structured outputs. Set `FOUNDRY_API_STYLE=chat-completions` for a resource-level Azure deployment supporting native tools and JSON mode. This alternative sends `/openai/v1/chat/completions`; JSON mode is not a provider-enforced schema, so the same local evidence validation remains mandatory. Project endpoints currently support the Responses path only. Model eligibility, quota and successful real tool execution must be checked separately.
-
-The model calls `analyze_window` and `get_evidence`, chooses a bounded past interval, factual clauses and an allowed overlay. The application validates every selected reference and renders deterministic bilingual facts. Invalid output receives one correction attempt, then an explicitly labelled fallback. It never lets the language model recompute a football score. Changing scene, player, time, language or audience discards an outdated response.
+Install Python 3.12 alongside Node.js 22 or later, then prepare the separate `.venv-maf` environment:
 
 ```sh
-npm run smoke:foundry
+npm run setup:agent
+npm run test:agent
 ```
 
-A successful real call writes a sanitized `artifacts/foundry-trace.json`. Missing configuration exits with **NOT RUN** and makes no request. `cloud-configured` means settings are present; `cloud-verified` applies only after a successful real tool loop. GitHub Pages serves the replay/local explanations only; the Node server must be hosted separately for public cloud use. No key belongs in the browser or repository.
+The installer uses [requirements-agent.lock](requirements-agent.lock): MAF core `1.23.0`, its OpenAI provider `1.17.0`, OpenAI SDK `3.39.0`, and the remaining pinned dependencies. `MAF_BOOTSTRAP_PYTHON` can select a Python 3.12 executable during setup; `MAF_PYTHON` can select an absolute interpreter path at runtime. This environment is separate from `.venv-das`.
 
-Follow the [public deployment guide](docs/deployment.zh-CN.md) to serve the UI and API from the same Node origin. `npm run smoke:deployment -- --url https://YOUR-APP.azurewebsites.net` checks the hosted HTTP paths, deployed file hashes, tool trace and exact evidence against this checkout. Its default mode requires the server's cloud protocol; `--offline` is explicitly limited to an unconfigured local/offline service. An HTTP contract check does not independently authenticate the server's Azure backend, so its report does not replace the real provider trace and Azure-side invocation evidence. Closing a client request cancels its provider work and retry waits; genuine provider failures still produce the labelled fallback.
+Copy `.env.example` to the ignored local `.env` and supply your own authorized Azure credential. Its example selects the account-tested West US 3 endpoint, `gpt-5-mini`, Responses, `minimal` reasoning, and `FOUNDRY_ORCHESTRATOR=agent-framework`. That account-specific result does not establish access for another account. See the [setup guide](docs/foundry-setup.zh-CN.md) for resource/project endpoints and authentication.
+
+```sh
+npm run start:agent
+```
+
+Open the local Node URL and request an explanation. For each request, Node launches one Python child. A single MAF `Agent`, using the Responses provider `OpenAIChatClient`, owns the native model/tool loop. Its only tools are `analyze_window` and `get_evidence`; both ask Node for existing analysis. Node remains authoritative for the selected player, past-time bounds, retrieved claims, final validation, and deterministic bilingual rendering. The model selects claim IDs, evidence IDs and an allowed overlay; it does not recompute DAS. There is no second reviewer Agent or MAF Workflow in this implementation.
+
+The request has a shared 40-second limit, at most six model requests and ten native tool calls, and a maximum 12-second wait per provider/tool call. A rejected candidate gets at most one repair within those same limits. SDK automatic retries are disabled. Native provider response IDs and function-call IDs are matched to the evidence tools actually dispatched. Cancellation stops the child process; changing scene, player, time, language or audience discards an outdated response. The model has no filesystem or shell tool; the Python child is not an operating-system filesystem sandbox.
+
+After local tests pass, these commands make **real, potentially billable Azure requests**:
+
+```sh
+npm run smoke:agent
+# Optional: three scenes, both languages, limitations and an adversarial question.
+npm run smoke:agent -- --suite
+```
+
+The checks write sanitized `artifacts/agent-framework-trace.json` or `artifacts/agent-framework-suite.json`. They exercise the Node HTTP route, actual Python MAF worker, native calls, canonical facts and clean child exit. Missing configuration reports **NOT RUN** without a model request. Local tests use an in-memory provider and are not cloud verification. `cloud-configured` means configuration is present; `cloud-verified` follows a successful, validated explanation for the current server configuration.
+
+The 27 October expanded run covered all three scenes in English Analyst and Chinese Fan modes, a limitations question and an adversarial question. The records include per-request timing, model requests, native tool calls and repair counts. These measured runs do not establish a latency guarantee or replace human assessment of relevance and football interpretation.
+
+The Free Trial subscription was rechecked on 27 October and retains `spendingLimit=On`; no new resource, subscription upgrade or Marketplace purchase was needed for these checks. Cloud inference is not inherently free: eligible usage consumes trial credit, and availability depends on the account and remaining credit. Keep credentials in local `.env` or server-side hosting settings. No key belongs in the browser or repository. See [Microsoft's spending-limit guidance](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/spending-limit).
+
+The existing `FOUNDRY_ORCHESTRATOR=native` path remains available with `npm start` and `npm run smoke:foundry`; it supports Responses or resource-level Chat Completions. MAF currently requires Responses. Chat Completions JSON mode is not a provider-enforced schema, so the same local evidence checks remain necessary.
+
+For public cloud use, follow the [deployment guide](docs/deployment.zh-CN.md) and host the UI and API together with both required runtimes. A TLS reverse proxy can set an explicit `PUBLIC_ORIGIN`. GitHub Pages has no public MAF backend. `smoke:deployment` checks a chosen service's HTTP contract and evidence; it does not independently authenticate that service's Azure backend.
 
 ## Repository map
 
@@ -95,8 +120,9 @@ Follow the [public deployment guide](docs/deployment.zh-CN.md) to serve the UI a
 | `analytics/` | Author package adapter, field conversion, past-only notification detector, audit |
 | `data/analysis/` | Precomputed AS/DAS, eligibility, fixed-scale fields and moment revisions |
 | `src/analysis.mjs`, `app.mjs`, `index.html`, `style.css` | Prefix-only replay and evidence interface |
-| `src/evidence.mjs`, `src/agent.mjs`, `server.mjs` | Shared facts, Foundry tools, validation and server |
-| `tests/`, `analytics/tests/` | Meaningful contract, temporal, numerical and HTTP checks |
+| `src/evidence.mjs`, `src/evidence-session.mjs`, `src/agent.mjs` | Canonical facts, evidence ledger/validation and legacy native provider path |
+| `agent_runtime/`, `src/maf-bridge.mjs`, `server.mjs` | MAF Agent, bounded Python/Node bridge and same-origin HTTP server |
+| `tests/`, `agent_runtime/tests/`, `analytics/tests/` | Contract, temporal, MAF/protocol, numerical and HTTP checks |
 | `docs/` | Model/data rationale, setup, independent reviews, walkthrough and delivery status |
 
 ## Scope and attribution
@@ -105,4 +131,4 @@ The [official hackathon rules](https://github.com/microsoft/insidethegamehackath
 
 The DAS paper and package are credited in [research.md](docs/research.md). Their original MIT notice is retained in [analytics/ACCESSIBLE_SPACE_LICENSE.txt](analytics/ACCESSIBLE_SPACE_LICENSE.txt). This repository is MIT licensed and is not affiliated with or endorsed by Microsoft or the Premier League.
 
-The [handoff checklist](docs/handoff.md) separates completed engineering from the still-required real Microsoft call, public backend availability and final submission evidence. Passing local tests alone does not complete the submission.
+The [handoff checklist](docs/handoff.md) records the completed MAF cloud check separately from pending public backend availability, final video, human review and submission evidence. The local real-cloud pass does not complete those remaining items.

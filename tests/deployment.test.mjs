@@ -20,7 +20,7 @@ const sha=value=>createHash('sha256').update(value).digest('hex');
 before(async()=>{
   directory=await realpath(await mkdtemp(path.join(tmpdir(),'off-ball-deployment-')));fixtureRoot=path.join(directory,'site');
   await mkdir(path.join(fixtureRoot,'data','analysis'),{recursive:true});await mkdir(path.join(fixtureRoot,'src'),{recursive:true});
-  for(const name of ['index.html','app.mjs','style.css','src/analysis.mjs','src/agent.mjs','src/evidence.mjs'])await copyFile(path.join(ROOT,name),path.join(fixtureRoot,name));
+  for(const name of ['index.html','app.mjs','style.css','src/analysis.mjs','src/agent.mjs','src/evidence.mjs','src/evidence-session.mjs'])await copyFile(path.join(ROOT,name),path.join(fixtureRoot,name));
   for(const id of ['used','unused','blocked']){
     const bundle=JSON.parse(JSON.stringify(fixture()).replaceAll('used:',`${id}:`));
     bundle.scenario.metadata.id=id;bundle.analysis.scenarioId=id;
@@ -94,7 +94,7 @@ test('a static Pages-style host without the JSON API cannot pass',async()=>{
 test('offline HTTP service matches all six scene/analysis bytes and canonical facts without cloud claims',async()=>{
   const seen=[],{report,baseUrl}=await run(nodeService({seen}),{offline:true});
   assert.equal(report.passed,true,JSON.stringify(report.failure));assert.equal(report.mode,'offline');assert.equal(report.scope,'local-http-offline');assert.equal(report.realCloudVerified,false);assert.equal(report.cloudProtocolVerified,false);assert.equal(report.serverReportedCloudVerified,false);
-  assert.equal(report.files.length,12);assert.equal(report.files.filter(f=>f.path.startsWith('data/')).length,6);assert(report.files.every(f=>f.matched&&f.localSha256===f.remoteSha256));
+  assert.equal(report.files.length,13);assert(report.files.some(f=>f.path==='src/evidence-session.mjs'));assert.equal(report.files.filter(f=>f.path.startsWith('data/')).length,6);assert(report.files.every(f=>f.matched&&f.localSha256===f.remoteSha256));
   assert.deepEqual(report.catalog.scenarioIds,['used','unused','blocked']);
   assert.equal(report.explanation.summary.peakDAS,6);assert.equal(report.explanation.summary.peakTime,.4);assert.equal(report.explanation.summary.meanDAS,4.25);
   assert(report.explanation.evidence.some(e=>e.frameId==='used:0008'&&e.frameIndex===8&&e.playerId==='A7'&&e.as===28&&e.das===4));

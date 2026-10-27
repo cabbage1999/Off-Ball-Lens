@@ -3,13 +3,22 @@ import {readFile,realpath,stat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import path from 'node:path';
-import {explain,foundryConfiguration} from './src/agent.mjs';
+import {foundryConfiguration} from './src/agent.mjs';
+import {explainWithOrchestrator} from './src/maf-bridge.mjs';
 import {listScenarios} from './src/scenarios.mjs';
 import {MODEL_VERSION} from './src/evidence.mjs';
 
 const ROOT=fileURLToPath(new URL('.',import.meta.url));
 const MIME={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.webp':'image/webp','.ico':'image/x-icon','.md':'text/markdown; charset=utf-8','.mp4':'video/mp4','.webm':'video/webm','.vtt':'text/vtt; charset=utf-8'};
 const SECURITY={'x-content-type-options':'nosniff','referrer-policy':'same-origin','x-frame-options':'DENY','content-security-policy':"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"};
+const configurationKey=config=>createHash('sha256').update(JSON.stringify({contract:3,...config})).digest('hex');
+const orchestrationName=config=>config.orchestrator==='agent-framework'?'microsoft-agent-framework':'native';
+function validatedPublicOrigin(value){
+  if(value===undefined||value==='')return null;
+  let url;try{url=new URL(value);}catch{throw new RangeError('PUBLIC_ORIGIN must be an HTTP(S) origin');}
+  if(!['http:','https:'].includes(url.protocol)||url.username||url.password||url.pathname!=='/'||url.search||url.hash||/[?#\\]/.test(value))throw new RangeError('PUBLIC_ORIGIN must be an HTTP(S) origin without credentials or a path');
+  return url.origin;
+}
 
 function json(res,status,data){if(res.destroyed||res.writableEnded)return;res.writeHead(status,{'content-type':'application/json; charset=utf-8','cache-control':'no-store',...SECURITY});res.end(JSON.stringify(data));}
 async function readJson(req){
@@ -20,7 +29,10 @@ async function readJson(req){
 }
 
 export function createServer(options={}){
-  const env=options.env??process.env,root=path.resolve(options.root??ROOT),rates=new Map(),bundles=new Map(),cache=new Map();let active=0,cloudVerified=false;
+  const env=options.env??process.env,root=path.resolve(options.root??ROOT),rates=new Map(),bundles=new Map(),cache=new Map();let active=0,verifiedConfiguration=null;
+  // TLS-terminating hosts can configure the exact external origin explicitly.
+  // Arbitrary forwarded headers must not relax the browser origin boundary.
+  const publicOrigin=validatedPublicOrigin(options.publicOrigin??env.PUBLIC_ORIGIN);
   async function loadBundle(id){
     if(!listScenarios().some(s=>s.id===id))throw new RangeError('Unknown scenario');
     if(options.loadBundle)return options.loadBundle(id);
@@ -37,14 +49,15 @@ export function createServer(options={}){
     try{
       const url=new URL(req.url,'http://local.invalid'),pathname=decodeURIComponent(url.pathname);
       if(req.method==='GET'&&pathname==='/api/health'){
-        const config=foundryConfiguration(env);
-        return json(res,200,{ok:true,mode:cloudVerified?'cloud-verified':config.configured?'cloud-configured':'offline',analysisMode:'precomputed',cloud:{configured:config.configured,verified:cloudVerified},model:MODEL_VERSION,message:cloudVerified?'A cloud explanation has completed and passed evidence validation during this server session.':config.configured?'A successful cloud explanation is needed to verify the connection.':'No complete Azure configuration. Deterministic local explanations are available.'});
+        const config=foundryConfiguration(env),cloudVerified=config.configured&&verifiedConfiguration===configurationKey(config),orchestrator=orchestrationName(config);
+        return json(res,200,{ok:true,mode:cloudVerified?'cloud-verified':config.configured?'cloud-configured':'offline',analysisMode:'precomputed',orchestrator,cloud:{configured:config.configured,verified:cloudVerified,orchestrator},model:MODEL_VERSION,message:cloudVerified?'A cloud explanation has completed and passed evidence validation for the current configuration during this server session.':config.configured?'A successful cloud explanation is needed to verify the connection.':'No complete Azure configuration. Deterministic local explanations are available.'});
       }
       if(req.method==='GET'&&pathname==='/api/scenarios')return json(res,200,{scenarios:listScenarios()});
       if(pathname==='/api/explain'){
         if(req.method!=='POST')return json(res,405,{error:'Use POST'});
         if(req.headers.origin){let origin;try{origin=new URL(req.headers.origin);}catch{return json(res,403,{error:'Invalid origin'});}
-          if(origin.host!==req.headers.host)return json(res,403,{error:'Cross-origin requests are not accepted'});}
+          if(origin.origin!==(publicOrigin??`${req.socket.encrypted?'https':'http'}://${req.headers.host}`)||origin.username||origin.password||origin.pathname!=='/'||origin.search||origin.hash)return json(res,403,{error:'Cross-origin requests are not accepted'});}
+        if(req.headers['sec-fetch-site']==='cross-site')return json(res,403,{error:'Cross-origin requests are not accepted'});
         const ip=req.socket.remoteAddress??'unknown',now=Date.now();
         if(rates.size>1000)for(const [key,value]of rates)if(now-value.start>60000)rates.delete(key);
         let rate=rates.get(ip);if(!rate||now-rate.start>60000){rate={start:now,count:0};rates.set(ip,rate);}
@@ -63,12 +76,15 @@ export function createServer(options={}){
           cancellation.signal.throwIfAborted();
           const bundle=await loadBundle(input.scenarioId??'used');
           cancellation.signal.throwIfAborted();
-          const key=createHash('sha256').update(JSON.stringify(input)+(bundle.sourceDigest??JSON.stringify(bundle.analysis))).digest('hex');
-          const cached=cache.get(key);
+          const config=foundryConfiguration(env),configKey=configurationKey(config);
+          const key=createHash('sha256').update(configKey+JSON.stringify(input)+(bundle.sourceDigest??JSON.stringify(bundle.analysis))).digest('hex');
+          // MAF uses a fresh Agent and process for each request. Until its cache
+          // contract is independently exercised, return only fresh executions.
+          const useCache=config.orchestrator!=='agent-framework',cached=useCache?cache.get(key):null;
           if(cached&&Date.now()-cached.createdAt<120000)return json(res,200,{...cached.output,cached:true});
-          const output=await explain(input,{bundle,env,fetchImpl:options.fetchImpl,timeoutMs:options.timeoutMs,signal:cancellation.signal});
+          const output=await explainWithOrchestrator(input,{bundle,env:{...env},fetchImpl:options.fetchImpl,spawnImpl:options.spawnImpl,timeoutMs:options.timeoutMs,deadlineMs:options.deadlineMs,signal:cancellation.signal});
           cancellation.signal.throwIfAborted();
-          if(output.cloud.verified){cloudVerified=true;cache.set(key,{createdAt:Date.now(),output});if(cache.size>100)cache.delete(cache.keys().next().value);}
+          if(output.cloud.verified){verifiedConfiguration=configKey;if(useCache){cache.set(key,{createdAt:Date.now(),output});if(cache.size>100)cache.delete(cache.keys().next().value);}}
           return json(res,200,output);
         }finally{res.off('close',onClose);active--;}
       }

@@ -1,4 +1,5 @@
-import {explain,foundryConfiguration} from '../src/agent.mjs';
+import {foundryConfiguration} from '../src/agent.mjs';
+import {explainWithOrchestrator as explain} from '../src/maf-bridge.mjs';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 const root=new URL('../',import.meta.url);
@@ -12,7 +13,7 @@ if(!foundryConfiguration(process.env).configured){
   if(!frame)throw new Error('No valid A7 frame is available for the smoke test');
   const result=await explain({scenarioId:'used',playerId:'A7',asOfTime:frame.t,windowSeconds:5,question:'Which receiving opportunity should I look at, and where is the evidence?',audience:'analyst',language:'en'}, {bundle:{scenario,analysis},env:process.env});
   const passed=result.source==='microsoft-foundry'&&result.cloud.verified&&['analyze_window','get_evidence'].every(name=>result.toolTrace.some(t=>t.name===name&&t.status==='completed'));
-  const record={checkedAt:new Date().toISOString(),passed,source:result.source,status:result.status,cloud:result.cloud,trace:result.trace,toolTrace:result.toolTrace,context:result.context,claims:result.claims,evidence:result.evidence,fallbackReason:result.fallbackReason??null};
+  const record={checkedAt:new Date().toISOString(),passed,source:result.source,status:result.status,cloud:result.cloud,trace:result.trace,orchestrator:result.orchestrator??'native',agentTrace:result.agentTrace??[],toolTrace:result.toolTrace,context:result.context,claims:result.claims,evidence:result.evidence,fallbackReason:result.fallbackReason??null};
   await mkdir(new URL('artifacts/',root),{recursive:true});
   await writeFile(new URL('artifacts/foundry-trace.json',root),JSON.stringify(record,null,2)+'\n');
   console.log(JSON.stringify({passed,source:result.source,status:result.status,fallbackReason:result.fallbackReason??null,traceFile:'artifacts/foundry-trace.json'},null,2));

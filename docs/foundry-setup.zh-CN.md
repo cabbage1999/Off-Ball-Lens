@@ -1,68 +1,126 @@
-# Microsoft Foundry 开通与本机验证
+# Microsoft Agent Framework：配置与本机验证
 
-本项目的 DAS 分析和播放器不需要云端密钥。规划要求的真实 Microsoft 工具调用需要你们自己的可用 Azure 订阅、模型部署与访问权限；配置文件存在不等于调用成功。
+播放器和预计算 DAS 不需要云端密钥。服务器的 MAF 模式使用一个真正的 Microsoft Agent Framework Agent，通过原生工具调用读取 Node 提供的证据，再由 Node 校验和渲染。完整链路需要 Node.js 22 或以上、Python 3.12，以及本人有权使用的 Azure 推理端点和凭证。
 
-## 1. 建立资源与模型部署
+## 1. 当前已经验证到哪里
 
-1. 登录 [Microsoft Foundry](https://ai.azure.com/)，使用团队有权限的 Azure 订阅创建 Foundry 资源与项目。没有订阅时先按 [微软官方资源创建指南](https://learn.microsoft.com/en-us/azure/foundry/tutorials/quickstart-create-foundry-resources)建立账号和订阅；账号验证、订阅及费用选择由团队完成。
-2. 在项目的模型部署入口选择该订阅和区域实际支持的模型。默认接口要求 **Responses API、function calling 和严格结构化输出**；另一种配置支持 **Chat Completions、原生工具调用和 JSON 输出**，见下文。两种方式都必须通过本项目的本地证据校验；这次无需部署自定义足球模型。
-3. 部署完成后记录**部署名称**，以及模型推理的 Azure OpenAI 资源 endpoint 和 API key。部署名称可能不同于模型名称。推荐资源 endpoint 形如 `https://资源名.openai.azure.com`；不要把控制台网页 URL 当 endpoint。
-4. 如果团队只提供 Foundry 项目 endpoint，使用文末的项目令牌方式。不要混用项目 endpoint 和另一个资源的 key。
+当前账号的 `azure_check.py` 直接检查已成功请求：
 
-### 仅使用试用额度时
-
-保留试用订阅的 `spendingLimit=On`，不要升级为按量付费或移除支出限制。Azure 直销模型与合作伙伴 Marketplace 模型的计费条件不同；不能只凭模型出现在目录或有配额就认定它可以使用赠送额度。不要购买单独计费的 Marketplace 服务。受试用支出限制保护的服务会在额度耗尽时停用，试用期限届满也会影响可用性；预算提醒本身不是硬性停机保护。
-
-目录可见、模型配额、账号部署资格和实际调用成功是不同条件。若创建请求返回 `CannotDeployDueToLocalRegulations`，应请 Microsoft 核实账号是否满足服务资格；修改应用代码不能解除这类限制。免费试用订阅不具备申请增加配额的资格。本项目不会自动升级订阅、购买模型或修改支出限制。
-
-依据：[试用账户支出保护](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/spending-limit)、[Azure 直销模型部署条件](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/how-to/create-model-deployments)、[免费试用配额规则](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#how-to-manage-limits)。
-
-## 2. 在本机保存配置
-
-在项目根目录复制 `.env.example` 为 `.env`，填入前三个值。真实 `.env` 被 Git 忽略；不要把 key 写入前端、GitHub、截图或聊天。
-
-```dotenv
-AZURE_OPENAI_ENDPOINT=https://你的资源.openai.azure.com
-AZURE_OPENAI_DEPLOYMENT=你的部署名称
-AZURE_OPENAI_API_KEY=在本机填入真实密钥
+```text
+POST https://westus3.api.cognitive.microsoft.com/openai/v1/responses
+model: gpt-5-mini
+reasoning.effort: minimal
 ```
 
-默认 `FOUNDRY_API_STYLE=responses`。对于已经成功部署、支持原生工具和 JSON 模式的 Azure 直销模型，可显式选择另一协议：
+此前 `CannotDeployDueToLocalRegulations` 发生在模型部署创建请求。它与上述推理成功是两个不同的事实；不能继续把历史创建失败描述为“任何模型都不能调用”。这次成功只证明测试账号、该端点与该模型参数下的直接推理可用，不推断 Azure 未公开的后台路由，也不保证另一个账号具有相同权限。
 
-```dotenv
-FOUNDRY_API_STYLE=chat-completions
-AZURE_OPENAI_ENDPOINT=https://你的资源.services.ai.azure.com
-AZURE_OPENAI_DEPLOYMENT=你的部署名称
-AZURE_OPENAI_API_KEY=在本机填入真实密钥
+**2026年10月27日，完整本机 Node → MAF → Azure 链路已通过真实 smoke 与8项扩展检查。** [单次记录](../artifacts/agent-framework-trace.json)和[扩展记录](../artifacts/agent-framework-suite.json)均为 `mock:false`。扩展检查包含三个场景各自的英文分析师与中文球迷请求，以及局限问题、对抗性问题；记录保存每项的耗时、模型请求、原生工具调用与修复次数。
+
+本次重新认证时，设备码流程被 Security Defaults 拒绝，随后使用常规交互式浏览器 `az login` 成功登录；没有关闭安全设置。既有端点与凭证用于上述检查，没有新建资源。记录证明本机完整工具链实际运行，不说明公网后端已经部署，也不替代人工回答质量或足球合理性评审。
+
+另有内存模拟提供方的本地工程测试覆盖真实 MAF SDK、Python 子进程协议及 Node 校验；这些测试本身不请求 Azure，应与上述真实运行记录区分。
+
+## 2. 试用订阅与费用边界
+
+2026年10月27日已复核当前订阅为 Free Trial，且 `spendingLimit=On`。本次检查没有升级为按量付费、移除支出限制或购买 Marketplace 模型。云端推理并非天然免费：符合订阅条件的用量会消耗试用额度，具体计费以 Azure 记录为准。不要仅因模型出现在目录、存在配额或请求返回成功，就断言该用量免费。
+
+Azure 支出限制对适用服务提供额度保护；额度耗尽后服务可能停用。某些单独计费服务不在同一保护范围内，因此本方案不加入 Marketplace 购买。预算提醒也不等于硬性停机限制。依据：[Azure 支出限制](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/spending-limit)。
+
+如果使用另一个订阅或端点，先核对该账号的访问资格、配额和计费条件。已有可用端点时无须为了运行本项目重新创建资源。本项目的安装、启动和 smoke 脚本都不会自动创建云资源、升级订阅或购买服务。
+
+## 3. 安装独立的 Python 运行环境
+
+在项目根目录运行：
+
+```sh
+npm run setup:agent
+npm run test:agent
 ```
 
-这一路径调用资源级 `/openai/v1/chat/completions`，不接受项目 endpoint。模型通过原生 `tool_calls` 请求分析和证据，服务器返回对应工具结果，再校验模型选择的声明与引用。JSON 模式只保证输出形式，不等于提供方严格 Schema；本地仍拒绝伪造引用、遗漏证据、超过长度限制或无效叠加层。默认 Responses 路径保持严格 Schema 请求。
+安装脚本查找 Python 3.12，创建 `.venv-maf`，按 `requirements-agent.lock` 安装并检查依赖。当前固定版本为 `agent-framework-core==1.23.0`、`agent-framework-openai==1.17.0`、`openai==3.39.0` 和对应的 `httpx2` 依赖。完整版本以锁文件为准。
 
-DeepSeek-V3.2 的官方 Azure 能力表列有工具调用与 JSON 输出，因此可以作为有资格、有配额时的候选；这不代表当前订阅已成功部署。新增 Chat 适配已通过模拟协议测试，真实模型兼容性仍需下一节的实际检查。依据：[Azure 直销模型能力](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/models-sold-directly-by-azure?pivots=azure-direct-others)。
+若 Python 3.12 不在常用路径，可在当前终端设置 `MAF_BOOTSTRAP_PYTHON` 为其可执行文件后重试。运行时也可通过绝对路径 `MAF_PYTHON` 选择已装好这些依赖的 Python。`.venv-maf` 与数值分析使用的 `.venv-das` 分开；运行 MAF 无须重新计算 DAS。
 
-服务器从本机 `.env` 读取配置。只有服务端调用 Microsoft；浏览器不接收密钥。公开 GitHub Pages 只能运行静态回放和本地解释，不能安全承载云端密钥。公开真实 AI 需部署同一 Node 服务并由部署平台注入环境变量。
+`test:agent` 使用内存中的模拟提供方，不调用 Azure。安装成功和本地测试通过只说明软件环境与工程约束通过。
 
-## 3. 运行和核验
+## 4. 在本机保存配置
 
-使用 Node.js 22 或以上版本，在项目目录运行 `npm start`，打开 `http://127.0.0.1:4173`。选择一个有效接应时刻，点击解释。界面必须显示 Microsoft 来源及成功的工具记录，单纯的“已配置”不是通过。
+将项目根目录的 `.env.example` 复制为 `.env`。真实 `.env` 被 Git 忽略；密钥只在自己的电脑填写，不放进聊天、前端、GitHub、截图或录像。
 
-运行 `npm run smoke:foundry` 完成真实检查。脚本要求成功的模型调用、`analyze_window` 和 `get_evidence` 工具记录、通过校验的引用，并输出不含 key 的运行记录。没有配置、超时、无权限、模型不支持工具或回退模板都会明确失败；不能用离线测试替代。
+当前账号已经直接验证的配置形式为：
 
-目前真实调用仍待可用的模型部署后验证。代码的接口测试使用模拟 HTTP 响应，只证明协议处理、错误处理和事实校验。脱敏记录包含 `apiStyle` 和 `outputMode`，区分两种输出协议；模拟测试通过不能记为真实调用通过。
+```dotenv
+AZURE_OPENAI_ENDPOINT=https://westus3.api.cognitive.microsoft.com
+AZURE_OPENAI_DEPLOYMENT=gpt-5-mini
+AZURE_OPENAI_API_KEY=在本机填入你有权使用的真实密钥
+FOUNDRY_ORCHESTRATOR=agent-framework
+FOUNDRY_API_STYLE=responses
+FOUNDRY_REASONING_EFFORT=minimal
+```
 
-本机检查通过后，按 [公网部署与 HTTP 验收指引](deployment.zh-CN.md)部署整个 Node 服务。真实 AI 演示需从该服务自己的网址打开；现有 GitHub Pages 保留静态回放入口。
+服务端会将端点补全为 `/openai/v1/responses`。`AZURE_OPENAI_DEPLOYMENT` 的值作为请求的 `model` 参数传入：当前已验证路由使用 `gpt-5-mini`；使用自己创建的 Azure 模型部署时，应填写该部署接受的名称。不要用控制台网页 URL 替代推理 endpoint，也不要混用不同资源的凭证。
 
-## 4. 常见问题
+已有资源 endpoint 也可使用 `https://资源名.openai.azure.com` 或 `https://资源名.services.ai.azure.com`，前提是账号和模型支持所需 Responses、function calling 与严格结构化输出。当前代码只额外接受上述已验证的 West US 3 区域地址，没有把所有 `api.cognitive.microsoft.com` 主机开放为通用端点。
 
-- `401/403`：核对密钥所属资源、访问权限或令牌有效期。
-- `404`：核对 endpoint 路径和部署名称；控制台 URL 不能用于推理。
-- `429`：检查部署配额；等待后重试，或在控制台调整可用配额。
-- `CannotDeployDueToLocalRegulations`：这是创建模型时的账号资格拒绝，应由 Microsoft 核实；不能把更换模型或 API 格式当作资格豁免。
-- 模型输出格式或工具不支持：使用部署页面标示支持这些能力的模型。不要删除事实校验来让检查“通过”。
-- `cloud-configured`：仅表示三项配置齐全；完成真实解释后才会成为已验证状态。
+MAF 使用 `OpenAIChatClient` 的 Responses 实现；它与 Chat Completions 客户端不同。API key 以 `api-key` 请求头发送；如果配置了 `AZURE_FOUNDRY_AUTH_TOKEN`，则使用对应的 Bearer token。运行时只使用显式传入的配置和凭证，不自动发现其他账号或切换提供方。
 
-## 项目 endpoint 的可选方式
+## 5. 启动、工具边界与真实检查
 
-微软也支持 `https://资源名.services.ai.azure.com/api/projects/项目名/openai/v1/responses`。本项目接受 `FOUNDRY_PROJECT_ENDPOINT` 加 `AZURE_FOUNDRY_AUTH_TOKEN`；token 必须来自已授权的 Microsoft Entra 登录，按微软文档使用 `https://ai.azure.com/.default` scope。此类短期 token 需要续期；部署服务应使用平台管理的身份方案。
+```sh
+npm run start:agent
+```
 
-依据：[Responses API 端点与认证](https://learn.microsoft.com/en-us/rest/api/aifoundry/azureopenai/responses)、[Foundry 项目 Responses 指南](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/responses-api)。本项目使用直接 REST 工具调用，不宣称运行了 Microsoft Agent Framework SDK。
+打开 `http://127.0.0.1:4173`，选择一个有效接应时刻并请求解释。每项请求由 Node 启动一个 Python 子进程，单个 MAF Agent 负责模型与工具的循环。它只注册两个工具：
+
+| 工具 | 能读取什么 | Node 保留的约束 |
+| --- | --- | --- |
+| `analyze_window` | 所选球员在指定过去窗口内的既有 AS/DAS 与候选证据 | 同一球员、同一场景、有限时间范围，不取未来帧 |
+| `get_evidence` | 最近一次成功分析对应的声明和帧引用 | 必须先分析，只接受已存在的证据 ID |
+
+模型最终仅返回 `claim_ids`、`evidence_ids`、`overlay_type`。Node 独立校验已取回的引用及其相互关系，按规范事实生成中英文解释。Python 不读取或重新计算足球分析文件；模型没有文件系统或 shell 工具。这是工具能力限制，不是操作系统级文件访问隔离。当前没有第二个审查 Agent 或 MAF Workflow。
+
+每项请求共享 40 秒总时限、最多6次模型请求和10次原生工具调用；提供方和工具的单次等待最多12秒。候选计划被拒绝后，最多在同一会话、同一剩余预算内修复一次。SDK自动重试关闭。客户端取消会终止对应子进程；无效结果、超时或提供方故障显示明确的本地回退。Node 在候选校验、原生调用标识核对、`done` 消息和正常子进程退出均成立后才返回成功。
+
+以下命令会产生**真实 Azure 推理用量**：
+
+```sh
+npm run smoke:agent
+```
+
+它通过本机 Node HTTP 服务运行实际 MAF worker，核对响应 ID、原生工具调用 ID、所选证据、规范数值和子进程退出，并写入 `artifacts/agent-framework-trace.json`。缺少配置时显示 **NOT RUN**，不发起模型请求；回退、超时、无权限或证据不符都不能算通过。
+
+需要扩展检查时可运行：
+
+```sh
+npm run smoke:agent -- --suite
+```
+
+这会增加三个场景的中英文请求，以及局限问题和试图改变时限/索取凭证的问题，生成 `artifacts/agent-framework-suite.json`，比单次 smoke 使用更多云端额度。脱敏记录保存框架/提供方版本、原生标识、工具和事实，不保存密钥。
+
+`cloud-configured` 只表示配置齐全。成功的真实解释通过校验后，当前服务进程才会对当前配置显示 `cloud-verified`。本机通过后，再按[公网部署说明](deployment.zh-CN.md)验证实际服务；GitHub Pages 仍只有静态回放和确定性解释，没有公开 MAF 后端。
+
+## 6. 保留的 native 模式
+
+原有 Node 原生协议实现仍可显式选择：
+
+```dotenv
+FOUNDRY_ORCHESTRATOR=native
+FOUNDRY_API_STYLE=responses
+```
+
+然后使用 `npm start` 和 `npm run smoke:foundry`；该检查按所配置的编排方式工作，记录写入 `artifacts/foundry-trace.json`。MAF 专项验收应使用前述 `smoke:agent`。
+
+只有 native 模式支持 `FOUNDRY_API_STYLE=chat-completions`，调用资源级 `/openai/v1/chat/completions`。它需要模型支持原生 `tool_calls` 和 JSON 输出，不接受项目 endpoint。JSON 模式不是提供方强制 Schema，本地仍会拒绝伪造引用、缺少证据和无效叠加层。某个模型的能力表列出工具调用不等于当前账号已完成部署和真实检查。
+
+## 7. 常见问题与项目端点
+
+- `401/403`：核对凭证所属端点、访问权限和有效期；需要交互登录时由账号持有人完成。
+- `404`：核对推理 endpoint 与 `model` 参数，避免使用门户网页地址。
+- `429`：检查配额和当前用量。MAF SDK不自动重试；处理原因后可发起一次新请求。
+- `CannotDeployDueToLocalRegulations`：这是历史部署创建阶段的账号资格拒绝。应由 Microsoft 核实该创建请求；更换协议不会解除账号限制，也不能据此否定另一个端点已经观测到的推理成功。
+- `framework_unavailable` 或运行时缺失：运行 `npm run setup:agent`，核对 Python 3.12 和 `MAF_PYTHON`；不要把确定性回退当作安装成功。
+- 模型格式或工具不支持：核对模型能力，并保留事实校验。完整 MAF 路径只使用 Responses。
+
+项目 endpoint 的可选形式是 `https://资源名.services.ai.azure.com/api/projects/项目名/openai/v1/responses`。代码接受 `FOUNDRY_PROJECT_ENDPOINT` 加显式 `AZURE_FOUNDRY_AUTH_TOKEN`；项目路由不使用资源 API key。按 Microsoft 文档获取已授权的 Microsoft Entra token，使用 `https://ai.azure.com/.default` scope，并在到期后更新。当前 worker 不实现自动登录或令牌续期。
+
+依据：[Responses API 端点与认证](https://learn.microsoft.com/en-us/rest/api/aifoundry/azureopenai/responses)、[Foundry 项目 Responses 指南](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/responses-api)。

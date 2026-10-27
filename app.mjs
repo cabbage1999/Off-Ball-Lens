@@ -6,7 +6,7 @@ const english = new Map([...document.querySelectorAll('[data-i]')].map(element =
 const zh = {
   skip:'跳转至回放',sqrtlegend:'固定平方根显示色标',headercaption:'从另一个角度读懂足球',methodnav:'方法说明 ↗',eyebrow:'在球到来之前，看懂足球',title:'触球之前，先看跑动。',intro:'跟随一名球员，看见危险接应空间，找到机会出现的时刻。',viewlabel:'观看模式',fan:'球迷',analyst:'分析师',sceneused:'右侧配合',sceneusedsub:'观察近侧接应',sceneunused:'横向转移',sceneunusedsub:'观察远侧接应',sceneblocked:'冲击防线',sceneblockedsub:'观察跑动时机',synthetic:'合成场景回放',trail:'3 秒轨迹',heatmap:'接应空间',pitchhint:'点击任意球员，开始跟随',loading:'正在载入轨迹与作者模型分析……',teama:'A 队',teamb:'B 队',intensity:'危险接应空间 · 相对强度',recorded:'实际记录轨迹 · 22 人与球',curveeyebrow:'机会随时间变化',curvetitle:'的危险接应空间',dasunit:'DAS · 危险度加权 m²',curvenote:'仅显示已发生帧；无效状态与持球者切换处断开。',chartclick:'点击回看 ↗',following:'球员视角',followinglive:'跟随中',asunit:'m² 有效可接应面积',dasunitshort:'危险度加权 m²',analysistime:'分析时刻',frame:'帧编号',model:'模型',sampling:'计算方式',datasource:'数据来源',config:'配置标识',latestcue:'最新观察',cuestart:'播放片段，跟随这名球员的接应机会。',revisit:'回看这个时刻',playerlimit:'衡量直接接应面积，并非概率，也不是跑动的全部价值。',explainheading:'这一刻发生了什么？',localsource:'本地模板',explaincopy:'针对所选球员，询问截至此刻的比赛画面。',questionnow:'解释这一刻',questionchange:'机会如何变化？',questionlimits:'模型局限',questionlabel:'关于所选球员的问题',answerempty:'解释会绑定其证据帧。提问后暂停回放，查看依据。',offlinenote:'本地解释使用已记录的事实；尚未进行云端调用。',tooltrace:'证据与工具活动',revieweyebrow:'片段结束，回看机会',watchagain:'再看一遍 ↺',reviewcaveat:'有接应选项未被选择，本身并不能说明持球者作出了错误决策。',eventseyebrow:'截至此刻的比赛',eventstitle:'比赛事件',eventsempty:'事件会随回放逐步出现。',momentseyebrow:'可以回看的证据',momentstitle:'接应窗口',momentsempty:'只有证据已出现，才显示检测到的接应窗口。',methodtitle:'这个视角衡量什么',methodspace:'有明确含义的空间',methodcopy:'AS 是有效可接应面积，单位为 m²。DAS 以作者的危险度模型对该面积加权。两者直接读取 accessible-space 2.1.0 的结果，输入包括全员 22 人、球、球权与进攻方向。',methodlimits:'接应机会的一种视角',methodlimitcopy:'这是直接接应机会，不是进球概率或传球成功率，也不表示跑动的因果贡献。个人空间可以重叠。牵制跑动可能帮助队友，却不增加自身 DAS。',methoddata:'可回放、可复现',methoddatacopy:'三个独立编排的合成进攻片段。轨迹以 10 Hz 记录，作者模型以 5 Hz 预计算，动画只对位置插值。热图采用固定色标，越位仅为点位几何近似。',methodlink:'阅读方法说明 ↗',integrationlink:'查看作者实现适配 ↗',export:'下载当前证据 ↓',footer:'在触球之前，看见机会。',footernote:'独立编排的合成数据 · 与英超联赛无隶属关系'
 };
-const state = { language:'en', audience:'fan', sceneId:'used', scenario:null, analysis:null, selectedId:'A7', t:0, playing:false, speed:1, generation:0, loadGeneration:0, answer:null, requestController:null, loadController:null, server:false, cloudConfigured:false, loading:true, cueTime:null, latestRenderKey:'', heatmapCache:new Map(), drawnPlayers:[], toastTimer:null };
+const state = { language:'en', audience:'fan', sceneId:'used', scenario:null, analysis:null, selectedId:'A7', t:0, playing:false, speed:1, generation:0, loadGeneration:0, answer:null, requestController:null, loadController:null, server:false, cloudConfigured:false, orchestrator:null, loading:true, cueTime:null, latestRenderKey:'', heatmapCache:new Map(), drawnPlayers:[], toastTimer:null };
 const tr = (en, cn) => state.language === 'zh' ? cn : en;
 const fmt = (value, places=1) => Number.isFinite(value) ? value.toFixed(places) : '—';
 const metricText = value => !Number.isFinite(value)?'—':value===0?'0':Math.abs(value)<.01?value.toPrecision(2):Math.abs(value)<1?value.toFixed(3):Math.abs(value)<10?value.toFixed(2):value.toFixed(1);
@@ -29,10 +29,21 @@ function invalidateAnswer() {
   renderSource();
 }
 function renderSource(answer = null) {
-  const cloud = answer?.source === 'microsoft-foundry';
+  const cloud = answer?.source === 'microsoft-foundry' && answer?.cloud?.verified === true;
+  const maf = cloud && answer.orchestrator === 'microsoft-agent-framework';
   $('cloud-status').classList.toggle('cloud', cloud);
-  setText('cloud-status', cloud ? tr('Foundry · verified','Foundry · 已核验') : answer ? (['fallback','browser-fallback'].includes(answer.status)?tr('Local fallback','本地回退'):tr('Local template','本地模板')) : state.cloudConfigured ? tr('Foundry ready','Foundry 已配置') : tr('Local template','本地模板'));
-  setText('explanation-source', cloud ? tr('Microsoft Foundry selected tools and evidence. Returned claims passed the evidence checks.','Microsoft Foundry 选择工具与证据，返回的结论已通过证据检查。') : answer ? tr('Deterministic local wording from the same recorded facts. No cloud model generated this answer.','根据同一组记录事实生成的确定性本地文本，此回答未由云端模型生成。') : state.cloudConfigured ? tr('A server configuration is available. Cloud status is confirmed only after a successful request.','服务器已有配置，实际云端运行状态以请求成功后的结果为准。') : tr('Local explanations use the recorded facts. No cloud call has been made.','本地解释使用已记录的事实；尚未进行云端调用。'));
+  const badge = maf ? tr('Foundry + Agent Framework · verified','Foundry + Agent Framework · 已核验')
+    : cloud ? tr('Foundry · verified','Foundry · 已核验')
+    : answer ? (['fallback','browser-fallback'].includes(answer.status) ? tr('Local fallback','本地回退') : tr('Local template','本地模板'))
+    : state.cloudConfigured ? tr('Foundry ready','Foundry 已配置') : tr('Local template','本地模板');
+  setText('cloud-status',badge);
+  const description = maf
+    ? tr('Microsoft Agent Framework ran the analyst and its evidence tools with a Foundry model. The application verified the returned facts.','Microsoft Agent Framework 使用 Foundry 模型运行分析 Agent 和证据工具，应用已核验返回的事实。')
+    : cloud ? tr('Microsoft Foundry selected tools and evidence. Returned claims passed the evidence checks.','Microsoft Foundry 选择工具与证据，返回的结论已通过证据检查。')
+    : answer ? tr('Deterministic local wording from the recorded facts. No cloud-model answer is shown.','当前展示记录事实生成的确定性本地文本，未展示云端模型回答。')
+    : state.cloudConfigured ? tr('The server is configured. A successful explanation is needed to verify the model and tools.','服务器已有配置；需成功完成一次解释，才能核验模型与工具调用。')
+    : tr('Local explanations use recorded facts. Run the configured Node service for Agent Framework explanations.','本地解释使用记录事实；运行已配置的 Node 服务可使用 Agent Framework 解释。');
+  setText('explanation-source',description);
 }
 function renderLanguage() {
   document.documentElement.lang = state.language === 'zh' ? 'zh-CN' : 'en';
@@ -351,7 +362,13 @@ function renderAnswer(answer,request) {
     if(!Number.isFinite(time)||time>request.asOfTime+1e-7)continue;
     const button=element('button','',`${evidence.playerId??state.selectedId} · ${fmt(time)} s ↶`);button.dataset.frameId=evidence.frameId??'';button.title=evidence.frameId??'';button.addEventListener('click',()=>seek(time));$('evidence-buttons').append(button);
   }
-  setText('tool-trace',(answer.toolTrace??[]).map(trace=>`${trace.source??'local'} → ${trace.name??trace.tool??'evidence'} · ${trace.status??'complete'}`).join('\n'));
+  const activityLabels={agent_run:tr('Analysis Agent','分析 Agent'),model_request:tr('Model request','模型请求'),candidate:tr('Evidence plan','证据计划'),validation:tr('Application evidence check','应用证据校验')};
+  const activityStatus={completed:tr('completed','完成'),submitted:tr('submitted','已提交'),accepted:tr('accepted','通过'),rejected:tr('rejected','未通过')};
+  const agentEvents=(answer.agentTrace??[])
+    .filter(item=>activityLabels[item.event]&&item.status!=='started')
+    .map(item=>activityLabels[item.event]+(item.modelRequest?' '+item.modelRequest:'')+' · '+(activityStatus[item.status]??String(item.status)));
+  const toolEvents=(answer.toolTrace??[]).map(item=>String(item.source??'local')+' → '+String(item.name??item.tool??'evidence')+' · '+String(item.status??'complete'));
+  setText('tool-trace',[...agentEvents,...toolEvents].join('\n'));
   renderSource(answer);
   applyOverlay(answer.overlay);
 }
@@ -402,7 +419,7 @@ $('export').addEventListener('click',exportEvidence);
 document.addEventListener('keydown',event=>{if(['INPUT','TEXTAREA','SELECT','BUTTON'].includes(event.target.tagName))return;if(event.code==='Space'){event.preventDefault();togglePlayback();}if(event.code==='ArrowRight'){event.preventDefault();seek(state.t+.2);}if(event.code==='ArrowLeft'){event.preventDefault();seek(state.t-.2);}});
 new ResizeObserver(()=>{if(!state.loading){drawPitch();drawChart();}}).observe($('workspace'));
 renderLanguage();loadScene('used');
-fetch('./api/health').then(response=>response.ok?response.json():null).then(result=>{if(result?.ok){state.server=true;state.cloudConfigured=Boolean(result.cloud?.configured);renderSource(state.answer);}}).catch(()=>{});
+fetch('./api/health').then(response=>response.ok?response.json():null).then(result=>{if(result?.ok){state.server=true;state.cloudConfigured=Boolean(result.cloud?.configured);state.orchestrator=result.orchestrator??null;renderSource(state.answer);}}).catch(()=>{});
 let previous=0;
 function tick(now){const elapsed=Math.min(.1,(now-previous)/1000||0);previous=now;if(state.playing&&!state.loading){state.t=Math.min(duration(),state.t+elapsed*state.speed);if(state.t>=duration())state.playing=false;renderFrame();}requestAnimationFrame(tick);}
 requestAnimationFrame(tick);
