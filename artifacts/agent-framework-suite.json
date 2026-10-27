@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "checkedAt": "2026-10-27T10:17:45.675Z",
+  "checkedAt": "2026-10-27T11:51:32.425Z",
   "passed": true,
   "mode": "real-azure-suite",
   "mock": false,
@@ -32,7 +32,7 @@
       },
       "expectedKind": "current",
       "passed": true,
-      "elapsedMs": 8842,
+      "elapsedMs": 7197,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -53,28 +53,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_0661727cbb5754c2016ae07a4c3e748197a07d4ab5343489b0",
-          "resp_0661727cbb5754c2016ae07a4e9a4881979a5eee3a65cb2349",
-          "resp_0661727cbb5754c2016ae07a50552081979def1c478f92786b"
+          "resp_0e377750449aa042016ae09045b5c08194a3450e1f3d441fae",
+          "resp_0e377750449aa042016ae0904779188194a9acbd69a8d28fcd",
+          "resp_0e377750449aa042016ae0904980688194a1c8f1e8cd0768cf"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_0661727cbb5754c2016ae07a4c3e748197a07d4ab5343489b0",
-            "call_id": "call_SfnjvwPFj5tT7ftUKktQzjrC",
+            "response_id": "resp_0e377750449aa042016ae09045b5c08194a3450e1f3d441fae",
+            "call_id": "call_biVxpjxeI04v1nqoLNaAa6UK",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_0661727cbb5754c2016ae07a4e9a4881979a5eee3a65cb2349",
-            "call_id": "call_R2S9pff8J54TnTzhy5IEy8tD",
+            "response_id": "resp_0e377750449aa042016ae0904779188194a9acbd69a8d28fcd",
+            "call_id": "call_BDBTGlLTueR7fwaM2CDuzdmt",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 8820,
+        "elapsedMs": 7173,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 11,
@@ -97,22 +97,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_0661727cbb5754c2016ae07a4c3e748197a07d4ab5343489b0"
+          "responseId": "resp_0e377750449aa042016ae09045b5c08194a3450e1f3d441fae"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0661727cbb5754c2016ae07a4c3e748197a07d4ab5343489b0",
-          "callId": "call_SfnjvwPFj5tT7ftUKktQzjrC",
+          "responseId": "resp_0e377750449aa042016ae09045b5c08194a3450e1f3d441fae",
+          "callId": "call_biVxpjxeI04v1nqoLNaAa6UK",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0661727cbb5754c2016ae07a4c3e748197a07d4ab5343489b0",
-          "callId": "call_SfnjvwPFj5tT7ftUKktQzjrC",
+          "responseId": "resp_0e377750449aa042016ae09045b5c08194a3450e1f3d441fae",
+          "callId": "call_biVxpjxeI04v1nqoLNaAa6UK",
           "tool": "analyze_window"
         },
         {
@@ -126,22 +126,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_0661727cbb5754c2016ae07a4e9a4881979a5eee3a65cb2349"
+          "responseId": "resp_0e377750449aa042016ae0904779188194a9acbd69a8d28fcd"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0661727cbb5754c2016ae07a4e9a4881979a5eee3a65cb2349",
-          "callId": "call_R2S9pff8J54TnTzhy5IEy8tD",
+          "responseId": "resp_0e377750449aa042016ae0904779188194a9acbd69a8d28fcd",
+          "callId": "call_BDBTGlLTueR7fwaM2CDuzdmt",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0661727cbb5754c2016ae07a4e9a4881979a5eee3a65cb2349",
-          "callId": "call_R2S9pff8J54TnTzhy5IEy8tD",
+          "responseId": "resp_0e377750449aa042016ae0904779188194a9acbd69a8d28fcd",
+          "callId": "call_BDBTGlLTueR7fwaM2CDuzdmt",
           "tool": "get_evidence"
         },
         {
@@ -155,7 +155,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_0661727cbb5754c2016ae07a50552081979def1c478f92786b"
+          "responseId": "resp_0e377750449aa042016ae0904980688194a1c8f1e8cd0768cf"
         },
         {
           "agent": "receiving-space-analyst",
@@ -180,8 +180,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_SfnjvwPFj5tT7ftUKktQzjrC",
-          "responseId": "resp_0661727cbb5754c2016ae07a4c3e748197a07d4ab5343489b0",
+          "callId": "call_biVxpjxeI04v1nqoLNaAa6UK",
+          "responseId": "resp_0e377750449aa042016ae09045b5c08194a3450e1f3d441fae",
           "arguments": {
             "player_id": "A7",
             "start_time": 6,
@@ -194,10 +194,13 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_R2S9pff8J54TnTzhy5IEy8tD",
-          "responseId": "resp_0661727cbb5754c2016ae07a4e9a4881979a5eee3a65cb2349",
+          "callId": "call_BDBTGlLTueR7fwaM2CDuzdmt",
+          "responseId": "resp_0e377750449aa042016ae0904779188194a9acbd69a8d28fcd",
           "arguments": {
-            "evidence_ids": []
+            "evidence_ids": [
+              "E:used:0110:A7",
+              "E:used:0060:A7"
+            ]
           }
         }
       ],
@@ -213,14 +216,38 @@
         "modelVersion": "2.1.0",
         "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
       },
-      "text": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.22 to 0.59 (+0.37 danger-weighted m²). This describes changing opportunities in the scene.\n\nAt 11.0 s, A7 has 0.59 danger-weighted m² of receiving space and 242.45 m² of accessible space.\n\nUp to the selected time, the largest DAS observed in this supported segment is 0.59 at 11.0 s.\n\nDAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
+      "text": "At 11.0 s, A7 has 0.83 danger-weighted m² of receiving space and 202.23 m² of accessible space.\n\nDuring the supported segment 6.0–11.0 s, A7's DAS changes from 0.43 to 0.83 (+0.40 danger-weighted m²). This describes changing opportunities in the scene.\n\nUp to the selected time, the largest DAS observed in this supported segment is 0.83 at 11.0 s.\n\nDAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
       "claims": [
+        {
+          "id": "C:current:6.000:11.000",
+          "kind": "current",
+          "text": "At 11.0 s, A7 has 0.83 danger-weighted m² of receiving space and 202.23 m² of accessible space.",
+          "fanText": "The model records A7's dangerous receiving space at 11.0 s; open the evidence to view that frame's heatmap.",
+          "claim": "At 11.0 s, A7 has 0.83 danger-weighted m² of receiving space and 202.23 m² of accessible space.",
+          "player_ids": [
+            "A7"
+          ],
+          "frame_ids": [
+            "used:0110"
+          ],
+          "metric_refs": [
+            "M:used:0110:A7:AS",
+            "M:used:0110:A7:DAS"
+          ],
+          "evidence_ids": [
+            "E:used:0110:A7"
+          ],
+          "overlay_type": "receiving_heatmap",
+          "limitations": [
+            "Direct receiving opportunity, not causal contribution."
+          ]
+        },
         {
           "id": "C:change:6.000:11.000",
           "kind": "change",
-          "text": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.22 to 0.59 (+0.37 danger-weighted m²). This describes changing opportunities in the scene.",
+          "text": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.43 to 0.83 (+0.40 danger-weighted m²). This describes changing opportunities in the scene.",
           "fanText": "Between 6.0 and 11.0 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.",
-          "claim": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.22 to 0.59 (+0.37 danger-weighted m²). This describes changing opportunities in the scene.",
+          "claim": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.43 to 0.83 (+0.40 danger-weighted m²). This describes changing opportunities in the scene.",
           "player_ids": [
             "A7"
           ],
@@ -244,35 +271,11 @@
           ]
         },
         {
-          "id": "C:current:6.000:11.000",
-          "kind": "current",
-          "text": "At 11.0 s, A7 has 0.59 danger-weighted m² of receiving space and 242.45 m² of accessible space.",
-          "fanText": "The model records A7's dangerous receiving space at 11.0 s; open the evidence to view that frame's heatmap.",
-          "claim": "At 11.0 s, A7 has 0.59 danger-weighted m² of receiving space and 242.45 m² of accessible space.",
-          "player_ids": [
-            "A7"
-          ],
-          "frame_ids": [
-            "used:0110"
-          ],
-          "metric_refs": [
-            "M:used:0110:A7:AS",
-            "M:used:0110:A7:DAS"
-          ],
-          "evidence_ids": [
-            "E:used:0110:A7"
-          ],
-          "overlay_type": "receiving_heatmap",
-          "limitations": [
-            "Direct receiving opportunity, not causal contribution."
-          ]
-        },
-        {
           "id": "C:peak:6.000:11.000",
           "kind": "peak",
-          "text": "Up to the selected time, the largest DAS observed in this supported segment is 0.59 at 11.0 s.",
+          "text": "Up to the selected time, the largest DAS observed in this supported segment is 0.83 at 11.0 s.",
           "fanText": "So far in this supported segment, the largest dangerous receiving space occurs at 11.0 s; open the evidence to revisit it.",
-          "claim": "Up to the selected time, the largest DAS observed in this supported segment is 0.59 at 11.0 s.",
+          "claim": "Up to the selected time, the largest DAS observed in this supported segment is 0.83 at 11.0 s.",
           "player_ids": [
             "A7"
           ],
@@ -319,8 +322,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A6",
-          "as": 242.45376586914062,
-          "das": 0.5860696908798216,
+          "as": 202.22740173339844,
+          "das": 0.8346554043421525,
           "metric_refs": [
             "M:used:0110:A7:AS",
             "M:used:0110:A7:DAS"
@@ -335,8 +338,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A6",
-          "as": 316.57733154296875,
-          "das": 0.21918909075262585,
+          "as": 249.881103515625,
+          "das": 0.43304698786518,
           "metric_refs": [
             "M:used:0060:A7:AS",
             "M:used:0060:A7:DAS"
@@ -344,7 +347,7 @@
         }
       ],
       "overlay": {
-        "type": "das_curve",
+        "type": "receiving_heatmap",
         "frameId": "used:0110",
         "playerIds": [
           "A7"
@@ -354,11 +357,11 @@
         "startTime": 6,
         "endTime": 11,
         "duration": 5,
-        "startDAS": 0.2192,
-        "endDAS": 0.5861,
-        "deltaDAS": 0.3669,
-        "meanDAS": 0.3853,
-        "peakDAS": 0.5861,
+        "startDAS": 0.433,
+        "endDAS": 0.8347,
+        "deltaDAS": 0.4016,
+        "meanDAS": 0.4926,
+        "peakDAS": 0.8347,
         "peakTime": 11,
         "peakFrameId": "used:0110",
         "carrierId": "A6",
@@ -386,7 +389,7 @@
       },
       "expectedKind": "outcome",
       "passed": true,
-      "elapsedMs": 6230,
+      "elapsedMs": 7013,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -407,28 +410,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_0cd97af998f1956b016ae07a5399488190a0617d7130de8121",
-          "resp_0cd97af998f1956b016ae07a5565608190bd13dc5bdd631506",
-          "resp_0cd97af998f1956b016ae07a56d6f481908136c7f6c35261ac"
+          "resp_0b002e3dfa55dfd9016ae0904cd22c8195b3271f501e091447",
+          "resp_0b002e3dfa55dfd9016ae0904e9d248195a9ba9c733878c113",
+          "resp_0b002e3dfa55dfd9016ae0905056ac8195afba7c12959b29bd"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_0cd97af998f1956b016ae07a5399488190a0617d7130de8121",
-            "call_id": "call_llroaUM05uUOQJvdAbJrw6hP",
+            "response_id": "resp_0b002e3dfa55dfd9016ae0904cd22c8195b3271f501e091447",
+            "call_id": "call_n1l9IjZK8YfrLQ09fezqT6ia",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_0cd97af998f1956b016ae07a5565608190bd13dc5bdd631506",
-            "call_id": "call_4ra731ROVZXSKQykdSKml9kl",
+            "response_id": "resp_0b002e3dfa55dfd9016ae0904e9d248195a9ba9c733878c113",
+            "call_id": "call_G2i1ijIx9zUH0IQQQwOtwaTO",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 6227,
+        "elapsedMs": 7010,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 12.4,
@@ -451,22 +454,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_0cd97af998f1956b016ae07a5399488190a0617d7130de8121"
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904cd22c8195b3271f501e091447"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0cd97af998f1956b016ae07a5399488190a0617d7130de8121",
-          "callId": "call_llroaUM05uUOQJvdAbJrw6hP",
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904cd22c8195b3271f501e091447",
+          "callId": "call_n1l9IjZK8YfrLQ09fezqT6ia",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0cd97af998f1956b016ae07a5399488190a0617d7130de8121",
-          "callId": "call_llroaUM05uUOQJvdAbJrw6hP",
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904cd22c8195b3271f501e091447",
+          "callId": "call_n1l9IjZK8YfrLQ09fezqT6ia",
           "tool": "analyze_window"
         },
         {
@@ -480,22 +483,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_0cd97af998f1956b016ae07a5565608190bd13dc5bdd631506"
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904e9d248195a9ba9c733878c113"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0cd97af998f1956b016ae07a5565608190bd13dc5bdd631506",
-          "callId": "call_4ra731ROVZXSKQykdSKml9kl",
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904e9d248195a9ba9c733878c113",
+          "callId": "call_G2i1ijIx9zUH0IQQQwOtwaTO",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0cd97af998f1956b016ae07a5565608190bd13dc5bdd631506",
-          "callId": "call_4ra731ROVZXSKQykdSKml9kl",
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904e9d248195a9ba9c733878c113",
+          "callId": "call_G2i1ijIx9zUH0IQQQwOtwaTO",
           "tool": "get_evidence"
         },
         {
@@ -509,7 +512,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_0cd97af998f1956b016ae07a56d6f481908136c7f6c35261ac"
+          "responseId": "resp_0b002e3dfa55dfd9016ae0905056ac8195afba7c12959b29bd"
         },
         {
           "agent": "receiving-space-analyst",
@@ -534,8 +537,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_llroaUM05uUOQJvdAbJrw6hP",
-          "responseId": "resp_0cd97af998f1956b016ae07a5399488190a0617d7130de8121",
+          "callId": "call_n1l9IjZK8YfrLQ09fezqT6ia",
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904cd22c8195b3271f501e091447",
           "arguments": {
             "player_id": "A7",
             "start_time": 7.4,
@@ -548,8 +551,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_4ra731ROVZXSKQykdSKml9kl",
-          "responseId": "resp_0cd97af998f1956b016ae07a5565608190bd13dc5bdd631506",
+          "callId": "call_G2i1ijIx9zUH0IQQQwOtwaTO",
+          "responseId": "resp_0b002e3dfa55dfd9016ae0904e9d248195a9ba9c733878c113",
           "arguments": {
             "evidence_ids": []
           }
@@ -567,21 +570,21 @@
         "modelVersion": "2.1.0",
         "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
       },
-      "text": "12.4 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
+      "text": "12.1 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
       "claims": [
         {
           "id": "C:outcome:7.400:12.400",
           "kind": "outcome",
-          "text": "12.4 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
-          "fanText": "12.4 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
-          "claim": "12.4 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
+          "text": "12.1 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
+          "fanText": "12.1 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
+          "claim": "12.1 秒，A7 接到这次传球；接应结果来自已发生的接球事件。",
           "player_ids": [
             "A7",
             "A6"
           ],
           "frame_ids": [
             "used:0112",
-            "used:0124"
+            "used:0121"
           ],
           "metric_refs": [],
           "evidence_ids": [
@@ -613,6 +616,19 @@
       ],
       "evidence": [
         {
+          "id": "E:used:0124:A7",
+          "frameId": "used:0124",
+          "frameIndex": 124,
+          "t": 12.4,
+          "playerId": "A7",
+          "status": "carrier",
+          "reason": null,
+          "carrierId": "A7",
+          "as": null,
+          "das": null,
+          "metric_refs": []
+        },
+        {
           "id": "E:used:0074:A7",
           "frameId": "used:0074",
           "frameIndex": 74,
@@ -621,8 +637,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A6",
-          "as": 312.8052673339844,
-          "das": 0.3554663899347912,
+          "as": 270.50982666015625,
+          "das": 0.4615923830899848,
           "metric_refs": [
             "M:used:0074:A7:AS",
             "M:used:0074:A7:DAS"
@@ -637,8 +653,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A6",
-          "as": 242.45376586914062,
-          "das": 0.5860696908798216,
+          "as": 202.22740173339844,
+          "das": 0.8346554043421525,
           "metric_refs": [
             "M:used:0110:A7:AS",
             "M:used:0110:A7:DAS"
@@ -660,34 +676,36 @@
             "playerId": "A6",
             "targetId": "A7",
             "passId": "used:p2",
-            "releaseFrameId": "used:0112"
+            "releaseFrameId": "used:0112",
+            "flightProfile": "firm_pass"
           },
           "metric_refs": []
         },
         {
           "id": "EV:used:p2:arrival",
-          "frameId": "used:0124",
-          "frameIndex": 124,
-          "t": 12.4,
+          "frameId": "used:0121",
+          "frameIndex": 121,
+          "t": 12.1,
           "playerId": "A7",
           "status": "event",
           "event": {
             "id": "used:p2:arrival",
             "type": "reception",
-            "t": 12.4,
-            "frameIndex": 124,
-            "frameId": "used:0124",
+            "t": 12.1,
+            "frameIndex": 121,
+            "frameId": "used:0121",
             "playerId": "A7",
             "fromId": "A6",
             "passId": "used:p2",
-            "releaseFrameId": "used:0112"
+            "releaseFrameId": "used:0112",
+            "flightProfile": "firm_pass"
           },
           "metric_refs": []
         }
       ],
       "overlay": {
         "type": "event",
-        "frameId": "used:0124",
+        "frameId": "used:0121",
         "playerIds": [
           "A7"
         ]
@@ -696,11 +714,11 @@
         "startTime": 7.4,
         "endTime": 11,
         "duration": 3.6,
-        "startDAS": 0.3555,
-        "endDAS": 0.5861,
-        "deltaDAS": 0.2306,
-        "meanDAS": 0.4264,
-        "peakDAS": 0.5861,
+        "startDAS": 0.4616,
+        "endDAS": 0.8347,
+        "deltaDAS": 0.3731,
+        "meanDAS": 0.5123,
+        "peakDAS": 0.8347,
         "peakTime": 11,
         "peakFrameId": "used:0110",
         "carrierId": "A6",
@@ -728,7 +746,7 @@
       },
       "expectedKind": "current",
       "passed": true,
-      "elapsedMs": 7051,
+      "elapsedMs": 7049,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -749,28 +767,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_0b63c3b3fd2de6b5016ae07a5a126c8197a5cda7e0aa99f965",
-          "resp_0b63c3b3fd2de6b5016ae07a5c04c481978c394df7768c95f4",
-          "resp_0b63c3b3fd2de6b5016ae07a5dcf4c8197a02c7374941737ae"
+          "resp_012c9f1d9de93ae9016ae09053e14c81909eacd9c6df978ca9",
+          "resp_012c9f1d9de93ae9016ae09055ec2c8190b92095fe92f982f6",
+          "resp_012c9f1d9de93ae9016ae09057aeb081908bcf69307330e9ce"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_0b63c3b3fd2de6b5016ae07a5a126c8197a5cda7e0aa99f965",
-            "call_id": "call_nY4aVSWJk8R8EhPQXH6Iqvjv",
+            "response_id": "resp_012c9f1d9de93ae9016ae09053e14c81909eacd9c6df978ca9",
+            "call_id": "call_hgjANG7ma1ux3I2pKKmMOrhu",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_0b63c3b3fd2de6b5016ae07a5c04c481978c394df7768c95f4",
-            "call_id": "call_XH5YdiedjyEKfjqgSf2xV4xa",
+            "response_id": "resp_012c9f1d9de93ae9016ae09055ec2c8190b92095fe92f982f6",
+            "call_id": "call_vmFbVrY55TCLuNoKCxp51R8K",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 7036,
+        "elapsedMs": 7032,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 16.8,
@@ -793,22 +811,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5a126c8197a5cda7e0aa99f965"
+          "responseId": "resp_012c9f1d9de93ae9016ae09053e14c81909eacd9c6df978ca9"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5a126c8197a5cda7e0aa99f965",
-          "callId": "call_nY4aVSWJk8R8EhPQXH6Iqvjv",
+          "responseId": "resp_012c9f1d9de93ae9016ae09053e14c81909eacd9c6df978ca9",
+          "callId": "call_hgjANG7ma1ux3I2pKKmMOrhu",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5a126c8197a5cda7e0aa99f965",
-          "callId": "call_nY4aVSWJk8R8EhPQXH6Iqvjv",
+          "responseId": "resp_012c9f1d9de93ae9016ae09053e14c81909eacd9c6df978ca9",
+          "callId": "call_hgjANG7ma1ux3I2pKKmMOrhu",
           "tool": "analyze_window"
         },
         {
@@ -822,22 +840,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5c04c481978c394df7768c95f4"
+          "responseId": "resp_012c9f1d9de93ae9016ae09055ec2c8190b92095fe92f982f6"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5c04c481978c394df7768c95f4",
-          "callId": "call_XH5YdiedjyEKfjqgSf2xV4xa",
+          "responseId": "resp_012c9f1d9de93ae9016ae09055ec2c8190b92095fe92f982f6",
+          "callId": "call_vmFbVrY55TCLuNoKCxp51R8K",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5c04c481978c394df7768c95f4",
-          "callId": "call_XH5YdiedjyEKfjqgSf2xV4xa",
+          "responseId": "resp_012c9f1d9de93ae9016ae09055ec2c8190b92095fe92f982f6",
+          "callId": "call_vmFbVrY55TCLuNoKCxp51R8K",
           "tool": "get_evidence"
         },
         {
@@ -851,7 +869,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5dcf4c8197a02c7374941737ae"
+          "responseId": "resp_012c9f1d9de93ae9016ae09057aeb081908bcf69307330e9ce"
         },
         {
           "agent": "receiving-space-analyst",
@@ -876,8 +894,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_nY4aVSWJk8R8EhPQXH6Iqvjv",
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5a126c8197a5cda7e0aa99f965",
+          "callId": "call_hgjANG7ma1ux3I2pKKmMOrhu",
+          "responseId": "resp_012c9f1d9de93ae9016ae09053e14c81909eacd9c6df978ca9",
           "arguments": {
             "player_id": "A7",
             "start_time": 11.8,
@@ -890,8 +908,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_XH5YdiedjyEKfjqgSf2xV4xa",
-          "responseId": "resp_0b63c3b3fd2de6b5016ae07a5c04c481978c394df7768c95f4",
+          "callId": "call_vmFbVrY55TCLuNoKCxp51R8K",
+          "responseId": "resp_012c9f1d9de93ae9016ae09055ec2c8190b92095fe92f982f6",
           "arguments": {
             "evidence_ids": []
           }
@@ -909,14 +927,14 @@
         "modelVersion": "2.1.0",
         "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
       },
-      "text": "At 16.8 s, A7 has 0.54 danger-weighted m² of receiving space and 78.55 m² of accessible space.\n\nDuring the supported segment 13.0–16.8 s, A7's DAS changes from 0.69 to 0.54 (-0.15 danger-weighted m²). This describes changing opportunities in the scene.\n\nUp to the selected time, the largest DAS observed in this supported segment is 0.71 at 13.2 s.\n\nDAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
+      "text": "At 16.8 s, A7 has 0.56 danger-weighted m² of receiving space and 79.77 m² of accessible space.\n\nUp to the selected time, the largest DAS observed in this supported segment is 0.71 at 13.2 s.\n\nDuring the supported segment 12.6–16.8 s, A7's DAS changes from 0.56 to 0.56 (+0.00 danger-weighted m²). This describes changing opportunities in the scene.\n\nDAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
       "claims": [
         {
           "id": "C:current:11.800:16.800",
           "kind": "current",
-          "text": "At 16.8 s, A7 has 0.54 danger-weighted m² of receiving space and 78.55 m² of accessible space.",
+          "text": "At 16.8 s, A7 has 0.56 danger-weighted m² of receiving space and 79.77 m² of accessible space.",
           "fanText": "The model records A7's dangerous receiving space at 16.8 s; open the evidence to view that frame's heatmap.",
-          "claim": "At 16.8 s, A7 has 0.54 danger-weighted m² of receiving space and 78.55 m² of accessible space.",
+          "claim": "At 16.8 s, A7 has 0.56 danger-weighted m² of receiving space and 79.77 m² of accessible space.",
           "player_ids": [
             "A7"
           ],
@@ -931,34 +949,6 @@
             "E:unused:0168:A7"
           ],
           "overlay_type": "receiving_heatmap",
-          "limitations": [
-            "Direct receiving opportunity, not causal contribution."
-          ]
-        },
-        {
-          "id": "C:change:11.800:16.800",
-          "kind": "change",
-          "text": "During the supported segment 13.0–16.8 s, A7's DAS changes from 0.69 to 0.54 (-0.15 danger-weighted m²). This describes changing opportunities in the scene.",
-          "fanText": "Between 13.0 and 16.8 s, A7's dangerous receiving space decreases; open the evidence to revisit the changing scene.",
-          "claim": "During the supported segment 13.0–16.8 s, A7's DAS changes from 0.69 to 0.54 (-0.15 danger-weighted m²). This describes changing opportunities in the scene.",
-          "player_ids": [
-            "A7"
-          ],
-          "frame_ids": [
-            "unused:0168",
-            "unused:0130"
-          ],
-          "metric_refs": [
-            "M:unused:0168:A7:AS",
-            "M:unused:0168:A7:DAS",
-            "M:unused:0130:A7:AS",
-            "M:unused:0130:A7:DAS"
-          ],
-          "evidence_ids": [
-            "E:unused:0130:A7",
-            "E:unused:0168:A7"
-          ],
-          "overlay_type": "das_curve",
           "limitations": [
             "Direct receiving opportunity, not causal contribution."
           ]
@@ -983,6 +973,34 @@
             "E:unused:0132:A7"
           ],
           "overlay_type": "receiving_heatmap",
+          "limitations": [
+            "Direct receiving opportunity, not causal contribution."
+          ]
+        },
+        {
+          "id": "C:change:11.800:16.800",
+          "kind": "change",
+          "text": "During the supported segment 12.6–16.8 s, A7's DAS changes from 0.56 to 0.56 (+0.00 danger-weighted m²). This describes changing opportunities in the scene.",
+          "fanText": "Between 12.6 and 16.8 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.",
+          "claim": "During the supported segment 12.6–16.8 s, A7's DAS changes from 0.56 to 0.56 (+0.00 danger-weighted m²). This describes changing opportunities in the scene.",
+          "player_ids": [
+            "A7"
+          ],
+          "frame_ids": [
+            "unused:0168",
+            "unused:0126"
+          ],
+          "metric_refs": [
+            "M:unused:0168:A7:AS",
+            "M:unused:0168:A7:DAS",
+            "M:unused:0126:A7:AS",
+            "M:unused:0126:A7:DAS"
+          ],
+          "evidence_ids": [
+            "E:unused:0126:A7",
+            "E:unused:0168:A7"
+          ],
+          "overlay_type": "das_curve",
           "limitations": [
             "Direct receiving opportunity, not causal contribution."
           ]
@@ -1015,27 +1033,27 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A10",
-          "as": 78.54655456542969,
-          "das": 0.5401575113591723,
+          "as": 79.77376556396484,
+          "das": 0.5581417496837344,
           "metric_refs": [
             "M:unused:0168:A7:AS",
             "M:unused:0168:A7:DAS"
           ]
         },
         {
-          "id": "E:unused:0130:A7",
-          "frameId": "unused:0130",
-          "frameIndex": 130,
-          "t": 13,
+          "id": "E:unused:0126:A7",
+          "frameId": "unused:0126",
+          "frameIndex": 126,
+          "t": 12.6,
           "playerId": "A7",
           "status": "eligible",
           "reason": null,
           "carrierId": "A10",
-          "as": 205.98983764648438,
-          "das": 0.6877136915318762,
+          "as": 184.3731231689453,
+          "das": 0.5572999692555463,
           "metric_refs": [
-            "M:unused:0130:A7:AS",
-            "M:unused:0130:A7:DAS"
+            "M:unused:0126:A7:AS",
+            "M:unused:0126:A7:DAS"
           ]
         },
         {
@@ -1047,8 +1065,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A10",
-          "as": 201.29452514648438,
-          "das": 0.7128033846162022,
+          "as": 201.0677947998047,
+          "das": 0.7108003551340664,
           "metric_refs": [
             "M:unused:0132:A7:AS",
             "M:unused:0132:A7:DAS"
@@ -1063,18 +1081,18 @@
         ]
       },
       "summary": {
-        "startTime": 13,
+        "startTime": 12.6,
         "endTime": 16.8,
-        "duration": 3.8,
-        "startDAS": 0.6877,
-        "endDAS": 0.5402,
-        "deltaDAS": -0.1476,
-        "meanDAS": 0.5321,
-        "peakDAS": 0.7128,
+        "duration": 4.2,
+        "startDAS": 0.5573,
+        "endDAS": 0.5581,
+        "deltaDAS": 0.0008,
+        "meanDAS": 0.5754,
+        "peakDAS": 0.7108,
         "peakTime": 13.2,
         "peakFrameId": "unused:0132",
         "carrierId": "A10",
-        "sampleCount": 20
+        "sampleCount": 22
       },
       "limitations": [
         "Independently authored synthetic tactical scenes, not observed matches.",
@@ -1098,7 +1116,7 @@
       },
       "expectedKind": "outcome",
       "passed": true,
-      "elapsedMs": 6202,
+      "elapsedMs": 8234,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -1119,28 +1137,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_0b6ffd9439fb066a016ae07a60de9c8197a2d6f7071ddc4457",
-          "resp_0b6ffd9439fb066a016ae07a6295a481979f5f09fbfa99e86b",
-          "resp_0b6ffd9439fb066a016ae07a64285c819783bd25f118a88fa1"
+          "resp_0555006b0d705dba016ae0905b71088194adeab0b90b6f2512",
+          "resp_0555006b0d705dba016ae0905ed0d0819492ccb41b285e71dd",
+          "resp_0555006b0d705dba016ae090604abc81948dbfe5812e0c46c4"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_0b6ffd9439fb066a016ae07a60de9c8197a2d6f7071ddc4457",
-            "call_id": "call_QGBCF5RMV201jJ22yVnZfqxn",
+            "response_id": "resp_0555006b0d705dba016ae0905b71088194adeab0b90b6f2512",
+            "call_id": "call_b12wRF9RD9h1jJ3vySExpYWh",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_0b6ffd9439fb066a016ae07a6295a481979f5f09fbfa99e86b",
-            "call_id": "call_DyuDkFdPyd6dKzQqxkye8IiT",
+            "response_id": "resp_0555006b0d705dba016ae0905ed0d0819492ccb41b285e71dd",
+            "call_id": "call_CIeGKkXZwZptOIfbtpJ0YX9T",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 6201,
+        "elapsedMs": 8232,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 16.9,
@@ -1163,22 +1181,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_0b6ffd9439fb066a016ae07a60de9c8197a2d6f7071ddc4457"
+          "responseId": "resp_0555006b0d705dba016ae0905b71088194adeab0b90b6f2512"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0b6ffd9439fb066a016ae07a60de9c8197a2d6f7071ddc4457",
-          "callId": "call_QGBCF5RMV201jJ22yVnZfqxn",
+          "responseId": "resp_0555006b0d705dba016ae0905b71088194adeab0b90b6f2512",
+          "callId": "call_b12wRF9RD9h1jJ3vySExpYWh",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0b6ffd9439fb066a016ae07a60de9c8197a2d6f7071ddc4457",
-          "callId": "call_QGBCF5RMV201jJ22yVnZfqxn",
+          "responseId": "resp_0555006b0d705dba016ae0905b71088194adeab0b90b6f2512",
+          "callId": "call_b12wRF9RD9h1jJ3vySExpYWh",
           "tool": "analyze_window"
         },
         {
@@ -1192,22 +1210,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_0b6ffd9439fb066a016ae07a6295a481979f5f09fbfa99e86b"
+          "responseId": "resp_0555006b0d705dba016ae0905ed0d0819492ccb41b285e71dd"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0b6ffd9439fb066a016ae07a6295a481979f5f09fbfa99e86b",
-          "callId": "call_DyuDkFdPyd6dKzQqxkye8IiT",
+          "responseId": "resp_0555006b0d705dba016ae0905ed0d0819492ccb41b285e71dd",
+          "callId": "call_CIeGKkXZwZptOIfbtpJ0YX9T",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0b6ffd9439fb066a016ae07a6295a481979f5f09fbfa99e86b",
-          "callId": "call_DyuDkFdPyd6dKzQqxkye8IiT",
+          "responseId": "resp_0555006b0d705dba016ae0905ed0d0819492ccb41b285e71dd",
+          "callId": "call_CIeGKkXZwZptOIfbtpJ0YX9T",
           "tool": "get_evidence"
         },
         {
@@ -1221,7 +1239,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_0b6ffd9439fb066a016ae07a64285c819783bd25f118a88fa1"
+          "responseId": "resp_0555006b0d705dba016ae090604abc81948dbfe5812e0c46c4"
         },
         {
           "agent": "receiving-space-analyst",
@@ -1246,8 +1264,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_QGBCF5RMV201jJ22yVnZfqxn",
-          "responseId": "resp_0b6ffd9439fb066a016ae07a60de9c8197a2d6f7071ddc4457",
+          "callId": "call_b12wRF9RD9h1jJ3vySExpYWh",
+          "responseId": "resp_0555006b0d705dba016ae0905b71088194adeab0b90b6f2512",
           "arguments": {
             "player_id": "A7",
             "start_time": 11.9,
@@ -1260,14 +1278,10 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_DyuDkFdPyd6dKzQqxkye8IiT",
-          "responseId": "resp_0b6ffd9439fb066a016ae07a6295a481979f5f09fbfa99e86b",
+          "callId": "call_CIeGKkXZwZptOIfbtpJ0YX9T",
+          "responseId": "resp_0555006b0d705dba016ae0905ed0d0819492ccb41b285e71dd",
           "arguments": {
-            "evidence_ids": [
-              "E:unused:0168:A7",
-              "EV:unused:p3:release",
-              "E:unused:0132:A7"
-            ]
+            "evidence_ids": []
           }
         }
       ],
@@ -1328,22 +1342,6 @@
       ],
       "evidence": [
         {
-          "id": "E:unused:0168:A7",
-          "frameId": "unused:0168",
-          "frameIndex": 168,
-          "t": 16.8,
-          "playerId": "A7",
-          "status": "eligible",
-          "reason": null,
-          "carrierId": "A10",
-          "as": 78.54655456542969,
-          "das": 0.5401575113591723,
-          "metric_refs": [
-            "M:unused:0168:A7:AS",
-            "M:unused:0168:A7:DAS"
-          ]
-        },
-        {
           "id": "EV:unused:p3:release",
           "frameId": "unused:0169",
           "frameIndex": 169,
@@ -1359,7 +1357,8 @@
             "playerId": "A10",
             "targetId": "A11",
             "passId": "unused:p3",
-            "releaseFrameId": "unused:0169"
+            "releaseFrameId": "unused:0169",
+            "flightProfile": "firm_pass"
           },
           "metric_refs": []
         }
@@ -1372,18 +1371,18 @@
         ]
       },
       "summary": {
-        "startTime": 13,
+        "startTime": 12.6,
         "endTime": 16.8,
-        "duration": 3.8,
-        "startDAS": 0.6877,
-        "endDAS": 0.5402,
-        "deltaDAS": -0.1476,
-        "meanDAS": 0.5321,
-        "peakDAS": 0.7128,
+        "duration": 4.2,
+        "startDAS": 0.5573,
+        "endDAS": 0.5581,
+        "deltaDAS": 0.0008,
+        "meanDAS": 0.5754,
+        "peakDAS": 0.7108,
         "peakTime": 13.2,
         "peakFrameId": "unused:0132",
         "carrierId": "A10",
-        "sampleCount": 20
+        "sampleCount": 22
       },
       "limitations": [
         "Independently authored synthetic tactical scenes, not observed matches.",
@@ -1407,7 +1406,7 @@
       },
       "expectedKind": "availability",
       "passed": true,
-      "elapsedMs": 6781,
+      "elapsedMs": 6604,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -1428,28 +1427,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_01fce988042ef2ff016ae07a6715f88193af748fa8ffffbdcf",
-          "resp_01fce988042ef2ff016ae07a6929988193a3480bde59dcfbd8",
-          "resp_01fce988042ef2ff016ae07a6ac79081938cdf85c73dc97f34"
+          "resp_0c1684a622533dc7016ae090631464819695277df79a08e77d",
+          "resp_0c1684a622533dc7016ae09065315c8196a4c094e880b1712f",
+          "resp_0c1684a622533dc7016ae09066cd48819686b1ef549ab3012f"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_01fce988042ef2ff016ae07a6715f88193af748fa8ffffbdcf",
-            "call_id": "call_yacrj9N7CBw9JfZ1m1pKenLG",
+            "response_id": "resp_0c1684a622533dc7016ae090631464819695277df79a08e77d",
+            "call_id": "call_QeLn8kRyeYEh7vewnplK45a0",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_01fce988042ef2ff016ae07a6929988193a3480bde59dcfbd8",
-            "call_id": "call_d22W8LngCrlp0XxcI1nbpfzT",
+            "response_id": "resp_0c1684a622533dc7016ae09065315c8196a4c094e880b1712f",
+            "call_id": "call_V5Qgz7p8vVEK5C2FjXcJTJnn",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 6769,
+        "elapsedMs": 6590,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 8.2,
@@ -1472,22 +1471,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_01fce988042ef2ff016ae07a6715f88193af748fa8ffffbdcf"
+          "responseId": "resp_0c1684a622533dc7016ae090631464819695277df79a08e77d"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_01fce988042ef2ff016ae07a6715f88193af748fa8ffffbdcf",
-          "callId": "call_yacrj9N7CBw9JfZ1m1pKenLG",
+          "responseId": "resp_0c1684a622533dc7016ae090631464819695277df79a08e77d",
+          "callId": "call_QeLn8kRyeYEh7vewnplK45a0",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_01fce988042ef2ff016ae07a6715f88193af748fa8ffffbdcf",
-          "callId": "call_yacrj9N7CBw9JfZ1m1pKenLG",
+          "responseId": "resp_0c1684a622533dc7016ae090631464819695277df79a08e77d",
+          "callId": "call_QeLn8kRyeYEh7vewnplK45a0",
           "tool": "analyze_window"
         },
         {
@@ -1501,22 +1500,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_01fce988042ef2ff016ae07a6929988193a3480bde59dcfbd8"
+          "responseId": "resp_0c1684a622533dc7016ae09065315c8196a4c094e880b1712f"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_01fce988042ef2ff016ae07a6929988193a3480bde59dcfbd8",
-          "callId": "call_d22W8LngCrlp0XxcI1nbpfzT",
+          "responseId": "resp_0c1684a622533dc7016ae09065315c8196a4c094e880b1712f",
+          "callId": "call_V5Qgz7p8vVEK5C2FjXcJTJnn",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_01fce988042ef2ff016ae07a6929988193a3480bde59dcfbd8",
-          "callId": "call_d22W8LngCrlp0XxcI1nbpfzT",
+          "responseId": "resp_0c1684a622533dc7016ae09065315c8196a4c094e880b1712f",
+          "callId": "call_V5Qgz7p8vVEK5C2FjXcJTJnn",
           "tool": "get_evidence"
         },
         {
@@ -1530,7 +1529,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_01fce988042ef2ff016ae07a6ac79081938cdf85c73dc97f34"
+          "responseId": "resp_0c1684a622533dc7016ae09066cd48819686b1ef549ab3012f"
         },
         {
           "agent": "receiving-space-analyst",
@@ -1555,8 +1554,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_yacrj9N7CBw9JfZ1m1pKenLG",
-          "responseId": "resp_01fce988042ef2ff016ae07a6715f88193af748fa8ffffbdcf",
+          "callId": "call_QeLn8kRyeYEh7vewnplK45a0",
+          "responseId": "resp_0c1684a622533dc7016ae090631464819695277df79a08e77d",
           "arguments": {
             "player_id": "A7",
             "start_time": 3.1999999999999993,
@@ -1569,8 +1568,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_d22W8LngCrlp0XxcI1nbpfzT",
-          "responseId": "resp_01fce988042ef2ff016ae07a6929988193a3480bde59dcfbd8",
+          "callId": "call_V5Qgz7p8vVEK5C2FjXcJTJnn",
+          "responseId": "resp_0c1684a622533dc7016ae09065315c8196a4c094e880b1712f",
           "arguments": {
             "evidence_ids": []
           }
@@ -1656,10 +1655,10 @@
         "endTime": 8,
         "duration": 3.8,
         "startDAS": 0.2448,
-        "endDAS": 1.7919,
-        "deltaDAS": 1.5471,
-        "meanDAS": 0.7519,
-        "peakDAS": 1.7919,
+        "endDAS": 1.8047,
+        "deltaDAS": 1.5599,
+        "meanDAS": 0.7567,
+        "peakDAS": 1.8047,
         "peakTime": 8,
         "peakFrameId": "blocked:0080",
         "carrierId": "A6",
@@ -1687,7 +1686,7 @@
       },
       "expectedKind": "availability",
       "passed": true,
-      "elapsedMs": 7105,
+      "elapsedMs": 6933,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -1708,28 +1707,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_0e6e91c2a1945a78016ae07a6df4248190bc2626268e4c8e29",
-          "resp_0e6e91c2a1945a78016ae07a70229881909024a2a2be31f5a3",
-          "resp_0e6e91c2a1945a78016ae07a71b86881909c80c1c544ea7cc6"
+          "resp_00e8995236eccde2016ae090699640819399bbc88d2d56576a",
+          "resp_00e8995236eccde2016ae0906b9240819394e593b4630beb7d",
+          "resp_00e8995236eccde2016ae0906d1ba48193a5673e14f3c67d02"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_0e6e91c2a1945a78016ae07a6df4248190bc2626268e4c8e29",
-            "call_id": "call_lDQjfQG0dOXeETYVRbiGNkVn",
+            "response_id": "resp_00e8995236eccde2016ae090699640819399bbc88d2d56576a",
+            "call_id": "call_aApaoExhlq5OF91nwTlZkFbQ",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_0e6e91c2a1945a78016ae07a70229881909024a2a2be31f5a3",
-            "call_id": "call_HE1FqVS5CC2pxHzdC7Jh4HxH",
+            "response_id": "resp_00e8995236eccde2016ae0906b9240819394e593b4630beb7d",
+            "call_id": "call_DPtuwVgGUeP5hivd0dzB5c4r",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 7103,
+        "elapsedMs": 6931,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 20.2,
@@ -1752,22 +1751,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_0e6e91c2a1945a78016ae07a6df4248190bc2626268e4c8e29"
+          "responseId": "resp_00e8995236eccde2016ae090699640819399bbc88d2d56576a"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0e6e91c2a1945a78016ae07a6df4248190bc2626268e4c8e29",
-          "callId": "call_lDQjfQG0dOXeETYVRbiGNkVn",
+          "responseId": "resp_00e8995236eccde2016ae090699640819399bbc88d2d56576a",
+          "callId": "call_aApaoExhlq5OF91nwTlZkFbQ",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0e6e91c2a1945a78016ae07a6df4248190bc2626268e4c8e29",
-          "callId": "call_lDQjfQG0dOXeETYVRbiGNkVn",
+          "responseId": "resp_00e8995236eccde2016ae090699640819399bbc88d2d56576a",
+          "callId": "call_aApaoExhlq5OF91nwTlZkFbQ",
           "tool": "analyze_window"
         },
         {
@@ -1781,22 +1780,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_0e6e91c2a1945a78016ae07a70229881909024a2a2be31f5a3"
+          "responseId": "resp_00e8995236eccde2016ae0906b9240819394e593b4630beb7d"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_0e6e91c2a1945a78016ae07a70229881909024a2a2be31f5a3",
-          "callId": "call_HE1FqVS5CC2pxHzdC7Jh4HxH",
+          "responseId": "resp_00e8995236eccde2016ae0906b9240819394e593b4630beb7d",
+          "callId": "call_DPtuwVgGUeP5hivd0dzB5c4r",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_0e6e91c2a1945a78016ae07a70229881909024a2a2be31f5a3",
-          "callId": "call_HE1FqVS5CC2pxHzdC7Jh4HxH",
+          "responseId": "resp_00e8995236eccde2016ae0906b9240819394e593b4630beb7d",
+          "callId": "call_DPtuwVgGUeP5hivd0dzB5c4r",
           "tool": "get_evidence"
         },
         {
@@ -1810,7 +1809,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_0e6e91c2a1945a78016ae07a71b86881909c80c1c544ea7cc6"
+          "responseId": "resp_00e8995236eccde2016ae0906d1ba48193a5673e14f3c67d02"
         },
         {
           "agent": "receiving-space-analyst",
@@ -1835,8 +1834,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_lDQjfQG0dOXeETYVRbiGNkVn",
-          "responseId": "resp_0e6e91c2a1945a78016ae07a6df4248190bc2626268e4c8e29",
+          "callId": "call_aApaoExhlq5OF91nwTlZkFbQ",
+          "responseId": "resp_00e8995236eccde2016ae090699640819399bbc88d2d56576a",
           "arguments": {
             "player_id": "A7",
             "start_time": 15.2,
@@ -1849,8 +1848,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_HE1FqVS5CC2pxHzdC7Jh4HxH",
-          "responseId": "resp_0e6e91c2a1945a78016ae07a70229881909024a2a2be31f5a3",
+          "callId": "call_DPtuwVgGUeP5hivd0dzB5c4r",
+          "responseId": "resp_00e8995236eccde2016ae0906b9240819394e593b4630beb7d",
           "arguments": {
             "evidence_ids": []
           }
@@ -1932,8 +1931,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A10",
-          "as": 62.471343994140625,
-          "das": 1.110559296185586,
+          "as": 62.436275482177734,
+          "das": 1.1097205689117946,
           "metric_refs": [
             "M:blocked:0166:A7:AS",
             "M:blocked:0166:A7:DAS"
@@ -1948,8 +1947,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A10",
-          "as": 96.43939971923828,
-          "das": 0.6628102065273198,
+          "as": 96.52345275878906,
+          "das": 0.6649990474924411,
           "metric_refs": [
             "M:blocked:0194:A7:AS",
             "M:blocked:0194:A7:DAS"
@@ -1971,27 +1970,29 @@
             "playerId": "A10",
             "targetId": "A9",
             "passId": "blocked:p4",
-            "releaseFrameId": "blocked:0196"
+            "releaseFrameId": "blocked:0196",
+            "flightProfile": "short_combination"
           },
           "metric_refs": []
         },
         {
           "id": "EV:blocked:p4:arrival",
-          "frameId": "blocked:0202",
-          "frameIndex": 202,
-          "t": 20.2,
+          "frameId": "blocked:0200",
+          "frameIndex": 200,
+          "t": 20,
           "playerId": "B6",
           "status": "event",
           "event": {
             "id": "blocked:p4:arrival",
             "type": "interception",
-            "t": 20.2,
-            "frameIndex": 202,
-            "frameId": "blocked:0202",
+            "t": 20,
+            "frameIndex": 200,
+            "frameId": "blocked:0200",
             "playerId": "B6",
             "fromId": "A10",
             "passId": "blocked:p4",
-            "releaseFrameId": "blocked:0196"
+            "releaseFrameId": "blocked:0196",
+            "flightProfile": "short_combination"
           },
           "metric_refs": []
         }
@@ -2007,11 +2008,11 @@
         "startTime": 16.6,
         "endTime": 19.4,
         "duration": 2.8,
-        "startDAS": 1.1106,
-        "endDAS": 0.6628,
-        "deltaDAS": -0.4477,
-        "meanDAS": 0.8651,
-        "peakDAS": 1.1106,
+        "startDAS": 1.1097,
+        "endDAS": 0.665,
+        "deltaDAS": -0.4447,
+        "meanDAS": 0.8592,
+        "peakDAS": 1.1097,
         "peakTime": 16.6,
         "peakFrameId": "blocked:0166",
         "carrierId": "A10",
@@ -2039,7 +2040,7 @@
       },
       "expectedKind": "limits",
       "passed": true,
-      "elapsedMs": 6612,
+      "elapsedMs": 9284,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -2060,28 +2061,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_091a7351168a2efd016ae07a74fbd0819594cbda1cba14194a",
-          "resp_091a7351168a2efd016ae07a76e87481958a01ca137f7c5908",
-          "resp_091a7351168a2efd016ae07a78cdec8195979f794606338355"
+          "resp_0082ddb7c3c4625c016ae09070812481908ff609de3993314a",
+          "resp_0082ddb7c3c4625c016ae090724e14819086bd62391abbe8d3",
+          "resp_0082ddb7c3c4625c016ae090773e9c819098a2d3d61a48aa70"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_091a7351168a2efd016ae07a74fbd0819594cbda1cba14194a",
-            "call_id": "call_TJa9tG0lXAEmBm1lUoYP7MPM",
+            "response_id": "resp_0082ddb7c3c4625c016ae09070812481908ff609de3993314a",
+            "call_id": "call_t7Xat3AYp4zXSHbqOaNF5Nud",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_091a7351168a2efd016ae07a76e87481958a01ca137f7c5908",
-            "call_id": "call_Mdon3kS42bktlPxFoRXP5YGl",
+            "response_id": "resp_0082ddb7c3c4625c016ae090724e14819086bd62391abbe8d3",
+            "call_id": "call_8JoK5bWgVFVzDLHeAeBWISha",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 6610,
+        "elapsedMs": 9283,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 11,
@@ -2104,22 +2105,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_091a7351168a2efd016ae07a74fbd0819594cbda1cba14194a"
+          "responseId": "resp_0082ddb7c3c4625c016ae09070812481908ff609de3993314a"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_091a7351168a2efd016ae07a74fbd0819594cbda1cba14194a",
-          "callId": "call_TJa9tG0lXAEmBm1lUoYP7MPM",
+          "responseId": "resp_0082ddb7c3c4625c016ae09070812481908ff609de3993314a",
+          "callId": "call_t7Xat3AYp4zXSHbqOaNF5Nud",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_091a7351168a2efd016ae07a74fbd0819594cbda1cba14194a",
-          "callId": "call_TJa9tG0lXAEmBm1lUoYP7MPM",
+          "responseId": "resp_0082ddb7c3c4625c016ae09070812481908ff609de3993314a",
+          "callId": "call_t7Xat3AYp4zXSHbqOaNF5Nud",
           "tool": "analyze_window"
         },
         {
@@ -2133,22 +2134,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_091a7351168a2efd016ae07a76e87481958a01ca137f7c5908"
+          "responseId": "resp_0082ddb7c3c4625c016ae090724e14819086bd62391abbe8d3"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_091a7351168a2efd016ae07a76e87481958a01ca137f7c5908",
-          "callId": "call_Mdon3kS42bktlPxFoRXP5YGl",
+          "responseId": "resp_0082ddb7c3c4625c016ae090724e14819086bd62391abbe8d3",
+          "callId": "call_8JoK5bWgVFVzDLHeAeBWISha",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_091a7351168a2efd016ae07a76e87481958a01ca137f7c5908",
-          "callId": "call_Mdon3kS42bktlPxFoRXP5YGl",
+          "responseId": "resp_0082ddb7c3c4625c016ae090724e14819086bd62391abbe8d3",
+          "callId": "call_8JoK5bWgVFVzDLHeAeBWISha",
           "tool": "get_evidence"
         },
         {
@@ -2162,7 +2163,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_091a7351168a2efd016ae07a78cdec8195979f794606338355"
+          "responseId": "resp_0082ddb7c3c4625c016ae090773e9c819098a2d3d61a48aa70"
         },
         {
           "agent": "receiving-space-analyst",
@@ -2187,8 +2188,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_TJa9tG0lXAEmBm1lUoYP7MPM",
-          "responseId": "resp_091a7351168a2efd016ae07a74fbd0819594cbda1cba14194a",
+          "callId": "call_t7Xat3AYp4zXSHbqOaNF5Nud",
+          "responseId": "resp_0082ddb7c3c4625c016ae09070812481908ff609de3993314a",
           "arguments": {
             "player_id": "A7",
             "start_time": 6,
@@ -2201,8 +2202,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_Mdon3kS42bktlPxFoRXP5YGl",
-          "responseId": "resp_091a7351168a2efd016ae07a76e87481958a01ca137f7c5908",
+          "callId": "call_8JoK5bWgVFVzDLHeAeBWISha",
+          "responseId": "resp_0082ddb7c3c4625c016ae090724e14819086bd62391abbe8d3",
           "arguments": {
             "evidence_ids": []
           }
@@ -2252,11 +2253,11 @@
         "startTime": 6,
         "endTime": 11,
         "duration": 5,
-        "startDAS": 0.2192,
-        "endDAS": 0.5861,
-        "deltaDAS": 0.3669,
-        "meanDAS": 0.3853,
-        "peakDAS": 0.5861,
+        "startDAS": 0.433,
+        "endDAS": 0.8347,
+        "deltaDAS": 0.4016,
+        "meanDAS": 0.4926,
+        "peakDAS": 0.8347,
         "peakTime": 11,
         "peakFrameId": "used:0110",
         "carrierId": "A6",
@@ -2284,7 +2285,7 @@
       },
       "expectedKind": "current",
       "passed": true,
-      "elapsedMs": 7778,
+      "elapsedMs": 6585,
       "source": "microsoft-foundry",
       "status": "cloud-verified",
       "orchestrator": "microsoft-agent-framework",
@@ -2305,28 +2306,28 @@
         "rounds": 3,
         "toolCalls": 2,
         "responseIds": [
-          "resp_09217111723e9582016ae07a7b8e84819087eec9d99cf7b532",
-          "resp_09217111723e9582016ae07a7d304881909fde7f460f37deb0",
-          "resp_09217111723e9582016ae07a7ee0e88190b3594eab123ef7eb"
+          "resp_01d15c14e413695c016ae09079cb9081949a06ee7afb9f9cc3",
+          "resp_01d15c14e413695c016ae0907bc5bc819483e992fc7a9b2a7d",
+          "resp_01d15c14e413695c016ae0907d4d68819495225230e0f42958"
         ],
         "nativeToolCalls": [
           {
-            "response_id": "resp_09217111723e9582016ae07a7b8e84819087eec9d99cf7b532",
-            "call_id": "call_YhG3E8ePLJmTMpU2tmeVrnqL",
+            "response_id": "resp_01d15c14e413695c016ae09079cb9081949a06ee7afb9f9cc3",
+            "call_id": "call_ldyX6xMoXKZjwYHAqh0I4Q70",
             "name": "analyze_window",
             "status": "completed",
             "dispatched": true
           },
           {
-            "response_id": "resp_09217111723e9582016ae07a7d304881909fde7f460f37deb0",
-            "call_id": "call_DPjuDOLjw7ADvPUxBFvM5xk4",
+            "response_id": "resp_01d15c14e413695c016ae0907bc5bc819483e992fc7a9b2a7d",
+            "call_id": "call_r88o48Pa8AKVKC5nTY1yVOJT",
             "name": "get_evidence",
             "status": "completed",
             "dispatched": true
           }
         ],
         "repairCount": 0,
-        "elapsedMs": 7776,
+        "elapsedMs": 6583,
         "apiStyle": "responses",
         "outputMode": "strict_json_schema",
         "asOfTime": 11,
@@ -2349,22 +2350,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 1,
-          "responseId": "resp_09217111723e9582016ae07a7b8e84819087eec9d99cf7b532"
+          "responseId": "resp_01d15c14e413695c016ae09079cb9081949a06ee7afb9f9cc3"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_09217111723e9582016ae07a7b8e84819087eec9d99cf7b532",
-          "callId": "call_YhG3E8ePLJmTMpU2tmeVrnqL",
+          "responseId": "resp_01d15c14e413695c016ae09079cb9081949a06ee7afb9f9cc3",
+          "callId": "call_ldyX6xMoXKZjwYHAqh0I4Q70",
           "tool": "analyze_window"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_09217111723e9582016ae07a7b8e84819087eec9d99cf7b532",
-          "callId": "call_YhG3E8ePLJmTMpU2tmeVrnqL",
+          "responseId": "resp_01d15c14e413695c016ae09079cb9081949a06ee7afb9f9cc3",
+          "callId": "call_ldyX6xMoXKZjwYHAqh0I4Q70",
           "tool": "analyze_window"
         },
         {
@@ -2378,22 +2379,22 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 2,
-          "responseId": "resp_09217111723e9582016ae07a7d304881909fde7f460f37deb0"
+          "responseId": "resp_01d15c14e413695c016ae0907bc5bc819483e992fc7a9b2a7d"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "started",
-          "responseId": "resp_09217111723e9582016ae07a7d304881909fde7f460f37deb0",
-          "callId": "call_DPjuDOLjw7ADvPUxBFvM5xk4",
+          "responseId": "resp_01d15c14e413695c016ae0907bc5bc819483e992fc7a9b2a7d",
+          "callId": "call_r88o48Pa8AKVKC5nTY1yVOJT",
           "tool": "get_evidence"
         },
         {
           "agent": "receiving-space-analyst",
           "event": "tool_call",
           "status": "completed",
-          "responseId": "resp_09217111723e9582016ae07a7d304881909fde7f460f37deb0",
-          "callId": "call_DPjuDOLjw7ADvPUxBFvM5xk4",
+          "responseId": "resp_01d15c14e413695c016ae0907bc5bc819483e992fc7a9b2a7d",
+          "callId": "call_r88o48Pa8AKVKC5nTY1yVOJT",
           "tool": "get_evidence"
         },
         {
@@ -2407,7 +2408,7 @@
           "event": "model_request",
           "status": "completed",
           "modelRequest": 3,
-          "responseId": "resp_09217111723e9582016ae07a7ee0e88190b3594eab123ef7eb"
+          "responseId": "resp_01d15c14e413695c016ae0907d4d68819495225230e0f42958"
         },
         {
           "agent": "receiving-space-analyst",
@@ -2432,8 +2433,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_YhG3E8ePLJmTMpU2tmeVrnqL",
-          "responseId": "resp_09217111723e9582016ae07a7b8e84819087eec9d99cf7b532",
+          "callId": "call_ldyX6xMoXKZjwYHAqh0I4Q70",
+          "responseId": "resp_01d15c14e413695c016ae09079cb9081949a06ee7afb9f9cc3",
           "arguments": {
             "player_id": "A7",
             "start_time": 6,
@@ -2446,8 +2447,8 @@
           "source": "microsoft-foundry",
           "framework": "microsoft-agent-framework",
           "provider": "azure-openai-responses",
-          "callId": "call_DPjuDOLjw7ADvPUxBFvM5xk4",
-          "responseId": "resp_09217111723e9582016ae07a7d304881909fde7f460f37deb0",
+          "callId": "call_r88o48Pa8AKVKC5nTY1yVOJT",
+          "responseId": "resp_01d15c14e413695c016ae0907bc5bc819483e992fc7a9b2a7d",
           "arguments": {
             "evidence_ids": []
           }
@@ -2465,14 +2466,14 @@
         "modelVersion": "2.1.0",
         "configHash": "ca46d6bf10678f50d91a635946a93541cf23b3a2a2e00296be54687d3020e8a4"
       },
-      "text": "At 11.0 s, A7 has 0.59 danger-weighted m² of receiving space and 242.45 m² of accessible space.\n\nDuring the supported segment 6.0–11.0 s, A7's DAS changes from 0.22 to 0.59 (+0.37 danger-weighted m²). This describes changing opportunities in the scene.\n\nUp to the selected time, the largest DAS observed in this supported segment is 0.59 at 11.0 s.\n\nDAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
+      "text": "At 11.0 s, A7 has 0.83 danger-weighted m² of receiving space and 202.23 m² of accessible space.\n\nDuring the supported segment 6.0–11.0 s, A7's DAS changes from 0.43 to 0.83 (+0.40 danger-weighted m²). This describes changing opportunities in the scene.\n\nUp to the selected time, the largest DAS observed in this supported segment is 0.83 at 11.0 s.\n\nDAS is danger-weighted receiving area, not a goal probability; a lower individual value does not rule out useful decoy movement.",
       "claims": [
         {
           "id": "C:current:6.000:11.000",
           "kind": "current",
-          "text": "At 11.0 s, A7 has 0.59 danger-weighted m² of receiving space and 242.45 m² of accessible space.",
+          "text": "At 11.0 s, A7 has 0.83 danger-weighted m² of receiving space and 202.23 m² of accessible space.",
           "fanText": "The model records A7's dangerous receiving space at 11.0 s; open the evidence to view that frame's heatmap.",
-          "claim": "At 11.0 s, A7 has 0.59 danger-weighted m² of receiving space and 242.45 m² of accessible space.",
+          "claim": "At 11.0 s, A7 has 0.83 danger-weighted m² of receiving space and 202.23 m² of accessible space.",
           "player_ids": [
             "A7"
           ],
@@ -2494,9 +2495,9 @@
         {
           "id": "C:change:6.000:11.000",
           "kind": "change",
-          "text": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.22 to 0.59 (+0.37 danger-weighted m²). This describes changing opportunities in the scene.",
+          "text": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.43 to 0.83 (+0.40 danger-weighted m²). This describes changing opportunities in the scene.",
           "fanText": "Between 6.0 and 11.0 s, A7's dangerous receiving space increases; open the evidence to revisit the changing scene.",
-          "claim": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.22 to 0.59 (+0.37 danger-weighted m²). This describes changing opportunities in the scene.",
+          "claim": "During the supported segment 6.0–11.0 s, A7's DAS changes from 0.43 to 0.83 (+0.40 danger-weighted m²). This describes changing opportunities in the scene.",
           "player_ids": [
             "A7"
           ],
@@ -2522,9 +2523,9 @@
         {
           "id": "C:peak:6.000:11.000",
           "kind": "peak",
-          "text": "Up to the selected time, the largest DAS observed in this supported segment is 0.59 at 11.0 s.",
+          "text": "Up to the selected time, the largest DAS observed in this supported segment is 0.83 at 11.0 s.",
           "fanText": "So far in this supported segment, the largest dangerous receiving space occurs at 11.0 s; open the evidence to revisit it.",
-          "claim": "Up to the selected time, the largest DAS observed in this supported segment is 0.59 at 11.0 s.",
+          "claim": "Up to the selected time, the largest DAS observed in this supported segment is 0.83 at 11.0 s.",
           "player_ids": [
             "A7"
           ],
@@ -2571,8 +2572,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A6",
-          "as": 242.45376586914062,
-          "das": 0.5860696908798216,
+          "as": 202.22740173339844,
+          "das": 0.8346554043421525,
           "metric_refs": [
             "M:used:0110:A7:AS",
             "M:used:0110:A7:DAS"
@@ -2587,8 +2588,8 @@
           "status": "eligible",
           "reason": null,
           "carrierId": "A6",
-          "as": 316.57733154296875,
-          "das": 0.21918909075262585,
+          "as": 249.881103515625,
+          "das": 0.43304698786518,
           "metric_refs": [
             "M:used:0060:A7:AS",
             "M:used:0060:A7:DAS"
@@ -2596,7 +2597,7 @@
         }
       ],
       "overlay": {
-        "type": "das_curve",
+        "type": "receiving_heatmap",
         "frameId": "used:0110",
         "playerIds": [
           "A7"
@@ -2606,11 +2607,11 @@
         "startTime": 6,
         "endTime": 11,
         "duration": 5,
-        "startDAS": 0.2192,
-        "endDAS": 0.5861,
-        "deltaDAS": 0.3669,
-        "meanDAS": 0.3853,
-        "peakDAS": 0.5861,
+        "startDAS": 0.433,
+        "endDAS": 0.8347,
+        "deltaDAS": 0.4016,
+        "meanDAS": 0.4926,
+        "peakDAS": 0.8347,
         "peakTime": 11,
         "peakFrameId": "used:0110",
         "carrierId": "A6",

@@ -2,7 +2,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {resolve} from 'node:path';
-import {SCENARIOS,generateScenario,MOTION_LIMITS} from '../src/scenarios.mjs';
+import {SCENARIOS,generateScenario,MOTION_LIMITS,BALL_FLIGHT_PROFILES,GENERATOR_VERSION} from '../src/scenarios.mjs';
 
 const norm=(x,y)=>Math.hypot(x,y);
 const close=(a,b,tolerance=1e-7)=>Math.abs(a-b)<=tolerance;
@@ -38,7 +38,8 @@ export function auditScenario(scene){
   const {metadata,frames,events}=scene,issues=[];
   const check=(condition,message)=>{if(!condition)issues.push(message);};
   const ids=['A','B'].flatMap(team=>Array.from({length:11},(_,i)=>`${team}${i+1}`));
-  const motion=Object.fromEntries(ids.map(id=>[id,{id,team:id[0],distance:0,integratedSpeed:0,maxSpeed:0,maxAcceleration:0,stationaryFrames:0}]));
+  const motion=Object.fromEntries(ids.map(id=>[id,{id,team:id[0],distance:0,integratedSpeed:0,maxSpeed:0,maxAcceleration:0,maxNormalAcceleration:0,maxTurnRateDegreesPerSecondAbove1:0,stationaryFrames:0}]));
+  const ballSpeeds={possessed:[],in_flight:[]};
   let minPlayerSeparation=Infinity,closestPair=null,maxPositionResidual=0,maxBallSpeed=0,maxPossessedFootDistance=0;
   check(metadata.synthetic===true,'Data must explicitly be synthetic');
   check(metadata.duration>=25&&metadata.duration<=40,'Duration outside 25–40 seconds');
@@ -51,6 +52,18 @@ export function auditScenario(scene){
     check(stage.startTime<stage.endTime,'Invalid stage interval');
     check(ids.every(id=>typeof stage.roles[id]?.reason==='string'&&stage.roles[id].reason.length>10),`Missing role action in ${stage.id}`);
   }
+  const cues=metadata.observationCues??[];
+  check(cues.length>0,'Missing authored observation cues');
+  check(new Set(cues.map(cue=>cue.id)).size===cues.length,'Duplicate observation cue IDs');
+  for(let i=0;i<cues.length;i++){
+    const cue=cues[i],previous=cues[i-1];
+    check(['startTime','endTime','evidenceTime'].every(key=>Number.isFinite(cue[key]))&&cue.startTime>=0&&cue.startTime<=cue.endTime&&cue.endTime<=metadata.duration,`Invalid observation interval ${cue.id}`);
+    check(cue.evidenceTime>=0&&cue.evidenceTime<=cue.startTime,`Future observation evidence ${cue.id}`);
+    check(!previous||previous.endTime<cue.startTime,`Overlapping observation cues ${cue.id}`);
+    check(Array.isArray(cue.focusPlayerIds)&&cue.focusPlayerIds.length>0&&cue.focusPlayerIds.every(id=>ids.includes(id)),`Unknown observation focus ${cue.id}`);
+    check(typeof cue.text==='string'&&cue.text.length>10&&typeof cue.textZh==='string'&&cue.textZh.length>5,`Missing bilingual observation ${cue.id}`);
+    check(cue.kind==='observed_movement'&&cue.provenance==='authored_tracking_cue',`Unidentified observation provenance ${cue.id}`);
+  }
   for(let i=0;i<frames.length;i++){
     const f=frames[i],previous=frames[i-1],dt=previous?f.t-previous.t:0;
     check(f.index===i&&close(f.t,i/10)&&f.frameId===`${metadata.id}:${String(i).padStart(4,'0')}`,`Frame/time mismatch at ${i}`);
@@ -60,7 +73,9 @@ export function auditScenario(scene){
     check(['possessed','in_flight','loose','dead'].includes(f.ball.state),`Unknown ball state at ${i}`);
     check(['x','y','vx','vy','z'].every(key=>Number.isFinite(f.ball[key])),`Non-finite ball at ${i}`);
     check(Math.abs(f.ball.x)<=52.5&&Math.abs(f.ball.y)<=34&&f.ball.z>=0,`Ball outside pitch at ${i}`);
-    maxBallSpeed=Math.max(maxBallSpeed,norm(f.ball.vx,f.ball.vy));
+    const ballSpeed=norm(f.ball.vx,f.ball.vy);
+    maxBallSpeed=Math.max(maxBallSpeed,ballSpeed);
+    ballSpeeds[f.ball.state]?.push(ballSpeed);
     if(f.ball.state==='possessed'){
       const p=f.players.find(p=>p.id===f.carrierId);
       check(Boolean(p),`Missing carrier at ${i}`);
@@ -76,6 +91,9 @@ export function auditScenario(scene){
       if(previous){
         const q=previous.players[j],acceleration=norm(p.vx-q.vx,p.vy-q.vy)/dt;
         stats.distance+=dist(p,q);stats.integratedSpeed+=(norm(q.vx,q.vy)+speed)*dt/2;stats.maxAcceleration=Math.max(stats.maxAcceleration,acceleration);
+        const meanVx=(p.vx+q.vx)/2,meanVy=(p.vy+q.vy)/2,meanSpeed=norm(meanVx,meanVy);
+        if(meanSpeed>1e-6)stats.maxNormalAcceleration=Math.max(stats.maxNormalAcceleration,Math.abs(meanVx*(p.vy-q.vy)-meanVy*(p.vx-q.vx))/(dt*meanSpeed));
+        if(speed>=1&&norm(q.vx,q.vy)>=1)stats.maxTurnRateDegreesPerSecondAbove1=Math.max(stats.maxTurnRateDegreesPerSecondAbove1,Math.abs(Math.atan2(q.vx*p.vy-q.vy*p.vx,q.vx*p.vx+q.vy*p.vy))*180/Math.PI/dt);
         const residual=norm(p.x-q.x-(p.vx+q.vx)*dt/2,p.y-q.y-(p.vy+q.vy)*dt/2);
         maxPositionResidual=Math.max(maxPositionResidual,residual);
         check(acceleration<=MOTION_LIMITS.maxAcceleration+1e-6,`${p.id} exceeds vector acceleration at ${i}`);
@@ -113,10 +131,14 @@ export function auditScenario(scene){
     check(last.attackingTeam===arrival.playerId[0],`Team did not follow reception ${event.passId}`);
     if(arrival.type==='reception')check(event.targetId===arrival.playerId,`Reception differs from intended target ${event.passId}`);
     if(event.type==='pass'&&event.targetId?.[0]===event.playerId[0])check(!geometricallyOffside(f,event.targetId),`Authored pass targets an offside player ${event.passId}`);
+    const flightSpeed=norm(f.ball.vx,f.ball.vy),profile=BALL_FLIGHT_PROFILES[event.flightProfile];
+    check(Boolean(profile),`Missing action-specific flight profile ${event.passId}`);
+    if(profile)check(flightSpeed>=profile.minimumSpeed&&flightSpeed<=profile.maximumSpeed,`Ball flight speed outside ${event.flightProfile} profile on ${event.passId}: ${flightSpeed}`);
     let minimumOpponentClearance=Infinity,minimumNonParticipantClearance=Infinity,closest=null;
     for(let i=event.frameIndex;i<arrival.frameIndex;i++){
       const a=frames[i],b=frames[i+1],dt=b.t-a.t;
       check(a.ball.state==='in_flight'&&a.carrierId===null&&a.ball.passId===event.passId&&a.ball.releaseFrameId===event.frameId,`Flight state/link mismatch ${event.passId} at ${i}`);
+      check(close(a.ball.vx,f.ball.vx)&&close(a.ball.vy,f.ball.vy),`Unmodelled easing during constant-speed flight ${event.passId} at ${i}`);
       for(let j=0;j<22;j++){
         const p=a.players[j];if([event.playerId,arrival.playerId].includes(p.id))continue;
         const result=chordClearance(a.ball,b.ball,p,b.players[j]);
@@ -128,7 +150,7 @@ export function auditScenario(scene){
     // A geometry audit, not a learned control/interception probability. At these
     // speeds a player can still challenge a pass outside the declared exclusion.
     check(minimumNonParticipantClearance>=1.2,`Ball crosses a non-participant 1.2 m exclusion zone on ${event.passId}: ${minimumNonParticipantClearance}`);
-    const item={passId:event.passId,releaseType:event.type,from:event.playerId,intendedTarget:event.targetId,actualReceiver:arrival.playerId,outcome:arrival.type,releaseTime:event.t,arrivalTime:arrival.t,speed:round(norm(f.ball.vx,f.ball.vy)),minimumOpponentClearance:round(minimumOpponentClearance),minimumNonParticipantClearance:round(minimumNonParticipantClearance),closest};
+    const item={passId:event.passId,releaseType:event.type,flightProfile:event.flightProfile,from:event.playerId,intendedTarget:event.targetId,actualReceiver:arrival.playerId,outcome:arrival.type,releaseTime:event.t,arrivalTime:arrival.t,duration:round(arrival.t-event.t),distance:round(dist(f.ball,last.ball)),speed:round(flightSpeed),minimumOpponentClearance:round(minimumOpponentClearance),minimumNonParticipantClearance:round(minimumNonParticipantClearance),closest};
     if(event.type==='shot'){
       const projection=shotGoalLineProjection(f);
       item.shotGoalLineProjection={...projection,y:projection.y===null?null:round(projection.y),timeToLine:projection.timeToLine===null?null:round(projection.timeToLine)};
@@ -150,11 +172,12 @@ export function auditScenario(scene){
     }
     flights.push(item);
   }
-  const players=Object.values(motion).map(({integratedSpeed,stationaryFrames,...p})=>({...p,distance:round(p.distance),meanSpeed:round(integratedSpeed/metadata.duration),maxSpeed:round(p.maxSpeed),maxAcceleration:round(p.maxAcceleration),stationaryFraction:round(stationaryFrames/frames.length)}));
+  const players=Object.values(motion).map(({integratedSpeed,stationaryFrames,...p})=>({...p,distance:round(p.distance),meanSpeed:round(integratedSpeed/metadata.duration),maxSpeed:round(p.maxSpeed),maxAcceleration:round(p.maxAcceleration),maxNormalAcceleration:round(p.maxNormalAcceleration),maxTurnRateDegreesPerSecondAbove1:round(p.maxTurnRateDegreesPerSecondAbove1),stationaryFraction:round(stationaryFrames/frames.length)}));
+  const speedSummary=values=>({minimum:round(Math.min(...values)),maximum:round(Math.max(...values)),mean:round(values.reduce((a,b)=>a+b,0)/values.length)});
   const offsideFrames=frames.filter(f=>f.attackingTeam==='A'&&geometricallyOffside(f,metadata.targetId));
   const offsideIntervals=[];
   for(const f of offsideFrames){const last=offsideIntervals.at(-1);if(last&&close(f.t-last.endTime,.1)){last.endTime=f.t;last.endFrameId=f.frameId;}else offsideIntervals.push({startTime:f.t,startFrameId:f.frameId,endTime:f.t,endFrameId:f.frameId});}
-  return {scenarioId:metadata.id,status:issues.length?'failed':'passed',issues,frames:frames.length,events:events.length,stages:metadata.stages.length,minimumPlayerSeparationLowerBound:round(minPlayerSeparation),closestPlayerPair:closestPair,maxPositionIntegrationResidual:maxPositionResidual,maxPlayerSpeed:round(Math.max(...players.map(p=>p.maxSpeed))),maxVectorAcceleration:round(Math.max(...players.map(p=>p.maxAcceleration))),maxBallSpeed:round(maxBallSpeed),maxPossessedBallDistance:round(maxPossessedFootDistance),players,distribution:{meanOfMeanSpeeds:round(players.reduce((sum,p)=>sum+p.meanSpeed,0)/22),medianMeanSpeed:round(median(players.map(p=>p.meanSpeed))),playersBelowMeanSpeedPointFive:players.filter(p=>p.meanSpeed<.5).map(p=>p.id),outfieldDistanceRange:[Math.min(...players.filter(p=>!['A1','B1'].includes(p.id)).map(p=>p.distance)),Math.max(...players.filter(p=>!['A1','B1'].includes(p.id)).map(p=>p.distance))]},flights,targetGeometricOffsideIntervals:offsideIntervals};
+  return {scenarioId:metadata.id,status:issues.length?'failed':'passed',issues,frames:frames.length,events:events.length,stages:metadata.stages.length,observationCues:cues.length,minimumPlayerSeparationLowerBound:round(minPlayerSeparation),closestPlayerPair:closestPair,maxPositionIntegrationResidual:maxPositionResidual,maxPlayerSpeed:round(Math.max(...players.map(p=>p.maxSpeed))),maxVectorAcceleration:round(Math.max(...players.map(p=>p.maxAcceleration))),maxBallSpeed:round(maxBallSpeed),ballMotion:{possessed:speedSummary(ballSpeeds.possessed),inFlight:speedSummary(ballSpeeds.in_flight),units:'m/s',meanDefinition:'Unweighted mean over 10 Hz frames in each state; flight includes passes and shots.'},maxPossessedBallDistance:round(maxPossessedFootDistance),players,distribution:{meanOfMeanSpeeds:round(players.reduce((sum,p)=>sum+p.meanSpeed,0)/22),medianMeanSpeed:round(median(players.map(p=>p.meanSpeed))),playersBelowMeanSpeedPointFive:players.filter(p=>p.meanSpeed<.5).map(p=>p.id),outfieldDistanceRange:[Math.min(...players.filter(p=>!['A1','B1'].includes(p.id)).map(p=>p.distance)),Math.max(...players.filter(p=>!['A1','B1'].includes(p.id)).map(p=>p.distance))]},flights,targetGeometricOffsideIntervals:offsideIntervals};
 }
 
 async function main(){
@@ -165,7 +188,7 @@ async function main(){
     if(JSON.stringify(scene)!==JSON.stringify(generateScenario(spec.id,scene.metadata.seed))){result.issues.push('Export differs from current generator');result.status='failed';}
     results.push({...result,inputSha256:hash(bytes)});
   }
-  const report={schemaVersion:'2.0',generatedAt:new Date().toISOString(),generatorVersion:'tactical-state-v2.0.1',generatorSha256:hash(await readFile(new URL('../src/scenarios.mjs',import.meta.url))),dataSource:'Independently authored synthetic tactical scripts. No match-data source, borrowed scene code, or AS/DAS score drives motion.',scope:'Reproducible structural, kinematic, continuous-chord separation and event audit. This is not a professional football-realism validation or an interception-success model.',thresholds:{maxPlayerSpeed:7.6,maxVectorAcceleration:3.2,maxGoalkeeperSpeed:4.5,maxBallSpeed:30,minimumPlayerSeparation:.8,minimumPassNonParticipantClearance:1.2,goalHalfWidth:3.66,shotRequirement:'Ground-shot ray crosses the attacked goal mouth after the save point',units:'metres, seconds',continuousBound:'Linear-chord minima minus the maximum constant-acceleration sag: a*dt²/8 for one player, a*dt²/4 for two.'},results};
+  const report={schemaVersion:'3.0',generatedAt:new Date().toISOString(),generatorVersion:GENERATOR_VERSION,generatorSha256:hash(await readFile(new URL('../src/scenarios.mjs',import.meta.url))),dataSource:'Independently authored synthetic tactical scripts. No match-data source, borrowed scene code, or AS/DAS score drives motion.',scope:'Reproducible structural, kinematic, continuous-chord separation and event audit. This is not a professional football-realism validation or an interception-success model.',thresholds:{maxPlayerSpeed:7.6,maxVectorAcceleration:3.2,maxGoalkeeperSpeed:4.5,maxBallSpeed:30,ballFlightProfiles:BALL_FLIGHT_PROFILES,minimumPlayerSeparation:.8,minimumPassNonParticipantClearance:1.2,goalHalfWidth:3.66,shotRequirement:'Ground-shot ray crosses the attacked goal mouth after the save point',units:'metres, seconds',continuousBound:'Linear-chord minima minus the maximum constant-acceleration sag: a*dt²/8 for one player, a*dt²/4 for two.'},results};
   await mkdir(new URL('../data/',import.meta.url),{recursive:true});
   await writeFile(new URL('../data/validation.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
   for(const result of results)console.log(`${result.scenarioId}: ${result.status}; ${result.frames} frames; ${result.events} events; max speed ${result.maxPlayerSpeed} m/s; min separation ${result.minimumPlayerSeparationLowerBound} m; ${result.issues.length} issues`);

@@ -4,7 +4,7 @@
 
 Off-Ball Lens replays three independently authored synthetic football attacks, follows any of the 22 players, and connects receiving-space heatmaps and past opportunity windows to exact evidence frames. Its numerical engine is the authors' [accessible-space 2.1.0](https://github.com/jonas-bischofberger/accessible-space), implementing individual Dangerous Accessible Space (DAS).
 
-**[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [108-second actual preview](https://cabbage1999.github.io/Off-Ball-Lens/assets/demo-preview.html) · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Acceptance](docs/acceptance.md)
+**[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Replay refinement](docs/replay-v3.md) · [Acceptance](docs/acceptance.md)
 
 The default replay uses precomputed author-model results and works without an account or API key. The server includes **one genuine Microsoft Agent Framework (MAF) Agent** with native evidence tools. **On 27 October 2026, the complete local Node → MAF → Azure path passed a real smoke and all eight expanded cases**, using `gpt-5-mini` at `https://westus3.api.cognitive.microsoft.com/openai/v1/responses`. See the sanitized [single-run record](artifacts/agent-framework-trace.json) and [eight-case record](artifacts/agent-framework-suite.json), both marked `mock:false`. Public backend deployment, the final MAF video and human review remain pending. GitHub Pages continues to provide deterministic local explanations.
 
@@ -28,11 +28,11 @@ Open `http://127.0.0.1:4173`. The replay and local server have no third-party Ja
 | Alternative option (`unused`) | 34 s | A7's opportunity changes while the carrier chooses a different teammate |
 | Defensive recovery (`blocked`) | 30 s | A7 has opportunities, an offside interval, then renewed access before an interception and counter |
 
-The scene labels describe authored events, not score targets. The generator never reads DAS. Each scene includes stage-specific roles for all players, bounded continuous motion, pressure/marking/cover, alternative receivers, and ball events from the same clock.
+The scene labels describe authored events, not score targets. The generator never reads DAS. Each scene includes stage-specific roles for all players, bounded continuous motion, pressure/marking/cover, alternative receivers, and ball events from the same clock. The v3 choreography adds A7's check, curved turn and acceleration; passes travel at 10.20–20.09 m/s while a carried ball follows its carrier. These are audited synthetic choices, not empirically calibrated football norms.
 
 Select a player, play or seek, and inspect their last three seconds of movement. The heatmap, metrics and evidence bind to an explicit 5 Hz analysis frame; the 10 Hz tracking animation may interpolate. Curves and notifications reveal only the observed prefix. Ball flight, uncontrolled play and unsupported states hide current values. A carrier, defender or offside player is never assigned a misleading zero contribution score.
 
-Fan mode shows one main observation with evidence. Analyst mode adds AS/DAS values, units, versions, source frames and uncertainty. English and Chinese share the same facts. End-of-clip review reveals the complete observed sequence.
+Fan mode centres the pitch, Player Lens and What Are We Seeing. Short bilingual **scripted observations** below the touchline describe already observed movement; they do not invoke a model. Team A uses blue/white shirts with navy numbers, and the fixed heatmap uses violet through orange to pale yellow. Analyst mode retains the opportunity curve, events, receiving windows, AS/DAS values, source frames and tool activity. English and Chinese share the same facts. End-of-clip review in Analyst reveals the complete observed sequence.
 
 ## What DAS means
 
@@ -47,7 +47,7 @@ The scalar values come directly from the author's integration. The front-end hea
 
 A change in DAS describes a player's opportunities while the whole scene changes. It is not individual causal credit. Individual fields overlap: do not add player values or turn them into contribution shares. A decoy runner can lose direct receiving space while helping a teammate; the [ten qualitative cases](docs/qualitative-cases.md) preserve that limitation.
 
-These synthetic scenes are not professional-match validation. Numerical resolution, positional noise and sampling affect the output: some sampled values change materially under denser grids or 0.1 m perturbations, and 2.5 Hz sampling misses one short window. Notifications are exploratory timing cues, not calibrated verdicts. See [the full integration and sensitivity audit](docs/das-integration.md).
+These synthetic scenes are not professional-match validation. Numerical resolution, positional noise and sampling affect the output: some sampled values change materially under denser grids or 0.1 m perturbations, and 2.5 Hz sampling shifts window timings. Notifications are exploratory timing cues, not calibrated verdicts. See [the full integration and sensitivity audit](docs/das-integration.md).
 
 ## Reproduce the numerical results
 
@@ -119,7 +119,7 @@ For public cloud use, follow the [deployment guide](docs/deployment.zh-CN.md) an
 | `src/scenarios.mjs`, `data/{used,unused,blocked}.json` | Synthetic tactical scripts, trajectories and events |
 | `analytics/` | Author package adapter, field conversion, past-only notification detector, audit |
 | `data/analysis/` | Precomputed AS/DAS, eligibility, fixed-scale fields and moment revisions |
-| `src/analysis.mjs`, `app.mjs`, `index.html`, `style.css` | Prefix-only replay and evidence interface |
+| `src/analysis.mjs`, `src/presentation.mjs`, `app.mjs`, `index.html`, `style.css` | Prefix-only replay, fixed palette, authored cues and evidence interface |
 | `src/evidence.mjs`, `src/evidence-session.mjs`, `src/agent.mjs` | Canonical facts, evidence ledger/validation and legacy native provider path |
 | `agent_runtime/`, `src/maf-bridge.mjs`, `server.mjs` | MAF Agent, bounded Python/Node bridge and same-origin HTTP server |
 | `tests/`, `agent_runtime/tests/`, `analytics/tests/` | Contract, temporal, MAF/protocol, numerical and HTTP checks |

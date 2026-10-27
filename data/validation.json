@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "2.0",
-  "generatedAt": "2026-10-24T14:01:14.805Z",
-  "generatorVersion": "tactical-state-v2.0.1",
-  "generatorSha256": "b059d47c14f9f073d80f74da098a0907b910c511151a085700be20afcb0dacb6",
+  "schemaVersion": "3.0",
+  "generatedAt": "2026-10-27T11:41:46.474Z",
+  "generatorVersion": "tactical-state-v3.0.0",
+  "generatorSha256": "1d26df39175100ebf3908387321eb46f4c932d48577b1156a12f730ca61a2b71",
   "dataSource": "Independently authored synthetic tactical scripts. No match-data source, borrowed scene code, or AS/DAS score drives motion.",
   "scope": "Reproducible structural, kinematic, continuous-chord separation and event audit. This is not a professional football-realism validation or an interception-success model.",
   "thresholds": {
@@ -10,6 +10,24 @@
     "maxVectorAcceleration": 3.2,
     "maxGoalkeeperSpeed": 4.5,
     "maxBallSpeed": 30,
+    "ballFlightProfiles": {
+      "firm_pass": {
+        "minimumSpeed": 12,
+        "maximumSpeed": 22
+      },
+      "short_combination": {
+        "minimumSpeed": 9,
+        "maximumSpeed": 18
+      },
+      "switch": {
+        "minimumSpeed": 14,
+        "maximumSpeed": 24
+      },
+      "shot": {
+        "minimumSpeed": 18,
+        "maximumSpeed": 28
+      }
+    },
     "minimumPlayerSeparation": 0.8,
     "minimumPassNonParticipantClearance": 1.2,
     "goalHalfWidth": 3.66,
@@ -25,6 +43,7 @@
       "frames": 321,
       "events": 12,
       "stages": 7,
+      "observationCues": 13,
       "minimumPlayerSeparationLowerBound": 1.801878,
       "closestPlayerPair": {
         "frameId": "used:0252",
@@ -34,270 +53,337 @@
           "B11"
         ]
       },
-      "maxPositionIntegrationResidual": 1.0858783682503889e-14,
-      "maxPlayerSpeed": 5.057316,
+      "maxPositionIntegrationResidual": 1.0556610362189426e-14,
+      "maxPlayerSpeed": 5.085767,
       "maxVectorAcceleration": 3.2,
-      "maxBallSpeed": 16.543679,
+      "maxBallSpeed": 20.679642,
+      "ballMotion": {
+        "possessed": {
+          "minimum": 0,
+          "maximum": 3.2,
+          "mean": 1.452124
+        },
+        "inFlight": {
+          "minimum": 12.676891,
+          "maximum": 20.679642,
+          "mean": 17.523929
+        },
+        "units": "m/s",
+        "meanDefinition": "Unweighted mean over 10 Hz frames in each state; flight includes passes and shots."
+      },
       "maxPossessedBallDistance": 0.37,
       "players": [
         {
           "id": "A1",
           "team": "A",
-          "distance": 12.154952,
-          "maxSpeed": 1.987038,
+          "distance": 11.909912,
+          "maxSpeed": 1.977448,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.380411,
-          "stationaryFraction": 0.137072
+          "maxNormalAcceleration": 2.812413,
+          "maxTurnRateDegreesPerSecondAbove1": 32.963456,
+          "meanSpeed": 0.372738,
+          "stationaryFraction": 0.249221
         },
         {
           "id": "A2",
           "team": "A",
-          "distance": 54.717287,
+          "distance": 54.728719,
           "maxSpeed": 3.245467,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.710091,
+          "maxNormalAcceleration": 1.500932,
+          "maxTurnRateDegreesPerSecondAbove1": 22.482404,
+          "meanSpeed": 1.710448,
           "stationaryFraction": 0.006231
         },
         {
           "id": "A3",
           "team": "A",
-          "distance": 37.061478,
+          "distance": 37.142201,
           "maxSpeed": 1.77473,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.15851,
+          "maxNormalAcceleration": 3.02059,
+          "maxTurnRateDegreesPerSecondAbove1": 154.977124,
+          "meanSpeed": 1.161033,
           "stationaryFraction": 0.006231
         },
         {
           "id": "A4",
           "team": "A",
-          "distance": 36.162831,
+          "distance": 36.2114,
           "maxSpeed": 1.76776,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.130484,
+          "maxNormalAcceleration": 1.674987,
+          "maxTurnRateDegreesPerSecondAbove1": 42.554389,
+          "meanSpeed": 1.132002,
           "stationaryFraction": 0.009346
         },
         {
           "id": "A5",
           "team": "A",
-          "distance": 40.729903,
+          "distance": 40.708344,
           "maxSpeed": 2.032668,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.273245,
+          "maxNormalAcceleration": 2.353153,
+          "maxTurnRateDegreesPerSecondAbove1": 70.597304,
+          "meanSpeed": 1.272571,
           "stationaryFraction": 0.009346
         },
         {
           "id": "A6",
           "team": "A",
-          "distance": 40.392536,
-          "maxSpeed": 2.50971,
+          "distance": 40.409299,
+          "maxSpeed": 2.511554,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.262642,
+          "maxNormalAcceleration": 2.538997,
+          "maxTurnRateDegreesPerSecondAbove1": 104.880638,
+          "meanSpeed": 1.26317,
           "stationaryFraction": 0.006231
         },
         {
           "id": "A7",
           "team": "A",
-          "distance": 42.438861,
-          "maxSpeed": 3.391121,
+          "distance": 44.253914,
+          "maxSpeed": 4.127864,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.32669,
-          "stationaryFraction": 0.009346
+          "maxNormalAcceleration": 2.952257,
+          "maxTurnRateDegreesPerSecondAbove1": 93.415173,
+          "meanSpeed": 1.384234,
+          "stationaryFraction": 0.018692
         },
         {
           "id": "A8",
           "team": "A",
-          "distance": 35.418513,
+          "distance": 35.443818,
           "maxSpeed": 1.631809,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.107126,
+          "maxNormalAcceleration": 1.629984,
+          "maxTurnRateDegreesPerSecondAbove1": 45.469473,
+          "meanSpeed": 1.107916,
           "stationaryFraction": 0.006231
         },
         {
           "id": "A9",
           "team": "A",
-          "distance": 24.654359,
+          "distance": 24.6328,
           "maxSpeed": 1.010313,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.770855,
+          "maxNormalAcceleration": 2.353785,
+          "maxTurnRateDegreesPerSecondAbove1": 0,
+          "meanSpeed": 0.770181,
           "stationaryFraction": 0.009346
         },
         {
           "id": "A10",
           "team": "A",
-          "distance": 33.840958,
+          "distance": 33.819291,
           "maxSpeed": 1.499991,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.057969,
+          "maxNormalAcceleration": 2.35378,
+          "maxTurnRateDegreesPerSecondAbove1": 52.988277,
+          "meanSpeed": 1.057284,
           "stationaryFraction": 0.009346
         },
         {
           "id": "A11",
           "team": "A",
-          "distance": 30.926888,
-          "maxSpeed": 1.697006,
+          "distance": 30.888533,
+          "maxSpeed": 1.696991,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.966878,
+          "maxNormalAcceleration": 2.815439,
+          "maxTurnRateDegreesPerSecondAbove1": 57.722577,
+          "meanSpeed": 0.965676,
           "stationaryFraction": 0.006231
         },
         {
           "id": "B1",
           "team": "B",
-          "distance": 15.409911,
+          "distance": 15.239325,
           "maxSpeed": 3.2,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.482372,
-          "stationaryFraction": 0.53271
+          "maxNormalAcceleration": 0.218829,
+          "maxTurnRateDegreesPerSecondAbove1": 0.117419,
+          "meanSpeed": 0.476888,
+          "stationaryFraction": 0.563863
         },
         {
           "id": "B2",
           "team": "B",
-          "distance": 28.649982,
-          "maxSpeed": 2.907445,
+          "distance": 33.789097,
+          "maxSpeed": 3.420979,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.895967,
+          "maxNormalAcceleration": 3.199937,
+          "maxTurnRateDegreesPerSecondAbove1": 148.528914,
+          "meanSpeed": 1.057174,
           "stationaryFraction": 0.006231
         },
         {
           "id": "B3",
           "team": "B",
-          "distance": 23.034348,
+          "distance": 22.94135,
           "maxSpeed": 1.997015,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.720213,
+          "maxNormalAcceleration": 2.425921,
+          "maxTurnRateDegreesPerSecondAbove1": 39.095057,
+          "meanSpeed": 0.717303,
           "stationaryFraction": 0.006231
         },
         {
           "id": "B4",
           "team": "B",
-          "distance": 21.726479,
+          "distance": 21.645909,
           "maxSpeed": 1.537091,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.679308,
+          "maxNormalAcceleration": 3.199999,
+          "maxTurnRateDegreesPerSecondAbove1": 141.847798,
+          "meanSpeed": 0.676792,
           "stationaryFraction": 0.003115
         },
         {
           "id": "B5",
           "team": "B",
-          "distance": 28.955227,
-          "maxSpeed": 2.795704,
+          "distance": 29.767639,
+          "maxSpeed": 2.794962,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.905989,
+          "maxNormalAcceleration": 3.199999,
+          "maxTurnRateDegreesPerSecondAbove1": 142.473741,
+          "meanSpeed": 0.931285,
           "stationaryFraction": 0.006231
         },
         {
           "id": "B6",
           "team": "B",
-          "distance": 49.157385,
-          "maxSpeed": 5.016278,
+          "distance": 49.3789,
+          "maxSpeed": 5.085767,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.536739,
+          "maxNormalAcceleration": 2.183891,
+          "maxTurnRateDegreesPerSecondAbove1": 79.823177,
+          "meanSpeed": 1.543613,
           "stationaryFraction": 0.009346
         },
         {
           "id": "B7",
           "team": "B",
-          "distance": 49.981062,
+          "distance": 49.921592,
           "maxSpeed": 4.069668,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.562474,
-          "stationaryFraction": 0.009346
+          "maxNormalAcceleration": 3.199979,
+          "maxTurnRateDegreesPerSecondAbove1": 18.229065,
+          "meanSpeed": 1.560617,
+          "stationaryFraction": 0.012461
         },
         {
           "id": "B8",
           "team": "B",
-          "distance": 38.511868,
-          "maxSpeed": 4.889353,
+          "distance": 38.441591,
+          "maxSpeed": 4.811406,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.204498,
+          "maxNormalAcceleration": 3.198932,
+          "maxTurnRateDegreesPerSecondAbove1": 163.202818,
+          "meanSpeed": 1.202268,
           "stationaryFraction": 0.006231
         },
         {
           "id": "B9",
           "team": "B",
-          "distance": 52.971722,
+          "distance": 52.865512,
           "maxSpeed": 4.457064,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.655822,
+          "maxNormalAcceleration": 3.097274,
+          "maxTurnRateDegreesPerSecondAbove1": 56.360854,
+          "meanSpeed": 1.652503,
           "stationaryFraction": 0.006231
         },
         {
           "id": "B10",
           "team": "B",
-          "distance": 47.746851,
+          "distance": 47.701864,
           "maxSpeed": 5.057316,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.492589,
+          "maxNormalAcceleration": 3.196241,
+          "maxTurnRateDegreesPerSecondAbove1": 142.350655,
+          "meanSpeed": 1.491183,
           "stationaryFraction": 0.006231
         },
         {
           "id": "B11",
           "team": "B",
-          "distance": 41.495978,
+          "distance": 41.793699,
           "maxSpeed": 4.565986,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.297528,
+          "maxNormalAcceleration": 2.975046,
+          "maxTurnRateDegreesPerSecondAbove1": 52.707462,
+          "meanSpeed": 1.307004,
           "stationaryFraction": 0.003115
         }
       ],
       "distribution": {
-        "meanOfMeanSpeeds": 1.1172,
-        "medianMeanSpeed": 1.144497,
+        "meanOfMeanSpeeds": 1.127904,
+        "medianMeanSpeed": 1.146517,
         "playersBelowMeanSpeedPointFive": [
           "A1",
           "B1"
         ],
         "outfieldDistanceRange": [
-          21.726479,
-          54.717287
+          21.645909,
+          54.728719
         ]
       },
       "flights": [
         {
           "passId": "used:p1",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A3",
           "intendedTarget": "A6",
           "actualReceiver": "A6",
           "outcome": "reception",
           "releaseTime": 3.2,
-          "arrivalTime": 4.3,
-          "speed": 16.099178,
-          "minimumOpponentClearance": 1.629189,
-          "minimumNonParticipantClearance": 1.629189,
+          "arrivalTime": 4.2,
+          "duration": 1,
+          "distance": 17.56172,
+          "speed": 17.56172,
+          "minimumOpponentClearance": 1.626361,
+          "minimumNonParticipantClearance": 1.626361,
           "closest": {
             "playerId": "B9",
-            "t": 3.268469
+            "t": 3.262399
           }
         },
         {
           "passId": "used:p2",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A6",
           "intendedTarget": "A7",
           "actualReceiver": "A7",
           "outcome": "reception",
           "releaseTime": 11.2,
-          "arrivalTime": 12.4,
-          "speed": 13.226821,
-          "minimumOpponentClearance": 1.66137,
-          "minimumNonParticipantClearance": 1.66137,
+          "arrivalTime": 12.1,
+          "duration": 0.9,
+          "distance": 17.936764,
+          "speed": 19.929738,
+          "minimumOpponentClearance": 1.245206,
+          "minimumNonParticipantClearance": 1.245206,
           "closest": {
             "playerId": "B6",
-            "t": 11.338359
+            "t": 11.307461
           }
         },
         {
           "passId": "used:p3",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A7",
           "intendedTarget": "A9",
           "actualReceiver": "A9",
           "outcome": "reception",
           "releaseTime": 17.5,
-          "arrivalTime": 18.7,
-          "speed": 12.24696,
-          "minimumOpponentClearance": 3.180022,
-          "minimumNonParticipantClearance": 3.180022,
+          "arrivalTime": 18.4,
+          "duration": 0.9,
+          "distance": 14.501359,
+          "speed": 16.112621,
+          "minimumOpponentClearance": 3.180308,
+          "minimumNonParticipantClearance": 3.180308,
           "closest": {
             "playerId": "B2",
             "t": 17.5
@@ -306,57 +392,66 @@
         {
           "passId": "used:p4",
           "releaseType": "pass",
+          "flightProfile": "short_combination",
           "from": "A9",
           "intendedTarget": "A10",
           "actualReceiver": "A10",
           "outcome": "reception",
           "releaseTime": 21,
-          "arrivalTime": 22,
-          "speed": 5.98417,
-          "minimumOpponentClearance": 3.934461,
-          "minimumNonParticipantClearance": 3.934461,
+          "arrivalTime": 21.5,
+          "duration": 0.5,
+          "distance": 6.338446,
+          "speed": 12.676891,
+          "minimumOpponentClearance": 3.795371,
+          "minimumNonParticipantClearance": 3.795371,
           "closest": {
             "playerId": "B8",
-            "t": 21.950512
+            "t": 21.470678
           }
         },
         {
           "passId": "used:p5",
           "releaseType": "pass",
+          "flightProfile": "switch",
           "from": "A10",
           "intendedTarget": "A11",
           "actualReceiver": "A11",
           "outcome": "reception",
           "releaseTime": 25.3,
-          "arrivalTime": 26.8,
-          "speed": 9.454543,
-          "minimumOpponentClearance": 1.855963,
-          "minimumNonParticipantClearance": 1.855963,
+          "arrivalTime": 26.2,
+          "duration": 0.9,
+          "distance": 14.737643,
+          "speed": 16.375159,
+          "minimumOpponentClearance": 1.655517,
+          "minimumNonParticipantClearance": 1.655517,
           "closest": {
             "playerId": "B11",
-            "t": 26.8
+            "t": 26.2
           }
         },
         {
           "passId": "used:s1",
           "releaseType": "shot",
+          "flightProfile": "shot",
           "from": "A11",
           "intendedTarget": "B1",
           "actualReceiver": "B1",
           "outcome": "save",
           "releaseTime": 29.6,
-          "arrivalTime": 30.6,
-          "speed": 16.543679,
-          "minimumOpponentClearance": 2.725136,
-          "minimumNonParticipantClearance": 2.725136,
+          "arrivalTime": 30.4,
+          "duration": 0.8,
+          "distance": 16.543713,
+          "speed": 20.679642,
+          "minimumOpponentClearance": 2.72263,
+          "minimumNonParticipantClearance": 2.72263,
           "closest": {
             "playerId": "B5",
-            "t": 29.645207
+            "t": 29.635325
           },
           "shotGoalLineProjection": {
             "goalX": 52.5,
-            "y": 0.157282,
-            "timeToLine": 1.483807,
+            "y": 0.157206,
+            "timeToLine": 1.187046,
             "goalHalfWidth": 3.66,
             "groundShot": true,
             "goalward": true,
@@ -365,7 +460,7 @@
         }
       ],
       "targetGeometricOffsideIntervals": [],
-      "inputSha256": "f1fb9c9a473184242096d554d94b69a7222d115d78a336332ab807961bebb62f"
+      "inputSha256": "a8ac74f2d5d48807559e0286be639fa4e71dc41b1b711618b2e43a4cb7c4a6f0"
     },
     {
       "scenarioId": "unused",
@@ -374,6 +469,7 @@
       "frames": 341,
       "events": 14,
       "stages": 7,
+      "observationCues": 11,
       "minimumPlayerSeparationLowerBound": 1.585584,
       "closestPlayerPair": {
         "frameId": "unused:0213",
@@ -383,270 +479,337 @@
           "B11"
         ]
       },
-      "maxPositionIntegrationResidual": 1.0837512726658684e-14,
-      "maxPlayerSpeed": 5.324923,
+      "maxPositionIntegrationResidual": 9.834405427399166e-15,
+      "maxPlayerSpeed": 5.713166,
       "maxVectorAcceleration": 3.2,
-      "maxBallSpeed": 17.95976,
+      "maxBallSpeed": 19.603483,
+      "ballMotion": {
+        "possessed": {
+          "minimum": 0,
+          "maximum": 3.152129,
+          "mean": 1.28564
+        },
+        "inFlight": {
+          "minimum": 12.113215,
+          "maximum": 19.603483,
+          "mean": 16.65886
+        },
+        "units": "m/s",
+        "meanDefinition": "Unweighted mean over 10 Hz frames in each state; flight includes passes and shots."
+      },
       "maxPossessedBallDistance": 0.37,
       "players": [
         {
           "id": "A1",
           "team": "A",
-          "distance": 13.341021,
-          "maxSpeed": 2.353701,
+          "distance": 13.340779,
+          "maxSpeed": 2.349554,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.393049,
-          "stationaryFraction": 0.27566
+          "maxNormalAcceleration": 2.511353,
+          "maxTurnRateDegreesPerSecondAbove1": 31.876071,
+          "meanSpeed": 0.393041,
+          "stationaryFraction": 0.284457
         },
         {
           "id": "A2",
           "team": "A",
-          "distance": 43.423282,
+          "distance": 43.409021,
           "maxSpeed": 1.644431,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.277275,
+          "maxNormalAcceleration": 0.968214,
+          "maxTurnRateDegreesPerSecondAbove1": 31.972492,
+          "meanSpeed": 1.276856,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A3",
           "team": "A",
-          "distance": 41.687737,
+          "distance": 41.686844,
           "maxSpeed": 1.627905,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.226432,
+          "maxNormalAcceleration": 1.296254,
+          "maxTurnRateDegreesPerSecondAbove1": 41.149862,
+          "meanSpeed": 1.226406,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A4",
           "team": "A",
-          "distance": 40.587599,
+          "distance": 40.586706,
           "maxSpeed": 1.644433,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.194092,
+          "maxNormalAcceleration": 1.532432,
+          "maxTurnRateDegreesPerSecondAbove1": 79.414724,
+          "meanSpeed": 1.194066,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A5",
           "team": "A",
-          "distance": 64.7421,
+          "distance": 64.723658,
           "maxSpeed": 3.915418,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.904437,
+          "maxNormalAcceleration": 2.549071,
+          "maxTurnRateDegreesPerSecondAbove1": 67.733493,
+          "meanSpeed": 1.903896,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A6",
           "team": "A",
-          "distance": 37.013693,
+          "distance": 37.038823,
           "maxSpeed": 1.644433,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.088921,
+          "maxNormalAcceleration": 0.570188,
+          "maxTurnRateDegreesPerSecondAbove1": 22.141645,
+          "meanSpeed": 1.08966,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A7",
           "team": "A",
-          "distance": 48.694401,
+          "distance": 48.675431,
           "maxSpeed": 3.426651,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.432725,
+          "maxNormalAcceleration": 2.949387,
+          "maxTurnRateDegreesPerSecondAbove1": 84.789697,
+          "meanSpeed": 1.432168,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A8",
           "team": "A",
-          "distance": 39.667266,
-          "maxSpeed": 3.100222,
+          "distance": 39.653865,
+          "maxSpeed": 3.152129,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.167066,
+          "maxNormalAcceleration": 2.801718,
+          "maxTurnRateDegreesPerSecondAbove1": 42.204349,
+          "meanSpeed": 1.166665,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A9",
           "team": "A",
-          "distance": 24.684699,
+          "distance": 24.672821,
           "maxSpeed": 0.994556,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.726184,
+          "maxNormalAcceleration": 1.218601,
+          "maxTurnRateDegreesPerSecondAbove1": 0,
+          "meanSpeed": 0.725834,
           "stationaryFraction": 0.005865
         },
         {
           "id": "A10",
           "team": "A",
-          "distance": 36.784524,
-          "maxSpeed": 1.622323,
+          "distance": 36.835711,
+          "maxSpeed": 1.843089,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.082491,
+          "maxNormalAcceleration": 3.140639,
+          "maxTurnRateDegreesPerSecondAbove1": 130.498554,
+          "meanSpeed": 1.084302,
           "stationaryFraction": 0.008798
         },
         {
           "id": "A11",
           "team": "A",
-          "distance": 30.505394,
+          "distance": 30.477799,
           "maxSpeed": 1.6,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.897672,
+          "maxNormalAcceleration": 2.291272,
+          "maxTurnRateDegreesPerSecondAbove1": 23.355472,
+          "meanSpeed": 0.896862,
           "stationaryFraction": 0.014663
         },
         {
           "id": "B1",
           "team": "B",
-          "distance": 15.224358,
-          "maxSpeed": 3.048431,
+          "distance": 15.231443,
+          "maxSpeed": 3.041789,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.448165,
+          "maxNormalAcceleration": 0.594043,
+          "maxTurnRateDegreesPerSecondAbove1": 0.004542,
+          "meanSpeed": 0.448404,
           "stationaryFraction": 0.565982
         },
         {
           "id": "B2",
           "team": "B",
-          "distance": 41.051683,
+          "distance": 40.915256,
           "maxSpeed": 4.6163,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.207935,
+          "maxNormalAcceleration": 3.169608,
+          "maxTurnRateDegreesPerSecondAbove1": 103.469254,
+          "meanSpeed": 1.204095,
           "stationaryFraction": 0.002933
         },
         {
           "id": "B3",
           "team": "B",
-          "distance": 20.567527,
+          "distance": 20.488079,
           "maxSpeed": 1.587931,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.605278,
+          "maxNormalAcceleration": 3.199874,
+          "maxTurnRateDegreesPerSecondAbove1": 57.952677,
+          "meanSpeed": 0.60294,
           "stationaryFraction": 0.002933
         },
         {
           "id": "B4",
           "team": "B",
-          "distance": 20.772342,
+          "distance": 20.68899,
           "maxSpeed": 1.574219,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.611473,
+          "maxNormalAcceleration": 1.671112,
+          "maxTurnRateDegreesPerSecondAbove1": 58.201198,
+          "meanSpeed": 0.608977,
           "stationaryFraction": 0.008798
         },
         {
           "id": "B5",
           "team": "B",
-          "distance": 28.698829,
-          "maxSpeed": 3.070807,
+          "distance": 28.693333,
+          "maxSpeed": 3.070674,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.845448,
-          "stationaryFraction": 0.01173
+          "maxNormalAcceleration": 3.189428,
+          "maxTurnRateDegreesPerSecondAbove1": 72.877268,
+          "meanSpeed": 0.845282,
+          "stationaryFraction": 0.005865
         },
         {
           "id": "B6",
           "team": "B",
-          "distance": 29.366408,
+          "distance": 29.340428,
           "maxSpeed": 1.874933,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.863992,
+          "maxNormalAcceleration": 2.349346,
+          "maxTurnRateDegreesPerSecondAbove1": 48.08374,
+          "meanSpeed": 0.863228,
           "stationaryFraction": 0.005865
         },
         {
           "id": "B7",
           "team": "B",
-          "distance": 41.351143,
+          "distance": 41.475477,
           "maxSpeed": 4.155935,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.216564,
+          "maxNormalAcceleration": 3.153862,
+          "maxTurnRateDegreesPerSecondAbove1": 79.397425,
+          "meanSpeed": 1.220222,
           "stationaryFraction": 0.002933
         },
         {
           "id": "B8",
           "team": "B",
-          "distance": 56.965342,
-          "maxSpeed": 5.324923,
+          "distance": 55.368151,
+          "maxSpeed": 5.713166,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.677013,
-          "stationaryFraction": 0.017595
+          "maxNormalAcceleration": 3.198167,
+          "maxTurnRateDegreesPerSecondAbove1": 160.533131,
+          "meanSpeed": 1.630144,
+          "stationaryFraction": 0.014663
         },
         {
           "id": "B9",
           "team": "B",
-          "distance": 58.581642,
+          "distance": 58.516202,
           "maxSpeed": 5.258923,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.723443,
+          "maxNormalAcceleration": 3.185317,
+          "maxTurnRateDegreesPerSecondAbove1": 136.310738,
+          "meanSpeed": 1.721518,
           "stationaryFraction": 0.005865
         },
         {
           "id": "B10",
           "team": "B",
-          "distance": 43.048069,
+          "distance": 42.997736,
           "maxSpeed": 3.791869,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.266468,
+          "maxNormalAcceleration": 1.39102,
+          "maxTurnRateDegreesPerSecondAbove1": 33.715879,
+          "meanSpeed": 1.264987,
           "stationaryFraction": 0.005865
         },
         {
           "id": "B11",
           "team": "B",
-          "distance": 46.634104,
+          "distance": 46.652698,
           "maxSpeed": 4.566221,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.372075,
+          "maxNormalAcceleration": 3.1833,
+          "maxTurnRateDegreesPerSecondAbove1": 137.325527,
+          "meanSpeed": 1.37263,
           "stationaryFraction": 0.002933
         }
       ],
       "distribution": {
-        "meanOfMeanSpeeds": 1.101282,
-        "medianMeanSpeed": 1.180579,
+        "meanOfMeanSpeeds": 1.098736,
+        "medianMeanSpeed": 1.180366,
         "playersBelowMeanSpeedPointFive": [
           "A1",
           "B1"
         ],
         "outfieldDistanceRange": [
-          20.567527,
-          64.7421
+          20.488079,
+          64.723658
         ]
       },
       "flights": [
         {
           "passId": "unused:p1",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A4",
           "intendedTarget": "A8",
           "actualReceiver": "A8",
           "outcome": "reception",
           "releaseTime": 3.5,
-          "arrivalTime": 4.6,
-          "speed": 17.95976,
-          "minimumOpponentClearance": 1.342598,
-          "minimumNonParticipantClearance": 1.342598,
+          "arrivalTime": 4.5,
+          "duration": 1,
+          "distance": 19.603483,
+          "speed": 19.603483,
+          "minimumOpponentClearance": 1.337762,
+          "minimumNonParticipantClearance": 1.337762,
           "closest": {
             "playerId": "B9",
-            "t": 3.587591
+            "t": 3.5801
           }
         },
         {
           "passId": "unused:p2",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A8",
           "intendedTarget": "A10",
           "actualReceiver": "A10",
           "outcome": "reception",
           "releaseTime": 11.8,
-          "arrivalTime": 13,
-          "speed": 11.220392,
-          "minimumOpponentClearance": 1.882567,
-          "minimumNonParticipantClearance": 1.882567,
+          "arrivalTime": 12.6,
+          "duration": 0.8,
+          "distance": 13.138649,
+          "speed": 16.423312,
+          "minimumOpponentClearance": 1.828032,
+          "minimumNonParticipantClearance": 1.828032,
           "closest": {
             "playerId": "B8",
-            "t": 12.17155
+            "t": 12.037498
           }
         },
         {
           "passId": "unused:p3",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A10",
           "intendedTarget": "A11",
           "actualReceiver": "A11",
           "outcome": "reception",
           "releaseTime": 16.9,
-          "arrivalTime": 18.3,
-          "speed": 12.963035,
-          "minimumOpponentClearance": 2.072936,
-          "minimumNonParticipantClearance": 2.072936,
+          "arrivalTime": 18,
+          "duration": 1.1,
+          "distance": 18.198686,
+          "speed": 16.54426,
+          "minimumOpponentClearance": 1.927277,
+          "minimumNonParticipantClearance": 1.927277,
           "closest": {
             "playerId": "B8",
             "t": 16.9
@@ -655,74 +818,86 @@
         {
           "passId": "unused:p4",
           "releaseType": "pass",
+          "flightProfile": "short_combination",
           "from": "A11",
           "intendedTarget": "A5",
           "actualReceiver": "A5",
           "outcome": "reception",
           "releaseTime": 21.8,
-          "arrivalTime": 23,
-          "speed": 7.292004,
-          "minimumOpponentClearance": 1.623708,
-          "minimumNonParticipantClearance": 1.623708,
+          "arrivalTime": 22.5,
+          "duration": 0.7,
+          "distance": 8.479251,
+          "speed": 12.113215,
+          "minimumOpponentClearance": 1.7797,
+          "minimumNonParticipantClearance": 1.7797,
           "closest": {
             "playerId": "B5",
-            "t": 22.184199
+            "t": 22.000223
           }
         },
         {
           "passId": "unused:p5",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A5",
           "intendedTarget": "A8",
           "actualReceiver": "A8",
           "outcome": "reception",
           "releaseTime": 26.7,
-          "arrivalTime": 28.2,
-          "speed": 11.250023,
-          "minimumOpponentClearance": 1.63715,
-          "minimumNonParticipantClearance": 1.469383,
+          "arrivalTime": 27.7,
+          "duration": 1,
+          "distance": 16.933771,
+          "speed": 16.933771,
+          "minimumOpponentClearance": 1.756055,
+          "minimumNonParticipantClearance": 1.579214,
           "closest": {
             "playerId": "A11",
-            "t": 27.646669
+            "t": 27.32045
           }
         },
         {
           "passId": "unused:p6",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A8",
           "intendedTarget": "A9",
           "actualReceiver": "A9",
           "outcome": "reception",
           "releaseTime": 30,
-          "arrivalTime": 31.2,
-          "speed": 11.981344,
-          "minimumOpponentClearance": 1.529724,
-          "minimumNonParticipantClearance": 1.340635,
+          "arrivalTime": 30.9,
+          "duration": 0.9,
+          "distance": 14.154896,
+          "speed": 15.727662,
+          "minimumOpponentClearance": 1.524594,
+          "minimumNonParticipantClearance": 1.383591,
           "closest": {
             "playerId": "A10",
-            "t": 30.671274
+            "t": 30.502713
           }
         },
         {
           "passId": "unused:s1",
           "releaseType": "shot",
+          "flightProfile": "shot",
           "from": "A9",
           "intendedTarget": "B1",
           "actualReceiver": "B1",
           "outcome": "save",
           "releaseTime": 32.6,
-          "arrivalTime": 33.2,
-          "speed": 12.995785,
-          "minimumOpponentClearance": 1.970946,
-          "minimumNonParticipantClearance": 1.970946,
+          "arrivalTime": 33,
+          "duration": 0.4,
+          "distance": 7.77854,
+          "speed": 19.44635,
+          "minimumOpponentClearance": 2.04719,
+          "minimumNonParticipantClearance": 2.04719,
           "closest": {
             "playerId": "B3",
-            "t": 32.893997
+            "t": 32.790784
           },
           "shotGoalLineProjection": {
             "goalX": 52.5,
-            "y": -1.399346,
-            "timeToLine": 1.067649,
+            "y": -1.273084,
+            "timeToLine": 0.711766,
             "goalHalfWidth": 3.66,
             "groundShot": true,
             "goalward": true,
@@ -731,7 +906,7 @@
         }
       ],
       "targetGeometricOffsideIntervals": [],
-      "inputSha256": "8c8dbeee60d313fd2e0bb4bbeeb53cb1671a321459e7e4e71420f1651924f1c1"
+      "inputSha256": "9afaea12c5c2e45a339eb953dc54b85ebb6fdae6cd3fa158d6e1ce084358d3df"
     },
     {
       "scenarioId": "blocked",
@@ -740,7 +915,8 @@
       "frames": 301,
       "events": 10,
       "stages": 7,
-      "minimumPlayerSeparationLowerBound": 1.570321,
+      "observationCues": 11,
+      "minimumPlayerSeparationLowerBound": 1.587184,
       "closestPlayerPair": {
         "frameId": "blocked:0089",
         "t": 8.9,
@@ -749,28 +925,46 @@
           "B6"
         ]
       },
-      "maxPositionIntegrationResidual": 1.2638147130488621e-14,
+      "maxPositionIntegrationResidual": 1.4093493100310509e-14,
       "maxPlayerSpeed": 6.793531,
       "maxVectorAcceleration": 3.2,
-      "maxBallSpeed": 17.184134,
+      "maxBallSpeed": 20.091692,
+      "ballMotion": {
+        "possessed": {
+          "minimum": 0,
+          "maximum": 3.986408,
+          "mean": 1.894311
+        },
+        "inFlight": {
+          "minimum": 10.202523,
+          "maximum": 20.091692,
+          "mean": 16.153341
+        },
+        "units": "m/s",
+        "meanDefinition": "Unweighted mean over 10 Hz frames in each state; flight includes passes and shots."
+      },
       "maxPossessedBallDistance": 0.37,
       "players": [
         {
           "id": "A1",
           "team": "A",
-          "distance": 15.749367,
-          "maxSpeed": 2.541511,
+          "distance": 15.921455,
+          "maxSpeed": 2.541494,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.525799,
+          "maxNormalAcceleration": 2.875596,
+          "maxTurnRateDegreesPerSecondAbove1": 87.131942,
+          "meanSpeed": 0.531733,
           "stationaryFraction": 0.043189
         },
         {
           "id": "A2",
           "team": "A",
-          "distance": 58.165381,
+          "distance": 58.249779,
           "maxSpeed": 2.906665,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.939627,
+          "maxNormalAcceleration": 3.19967,
+          "maxTurnRateDegreesPerSecondAbove1": 80.363156,
+          "meanSpeed": 1.942437,
           "stationaryFraction": 0.003322
         },
         {
@@ -779,6 +973,8 @@
           "distance": 43.138518,
           "maxSpeed": 1.999998,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 3.068576,
+          "maxTurnRateDegreesPerSecondAbove1": 152.27315,
           "meanSpeed": 1.438286,
           "stationaryFraction": 0.013289
         },
@@ -788,6 +984,8 @@
           "distance": 42.978733,
           "maxSpeed": 1.860807,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 1.735087,
+          "maxTurnRateDegreesPerSecondAbove1": 29.10061,
           "meanSpeed": 1.43285,
           "stationaryFraction": 0.006645
         },
@@ -797,16 +995,20 @@
           "distance": 45.833994,
           "maxSpeed": 2.108185,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 1.770919,
+          "maxTurnRateDegreesPerSecondAbove1": 42.241588,
           "meanSpeed": 1.527917,
           "stationaryFraction": 0.003322
         },
         {
           "id": "A6",
           "team": "A",
-          "distance": 62.508141,
-          "maxSpeed": 6.313481,
+          "distance": 62.987123,
+          "maxSpeed": 6.354416,
           "maxAcceleration": 3.2,
-          "meanSpeed": 2.084304,
+          "maxNormalAcceleration": 3.186677,
+          "maxTurnRateDegreesPerSecondAbove1": 174.301804,
+          "meanSpeed": 2.100332,
           "stationaryFraction": 0.006645
         },
         {
@@ -815,6 +1017,8 @@
           "distance": 79.633188,
           "maxSpeed": 6.793531,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 3.198739,
+          "maxTurnRateDegreesPerSecondAbove1": 112.011791,
           "meanSpeed": 2.655017,
           "stationaryFraction": 0.003322
         },
@@ -824,6 +1028,8 @@
           "distance": 46.524241,
           "maxSpeed": 2.287916,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 3.198207,
+          "maxTurnRateDegreesPerSecondAbove1": 59.01179,
           "meanSpeed": 1.551068,
           "stationaryFraction": 0.003322
         },
@@ -833,16 +1039,20 @@
           "distance": 27.918069,
           "maxSpeed": 1.832487,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 2.447873,
+          "maxTurnRateDegreesPerSecondAbove1": 49.832666,
           "meanSpeed": 0.930854,
           "stationaryFraction": 0.003322
         },
         {
           "id": "A10",
           "team": "A",
-          "distance": 39.515061,
-          "maxSpeed": 2.379417,
+          "distance": 39.515153,
+          "maxSpeed": 2.375662,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.31796,
+          "maxNormalAcceleration": 3.174369,
+          "maxTurnRateDegreesPerSecondAbove1": 72.68908,
+          "meanSpeed": 1.317962,
           "stationaryFraction": 0.009967
         },
         {
@@ -851,16 +1061,20 @@
           "distance": 37.21105,
           "maxSpeed": 1.987613,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 3.085477,
+          "maxTurnRateDegreesPerSecondAbove1": 28.824499,
           "meanSpeed": 1.24056,
           "stationaryFraction": 0.003322
         },
         {
           "id": "B1",
           "team": "B",
-          "distance": 14.395874,
+          "distance": 14.392974,
           "maxSpeed": 3.2,
           "maxAcceleration": 3.2,
-          "meanSpeed": 0.480834,
+          "maxNormalAcceleration": 3.195964,
+          "maxTurnRateDegreesPerSecondAbove1": 43.808546,
+          "meanSpeed": 0.480735,
           "stationaryFraction": 0.355482
         },
         {
@@ -869,6 +1083,8 @@
           "distance": 33.579734,
           "maxSpeed": 2.222219,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 2.807351,
+          "maxTurnRateDegreesPerSecondAbove1": 84.936012,
           "meanSpeed": 1.120192,
           "stationaryFraction": 0.006645
         },
@@ -878,6 +1094,8 @@
           "distance": 23.116406,
           "maxSpeed": 1.906152,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 2.765679,
+          "maxTurnRateDegreesPerSecondAbove1": 30.983052,
           "meanSpeed": 0.770907,
           "stationaryFraction": 0.009967
         },
@@ -887,43 +1105,53 @@
           "distance": 23.205341,
           "maxSpeed": 1.71925,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 2.095752,
+          "maxTurnRateDegreesPerSecondAbove1": 36.669981,
           "meanSpeed": 0.773791,
           "stationaryFraction": 0.003322
         },
         {
           "id": "B5",
           "team": "B",
-          "distance": 30.166298,
-          "maxSpeed": 2.851616,
+          "distance": 30.186712,
+          "maxSpeed": 2.851608,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.006238,
+          "maxNormalAcceleration": 3.187135,
+          "maxTurnRateDegreesPerSecondAbove1": 80.773991,
+          "meanSpeed": 1.007003,
           "stationaryFraction": 0.003322
         },
         {
           "id": "B6",
           "team": "B",
-          "distance": 65.704262,
-          "maxSpeed": 5.179311,
+          "distance": 66.149006,
+          "maxSpeed": 5.176863,
           "maxAcceleration": 3.2,
-          "meanSpeed": 2.190797,
+          "maxNormalAcceleration": 3.199786,
+          "maxTurnRateDegreesPerSecondAbove1": 84.923845,
+          "meanSpeed": 2.20577,
           "stationaryFraction": 0.006645
         },
         {
           "id": "B7",
           "team": "B",
-          "distance": 56.880238,
+          "distance": 56.8803,
           "maxSpeed": 3.834347,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.896387,
+          "maxNormalAcceleration": 2.602648,
+          "maxTurnRateDegreesPerSecondAbove1": 33.232907,
+          "meanSpeed": 1.896389,
           "stationaryFraction": 0.006645
         },
         {
           "id": "B8",
           "team": "B",
-          "distance": 47.695844,
-          "maxSpeed": 4.092935,
+          "distance": 46.547711,
+          "maxSpeed": 3.763066,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.591353,
+          "maxNormalAcceleration": 3.199488,
+          "maxTurnRateDegreesPerSecondAbove1": 126.824921,
+          "meanSpeed": 1.553193,
           "stationaryFraction": 0.006645
         },
         {
@@ -932,16 +1160,20 @@
           "distance": 64.026935,
           "maxSpeed": 4.638116,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 3.16176,
+          "maxTurnRateDegreesPerSecondAbove1": 59.272775,
           "meanSpeed": 2.134783,
           "stationaryFraction": 0.003322
         },
         {
           "id": "B10",
           "team": "B",
-          "distance": 56.87074,
+          "distance": 56.854242,
           "maxSpeed": 4.68097,
           "maxAcceleration": 3.2,
-          "meanSpeed": 1.89635,
+          "maxNormalAcceleration": 3.199744,
+          "maxTurnRateDegreesPerSecondAbove1": 104.565491,
+          "meanSpeed": 1.8958,
           "stationaryFraction": 0.003322
         },
         {
@@ -950,12 +1182,14 @@
           "distance": 51.374072,
           "maxSpeed": 4.723736,
           "maxAcceleration": 3.2,
+          "maxNormalAcceleration": 3.186113,
+          "maxTurnRateDegreesPerSecondAbove1": 55.866018,
           "meanSpeed": 1.712661,
           "stationaryFraction": 0.003322
         }
       ],
       "distribution": {
-        "meanOfMeanSpeeds": 1.464479,
+        "meanOfMeanSpeeds": 1.464556,
         "medianMeanSpeed": 1.483102,
         "playersBelowMeanSpeedPointFive": [
           "B1"
@@ -969,88 +1203,103 @@
         {
           "passId": "blocked:p1",
           "releaseType": "pass",
+          "flightProfile": "firm_pass",
           "from": "A3",
           "intendedTarget": "A6",
           "actualReceiver": "A6",
           "outcome": "reception",
           "releaseTime": 3.1,
-          "arrivalTime": 4.2,
-          "speed": 15.353015,
-          "minimumOpponentClearance": 1.639882,
-          "minimumNonParticipantClearance": 1.639882,
+          "arrivalTime": 4.1,
+          "duration": 1,
+          "distance": 16.731487,
+          "speed": 16.731487,
+          "minimumOpponentClearance": 1.637514,
+          "minimumNonParticipantClearance": 1.637514,
           "closest": {
             "playerId": "B9",
-            "t": 3.173415
+            "t": 3.167242
           }
         },
         {
           "passId": "blocked:p2",
           "releaseType": "pass",
+          "flightProfile": "switch",
           "from": "A6",
           "intendedTarget": "A8",
           "actualReceiver": "A8",
           "outcome": "reception",
           "releaseTime": 10.4,
-          "arrivalTime": 11.8,
-          "speed": 13.378208,
-          "minimumOpponentClearance": 2.216941,
-          "minimumNonParticipantClearance": 2.216941,
+          "arrivalTime": 11.5,
+          "duration": 1.1,
+          "distance": 18.617402,
+          "speed": 16.924911,
+          "minimumOpponentClearance": 2.22637,
+          "minimumNonParticipantClearance": 2.22637,
           "closest": {
             "playerId": "B10",
-            "t": 11.094372
+            "t": 10.940892
           }
         },
         {
           "passId": "blocked:p3",
           "releaseType": "pass",
+          "flightProfile": "short_combination",
           "from": "A8",
           "intendedTarget": "A10",
           "actualReceiver": "A10",
           "outcome": "reception",
           "releaseTime": 15.1,
-          "arrivalTime": 16.3,
-          "speed": 5.315338,
-          "minimumOpponentClearance": 2.111931,
-          "minimumNonParticipantClearance": 2.111931,
+          "arrivalTime": 15.7,
+          "duration": 0.6,
+          "distance": 6.121514,
+          "speed": 10.202523,
+          "minimumOpponentClearance": 1.876445,
+          "minimumNonParticipantClearance": 1.876445,
           "closest": {
             "playerId": "B8",
-            "t": 15.439913
+            "t": 15.303165
           }
         },
         {
           "passId": "blocked:p4",
           "releaseType": "pass",
+          "flightProfile": "short_combination",
           "from": "A10",
           "intendedTarget": "A9",
           "actualReceiver": "B6",
           "outcome": "interception",
           "releaseTime": 19.6,
-          "arrivalTime": 20.2,
-          "speed": 7.091325,
-          "minimumOpponentClearance": 1.712361,
-          "minimumNonParticipantClearance": 1.712361,
+          "arrivalTime": 20,
+          "duration": 0.4,
+          "distance": 4.272768,
+          "speed": 10.68192,
+          "minimumOpponentClearance": 1.83807,
+          "minimumNonParticipantClearance": 1.83807,
           "closest": {
             "playerId": "B8",
-            "t": 19.737361
+            "t": 19.681972
           },
-          "interceptionDistanceFromIntendedLane": 1.386899,
+          "interceptionDistanceFromIntendedLane": 1.601487,
           "interceptionDistanceDefinition": "Ball-contact point to the segment from release to the intended target foot at interception time; not target-to-actual-ray error.",
-          "intendedTargetDistanceFromActualBallRay": 3.101862,
-          "intendedTargetDistanceDefinition": "Intended player centre at blocked:0202 to the forward extension of the actual released-ball velocity.",
+          "intendedTargetDistanceFromActualBallRay": 3.577986,
+          "intendedTargetDistanceDefinition": "Intended player centre at blocked:0200 to the forward extension of the actual released-ball velocity.",
           "interceptionModel": "Authored misdirected pass and interception; no calibrated execution-error, anticipation, reaction, or technical-skill model."
         },
         {
           "passId": "blocked:p5",
           "releaseType": "pass",
+          "flightProfile": "switch",
           "from": "B6",
           "intendedTarget": "B7",
           "actualReceiver": "B7",
           "outcome": "reception",
           "releaseTime": 24.1,
-          "arrivalTime": 25.4,
-          "speed": 17.184134,
-          "minimumOpponentClearance": 3.033245,
-          "minimumNonParticipantClearance": 3.033245,
+          "arrivalTime": 25.2,
+          "duration": 1.1,
+          "distance": 22.100861,
+          "speed": 20.091692,
+          "minimumOpponentClearance": 2.855681,
+          "minimumNonParticipantClearance": 2.855681,
           "closest": {
             "playerId": "A6",
             "t": 24.1
@@ -1065,7 +1314,7 @@
           "endFrameId": "blocked:0165"
         }
       ],
-      "inputSha256": "0925b9872d7f353b3767e41d406a4574d920989469ac35dba27bf937b92a9133"
+      "inputSha256": "a26082126925cf6448f4e1e9da34d3e86a0d596008df1b6fda977555f9ab0a08"
     }
   ]
 }

@@ -7,7 +7,7 @@ import {MODEL_VERSION,makeFactPack,renderFactPlan,validateExplainRequest} from '
 import {listScenarios} from '../src/scenarios.mjs';
 
 const ROOT=fileURLToPath(new URL('../',import.meta.url));
-const STATIC_FILES=['index.html','app.mjs','style.css','src/analysis.mjs','src/agent.mjs','src/evidence.mjs','src/evidence-session.mjs'];
+const STATIC_FILES=['index.html','app.mjs','style.css','src/analysis.mjs','src/agent.mjs','src/evidence.mjs','src/evidence-session.mjs','src/presentation.mjs'];
 const OVERLAYS=['receiving_heatmap','player_trail','das_curve','event','none'];
 const MAX_FILE_BYTES=16*1024*1024,MAX_JSON_BYTES=128*1024;
 const digest=value=>createHash('sha256').update(value).digest('hex');

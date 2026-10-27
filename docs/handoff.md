@@ -9,15 +9,15 @@ This document distinguishes an executable research demo from a finished hackatho
 | Direct receiving-space semantics | Official AS/DAS integrals; excluded states are null; no causal credit, probability or summed contributions |
 | Temporal visualization | Prefix-only curves and revised moments; explicit analysis frames; fixed colour scale |
 | Qualitative and sensitivity checks | Ten examples plus resolution/noise/sampling report; no claimed independent football-expert truth |
-| Independent acceptance and adversarial review | Independent v2 reviews, reproduced defects and repairs are recorded in acceptance.md and adversarial-review.md; no v1 results are carried forward |
+| Independent acceptance and adversarial review | Current v3 independent acceptance and adversarial review are recorded in replay-v3.md, including the repaired failed-load state; earlier reviews remain historical |
 | Clean Linux environment and CI | Corrected Ubuntu run 40103863101 passed locked dependency installation, 50 JavaScript and 33 Python tests, scene checks and model/sensitivity verification; see release-verification.md |
 | Real Microsoft Foundry connectivity | The team's original `azure_check.py` returned `OK` from the West US 3 regional Responses endpoint using `gpt-5-mini` on 27 October: 29 tokens. This is a basic real-call check, not the Agent Framework tool-loop acceptance |
-| Substantive Microsoft Agent Framework integration | Implemented: one MAF Agent, two native evidence tools, request-scoped Python worker, Node evidence ledger and final validator. Independent offline acceptance: 164 JavaScript and 52 Python tests; simulated provider is explicitly distinguished from Azure |
+| Substantive Microsoft Agent Framework integration | Implemented: one MAF Agent, two native evidence tools, request-scoped Python worker, Node evidence ledger and final validator. Independent offline acceptance: 176 JavaScript and 52 Python tests; simulated provider is explicitly distinguished from Azure |
 | Real Agent Framework tool-loop check | **PASSED, 27 October.** Actual Azure + MAF + Node HTTP/evidence tools: basic smoke and eight-case suite; three native model turns and two tools per case. See [basic receipt](../artifacts/agent-framework-trace.json) and [scenario receipt](../artifacts/agent-framework-suite.json), both `mock:false` |
 | Public static v2 build | Published and browser-checked at application commit `9b871a934bd125c20cd9df99c7c44c60f93857af`; all six scene/analysis file hashes match the accepted local version. See release-verification.md for checks and CI history |
 | Public cloud-enabled service | Requires a configured and hosted Node backend; GitHub Pages cannot supply it |
 | Public deployment preparation | Same-origin App Service instructions and a strict HTTP/version/evidence checker are included in deployment.zh-CN.md; an actual hosted cloud deployment is still required |
-| Actual functional English video, less than 120 s | 108.04-second actual local preview with English captions is included and visually checked; a final cloud-enabled recording remains pending |
+| Actual functional English video, less than 120 s | Historical v2 108.04-second local preview is retained; a final recording of the current v3 interface and MAF remains pending |
 | Team football and comprehension review | Football plausibility and two first-time users' comprehension are recorded separately in team-review.zh-CN.md; the blank form is not completed human-review evidence |
 | Final submission | Team submits its entry and category choice with repository, working build and final video |
 

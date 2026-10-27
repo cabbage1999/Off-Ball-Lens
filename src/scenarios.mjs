@@ -5,6 +5,15 @@
  */
 export const PITCH = Object.freeze({ length: 105, width: 68, originX: -52.5, originY: -34 });
 export const MOTION_LIMITS = Object.freeze({ maxSpeed: 7.6, maxAcceleration: 3.2, goalkeeperMaxSpeed: 4.5 });
+export const GENERATOR_VERSION = 'tactical-state-v3.0.0';
+// Authored ranges by action purpose, not measured professional-football norms.
+// Actual speed is distance / flight time and is reported by the independent audit.
+export const BALL_FLIGHT_PROFILES = Object.freeze({
+  firm_pass: Object.freeze({minimumSpeed:12,maximumSpeed:22}),
+  short_combination: Object.freeze({minimumSpeed:9,maximumSpeed:18}),
+  switch: Object.freeze({minimumSpeed:14,maximumSpeed:24}),
+  shot: Object.freeze({minimumSpeed:18,maximumSpeed:28})
+});
 const DT = 0.1;
 const IDS = ['A', 'B'].flatMap(team => Array.from({length: 11}, (_, i) => `${team}${i + 1}`));
 const clone = value => JSON.parse(JSON.stringify(value));
@@ -52,13 +61,13 @@ const ROLE_ACTIONS = {
     A4:'Balance A3 from the central safety lane|Advance while remaining behind A6|Narrow beneath the developing attack|Keep cover behind the near-side centre-back|Move up with the safety line|Hold central protection as A5 advances|Retreat after possession changes',
     A5:'Move forward as the weak-side outlet|Narrow to support circulation|Keep a deeper far-side receiving angle|Advance without duplicating A11 width|Move outside as the ball approaches A10|Support A11 from below the ball|Recover when the shot is saved',
     A6:'Check toward A3 for the first pass|Receive and carry toward B6|Release into A7’s inside run|Follow the ball as the return option|Offer a deeper reset behind A9|Move centrally underneath the switch|Hold recovery depth and step back',
-    A7:'Hold width beyond the first pressing line|Begin the diagonal run inside A2|Receive in the near-side channel|Carry inside and pass to A9|Continue across the defensive line as support|Retain an inside option as the ball switches|Slow and recover after the save',
+    A7:'Advance outside the near-side full-back|Approach B2, check toward A6, then curve inside at reduced speed|Accelerate out of the hook toward A6’s release|Carry inside and pass to A9|Continue across the defensive line as support|Retain an inside option as the ball switches|Slow and recover after the save',
     A8:'Present a second midfield angle|Advance on the far side of A6|Move centrally below A10|Provide an unselected central support option|Remain under the third-player combination|Advance beneath A11 for a cutback|Recover centrally after the save',
     A9:'Occupy the central defensive pair|Adjust between the centre-backs|Keep a central receiving angle for A7|Check toward the passing lane and receive|Lay the ball off to A10|Move into the central finishing channel|Arrive centrally, then retreat after the save',
     A10:'Check between the midfield and back line|Advance as A6 attracts the pivot|Offer the second route inside A7|Move underneath A9 for the layoff|Receive the short connection from A9|Carry and switch the ball toward A11|Follow the shot at recovery speed',
     A11:'Keep far-side width|Advance while the ball remains opposite|Maintain the far-side outlet|Move forward as the near-side attack develops|Prepare to receive the cross-field switch|Receive outside the narrowing back line|Carry inside, shoot low, then recover',
     B1:'Adjust to A3’s ball angle|Move toward the near-side ball line|Set for the channel pass|Adjust behind the full-back and centre-back|Return toward the central passing angle|Shift across as the ball switches|Set on the near-side shot line, gather, then settle centrally',
-    B2:'Retain depth behind the first press|Balance A7 and the outside overlap|Hold the outside lane as A7 cuts inside|Close A7 after he controls the ball|Recover inside after the central pass|Narrow while the ball travels away|Open slightly as a goalkeeper outlet',
+    B2:'Retain depth behind the first press|Follow A7’s checking movement while staying goal-side|Turn inward after A7 changes direction|Close A7 after he controls the ball|Recover inside after the central pass|Narrow while the ball travels away|Open slightly as a goalkeeper outlet',
     B3:'Cover inside the near-side full-back|Stay goal-side of the striker|Protect the channel behind B2|Track A9 while B2 closes the ball|Cover behind the striker’s layoff|Retain central depth beneath the switch|Hold the middle, then offer a short outlet',
     B4:'Maintain the far-side central cover|Move with B3 as the ball advances|Narrow around the centre-forward|Hold the central lane opposite B3|Follow the third-player combination|Protect the central shot lane|Remain inside the shot route, then reset',
     B5:'Narrow from the far touchline|Compress the weak side of the block|Move inside while retaining recovery width|Stay connected to the centre-backs|Prepare to engage the far-side switch|Move outward to the receiving winger|Close A11, then widen after the save',
@@ -129,7 +138,7 @@ const USED_PATHS = {
   A4:[[-29,10],[-25,8],[-18,7],[-11,6],[-5,7],[0,7],[4,8],[6,9]],
   A5:[[-22,27],[-18,25],[-12,23],[-5,21],[1,21],[7,24],[13,25],[17,24]],
   A6:[[-8,-6],[-7,-9],[4,-12],[11,-11],[17,-8],[21,-5],[24,-2],[26,0]],
-  A7:[[3,-26],[6,-27],[13,-25],[24,-17],[31,-14],[34,-10],[36,-7],[38,-8]],
+  A7:[[12,-25],[18,-25],[16.2,-23.3],[25,-16.5],[31,-14],[34,-10],[36,-7],[38,-8]],
   A8:[[-5,13],[-1,12],[5,10],[11,8],[17,9],[22,11],[26,13],[28,11]],
   A9:[[17,1],[20,0],[23,-1],[26,-1],[30,0],[33,1],[37,2],[41,3]],
   A10:[[3,6],[7,5],[12,3],[18,3],[24,5],[28,5],[32,6],[36,7]],
@@ -201,22 +210,36 @@ const BLOCKED_PATHS = {
 const DEFINITIONS = {
   used: {
     times: [0,4.3,9.5,13.5,18.7,22,27,32], paths: USED_PATHS, initialCarrier:'A3',
+    // A local, authored fish-hook: approach the marker, check toward the carrier,
+    // round the turn at reduced speed, then accelerate inside near A6's release.
+    // Tangents describe tactical rhythm; the same bounded controller emits every
+    // position and velocity. No opportunity score enters these control points.
+    routes: {A7:[
+      {t:0,x:12,y:-25,vx:1.3,vy:0},
+      {t:4.3,x:18,y:-25,vx:1.2,vy:0},
+      {t:5.8,x:20,y:-25.5,vx:0,vy:-.7},
+      {t:7.4,x:17.5,y:-27,vx:-2,vy:0},
+      {t:8.6,x:15.6,y:-25.9,vx:-.5,vy:1.9},
+      {t:9.4,x:16,y:-23.6,vx:1.5,vy:3},
+      {t:11.9,x:24,y:-17.2,vx:3,vy:1.4},
+      {t:13.5,x:25,y:-16.5,vx:1.15,vy:.48}
+    ]},
     phases: [
       ['Draw the first press','引出第一线压迫','A3 carries into B9’s press. A6 checks into the near-side pocket; the full-backs create width.'],
-      ['Advance through the pivot','后腰持球推进','A6 advances as B6 leaves the midfield screen to press. A2 overlaps outside A7; the far-side block narrows.'],
-      ['Underlap into the channel','切入近侧肋部','A7 leaves the touchline while B2 balances the overlap. A9 holds the centre-backs and A10 offers an inside alternative.'],
+      ['Check and curve inside','回撤后弧线转向','A6 carries as B6 steps toward him. A7 checks back in front of B2 and rounds the hook at reduced speed; A2 advances outside.'],
+      ['Accelerate into the channel','加速切入近侧肋部','A7 accelerates inside as A6 releases. B2 turns toward the runner; A9 stays between the centre-backs and A10 remains inside.'],
       ['Receive and connect','接球并衔接中路','A7 carries after reception. B2 closes the ball, B3 covers inside, and A9 checks toward the next pass.'],
       ['Third-player support','第三人接应','A9 receives with pressure behind and connects to A10. A6 and A8 stay available beneath the attack.'],
       ['Move the block across','调动防线横移','A10 carries and switches toward A11; B5 and B11 release from narrow cover to defend the far side.'],
       ['Finish and reset','完成进攻并回位','A11 moves inside for a low shot. B1 adjusts and gathers; nearby attackers slow and the back line holds recovery depth.']
     ],
     actions: [
-      {id:'p1',from:'A3',to:'A6',release:3.2,receive:4.3},
-      {id:'p2',from:'A6',to:'A7',release:11.2,receive:12.4},
-      {id:'p3',from:'A7',to:'A9',release:17.5,receive:18.7},
-      {id:'p4',from:'A9',to:'A10',release:21,receive:22},
-      {id:'p5',from:'A10',to:'A11',release:25.3,receive:26.8},
-      {id:'s1',from:'A11',to:'B1',release:29.6,receive:30.6,type:'shot',outcome:'save'}
+      {id:'p1',from:'A3',to:'A6',release:3.2,receive:4.2,flightProfile:'firm_pass'},
+      {id:'p2',from:'A6',to:'A7',release:11.2,receive:12.1,flightProfile:'firm_pass'},
+      {id:'p3',from:'A7',to:'A9',release:17.5,receive:18.4,flightProfile:'firm_pass'},
+      {id:'p4',from:'A9',to:'A10',release:21,receive:21.5,flightProfile:'short_combination'},
+      {id:'p5',from:'A10',to:'A11',release:25.3,receive:26.2,flightProfile:'switch'},
+      {id:'s1',from:'A11',to:'B1',release:29.6,receive:30.4,type:'shot',outcome:'save',flightProfile:'shot'}
     ]
   },
   unused: {
@@ -231,13 +254,13 @@ const DEFINITIONS = {
       ['Connect to the striker','衔接中锋','A8 releases A9, who carries into a low shot. B1 gathers while the other attackers retain recovery positions.']
     ],
     actions:[
-      {id:'p1',from:'A4',to:'A8',release:3.5,receive:4.6},
-      {id:'p2',from:'A8',to:'A10',release:11.8,receive:13},
-      {id:'p3',from:'A10',to:'A11',release:16.9,receive:18.3},
-      {id:'p4',from:'A11',to:'A5',release:21.8,receive:23},
-      {id:'p5',from:'A5',to:'A8',release:26.7,receive:28.2},
-      {id:'p6',from:'A8',to:'A9',release:30,receive:31.2},
-      {id:'s1',from:'A9',to:'B1',release:32.6,receive:33.2,type:'shot',outcome:'save'}
+      {id:'p1',from:'A4',to:'A8',release:3.5,receive:4.5,flightProfile:'firm_pass'},
+      {id:'p2',from:'A8',to:'A10',release:11.8,receive:12.6,flightProfile:'firm_pass'},
+      {id:'p3',from:'A10',to:'A11',release:16.9,receive:18,flightProfile:'firm_pass'},
+      {id:'p4',from:'A11',to:'A5',release:21.8,receive:22.5,flightProfile:'short_combination'},
+      {id:'p5',from:'A5',to:'A8',release:26.7,receive:27.7,flightProfile:'firm_pass'},
+      {id:'p6',from:'A8',to:'A9',release:30,receive:30.9,flightProfile:'firm_pass'},
+      {id:'s1',from:'A9',to:'B1',release:32.6,receive:33,type:'shot',outcome:'save',flightProfile:'shot'}
     ]
   },
   blocked:{
@@ -252,14 +275,65 @@ const DEFINITIONS = {
       ['Support the counterattack','支援反击','B7 advances with B9 and B10 supporting inside. A2 delays the carrier and A7 recovers behind the ball.']
     ],
     actions:[
-      {id:'p1',from:'A3',to:'A6',release:3.1,receive:4.2},
-      {id:'p2',from:'A6',to:'A8',release:10.4,receive:11.8},
-      {id:'p3',from:'A8',to:'A10',release:15.1,receive:16.3},
-      {id:'p4',from:'A10',to:'B6',intendedTarget:'A9',release:19.6,receive:20.2,outcome:'interception'},
-      {id:'p5',from:'B6',to:'B7',release:24.1,receive:25.4}
+      {id:'p1',from:'A3',to:'A6',release:3.1,receive:4.1,flightProfile:'firm_pass'},
+      {id:'p2',from:'A6',to:'A8',release:10.4,receive:11.5,flightProfile:'switch'},
+      {id:'p3',from:'A8',to:'A10',release:15.1,receive:15.7,flightProfile:'short_combination'},
+      {id:'p4',from:'A10',to:'B6',intendedTarget:'A9',release:19.6,receive:20,outcome:'interception',flightProfile:'short_combination'},
+      {id:'p5',from:'B6',to:'B7',release:24.1,receive:25.2,flightProfile:'switch'}
     ]
   }
 };
+
+// These are human-written summaries of already-realised tracking/event evidence.
+// They are deliberately separate from phase intentions and must be gated by both
+// interval and evidenceTime. No cue claims a later reception or causal value.
+const OBSERVATION_CUES = {
+  used:[
+    [0,4.2,['A7','B2'],'A7 holds width; B2 stays goal-side.','A7 拉开宽度，B2 保持球门侧位置。'],
+    [4.3,5.9,['A7','A6','B2'],'A6 carries; A7 has approached B2.','A6 持球，A7 已靠近 B2。'],
+    [6,7.7,['A7','B2'],'A7 has slowed and turned back.','A7 已减速并回撤。'],
+    [7.8,8.7,['A7','B2'],'A7 checks back; B2 follows.','A7 回撤，B2 跟随。'],
+    [8.8,9.5,['A7','B2'],'A7 has curved inside and turned forward.','A7 已弧线转向内侧，重新向前。'],
+    [9.6,11.1,['A7','A6'],'A7 has accelerated inside; A6 still carries.','A7 已加速内切，A6 仍在持球。'],
+    [11.2,12,['A7','A6','B2'],'A6 has passed; B2 moves inward.','A6 已传球，B2 向内移动。'],
+    [12.1,17.4,['A7','A2','B2'],'A7 controls inside B2; A2 advances outside.','A7 在 B2 内侧控球，A2 外侧前进。'],
+    [17.5,20.9,['A7','A9'],'A7 has passed and is moving inside.','A7 已传球，仍向内侧移动。'],
+    [21,25.2,['A7','A9','A10'],'A9 has passed toward A10; A7 stays central.','A9 已传向 A10，A7 保持中路位置。'],
+    [25.3,29.5,['A7','A10','A11'],'A10 has switched toward A11; A7 stays inside.','A10 已转移至 A11 方向，A7 留在内侧。'],
+    [29.6,30.7,['A7','A11','B1'],'A11 has shot; A7 stays inside.','A11 已射门，A7 留在内侧。'],
+    [30.8,32,['A7','B1'],'B1 has saved; A7 turns back.','B1 已扑住射门，A7 转身回撤。']
+  ],
+  unused:[
+    [0,4.4,['A7','B2'],'A7 holds opposite-side width; B2 stays goal-side.','A7 在另一侧拉开，B2 保持球门侧位置。'],
+    [4.5,8.8,['A7','A8','B2'],'A8 has control; A7 advances from wide.','A8 已控球，A7 从边路前进。'],
+    [8.9,11.7,['A7','B2'],'A7 runs diagonally inside; B2 tracks goal-side.','A7 斜向内切，B2 从球门侧跟随。'],
+    [11.8,12.5,['A7','A8','A10'],'A8 has passed; A7 keeps running.','A8 已传球，A7 继续跑动。'],
+    [12.6,15,['A7','A10'],'A10 has control; A7 continues without the ball.','A10 已控球，A7 继续无球前进。'],
+    [15.1,18.3,['A7','B2'],'A7 runs forward; B2 stays goal-side.','A7 向前跑动，B2 保持球门侧位置。'],
+    [18.7,23.4,['A7','B2'],'A7 has checked back; B2 has followed.','A7 已回撤至边路，B2 已跟随。'],
+    [23.7,29.9,['A7','B2'],'A7 advances again from wide.','A7 从边路再次前进。'],
+    [30,32.5,['A7','A8','A9'],'A8 has passed toward A9; A7 moves inside.','A8 已传向 A9，A7 向内侧移动。'],
+    [32.6,33.5,['A7','A9','B1'],'A9 has taken a low shot.','A9 已起脚低射。'],
+    [33.6,34,['A7','B1'],'B1 has saved; A7 moves back.','B1 已扑住射门，A7 开始回撤。']
+  ],
+  blocked:[
+    [0,4,['A7','B2'],'A7 holds width; B2 is ahead.','A7 拉开宽度，B2 位于前方。'],
+    [4.1,6.9,['A7','A6'],'A6 has control; A7 accelerates diagonally.','A6 已控球，A7 斜向加速。'],
+    [7,8.3,['A7','B2'],'A7 sprints forward; B2 retreats.','A7 向前冲刺，B2 后退。'],
+    [8.4,10.3,['A7','B3','B4'],'A7 is beyond the second-last defender.','A7 已跑到倒数第二名防守者身后。'],
+    [10.4,11.4,['A7','A6','A8'],'A6 has passed across; A7 continues forward.','A6 已横传，A7 继续前进。'],
+    [11.5,12.5,['A7','A8'],'A8 has control; A7 has slowed.','A8 已控球，A7 已减速。'],
+    [12.6,15.6,['A7','B2'],'A7 has turned back toward the flank.','A7 已转身回到边路。'],
+    [15.7,19.5,['A7','A10'],'A10 has control; A7 continues back wide.','A10 已控球，A7 继续向边路回撤。'],
+    [20,24,['A7','B6','A10'],'B6 has intercepted A10’s pass; A7 tracks back.','B6 已截下 A10 的传球，A7 回追。'],
+    [24.1,25.1,['A7','B6','B7'],'B6 has passed wide; A7 tracks back.','B6 已传向边路，A7 继续回追。'],
+    [25.2,30,['A7','B7','A2'],'B7 has control; A7 continues retreating.','B7 已控球，A7 继续回撤。']
+  ]
+};
+
+function observationCues(sceneId){
+  return OBSERVATION_CUES[sceneId].map(([startTime,endTime,focusPlayerIds,text,textZh],i)=>({id:`${sceneId}:observation-${i+1}`,startTime,endTime,evidenceTime:startTime,focusPlayerIds:[...focusPlayerIds],text,textZh,kind:'observed_movement',provenance:'authored_tracking_cue'}));
+}
 
 /** Bounded vector acceleration; positions integrate the emitted velocities. */
 export function stepMotion(player, desiredVelocity, dt, limits = MOTION_LIMITS) {
@@ -281,6 +355,13 @@ function phaseAt(definition,t) {
 }
 
 function boardPosition(definition,id,t) {
+  const route=definition.routes?.[id];
+  if(route && t<=route.at(-1).t){
+    const index=Math.max(0,route.findIndex((knot,i)=>i<route.length-1&&t<=route[i+1].t));
+    const a=route[index],b=route[index+1],span=b.t-a.t,f=clamp((t-a.t)/span,0,1);
+    const h00=2*f*f*f-3*f*f+1,h10=f*f*f-2*f*f+f,h01=-2*f*f*f+3*f*f,h11=f*f*f-f*f;
+    return {x:h00*a.x+h10*span*a.vx+h01*b.x+h11*span*b.vx,y:h00*a.y+h10*span*a.vy+h01*b.y+h11*span*b.vy};
+  }
   const phase=phaseAt(definition,t), a=point(definition.paths[id][phase]), b=point(definition.paths[id][phase+1]);
   const span=definition.times[phase+1]-definition.times[phase];
   const f=clamp((t-definition.times[phase])/span,0,1);
@@ -300,7 +381,9 @@ function possessionAt(definition,t) {
 function tacticalTarget(definition,sceneId,player,players,t) {
   const state=possessionAt(definition,t), byId=Object.fromEntries(players.map(p=>[p.id,p]));
   const phase=phaseAt(definition,t), anchor=boardPosition(definition,player.id,t+.55);
-  const carrier=byId[state.carrierId ?? state.action.to];
+  // During flight, reference the declared intended receiver. In particular, the
+  // future interceptor must not become the defensive focus before contact.
+  const carrier=byId[state.carrierId ?? state.action.intendedTarget ?? state.action.to];
   // Defensive response is local to current carrier/runner, not to an AS/DAS value.
   const blend=(target,weight)=>({x:anchor.x+(target.x-anchor.x)*weight,y:anchor.y+(target.y-anchor.y)*weight});
   const goalSide=(id,gap=2.8,lateral=0)=>({x:byId[id].x+gap,y:byId[id].y+lateral});
@@ -328,7 +411,8 @@ function tacticalTarget(definition,sceneId,player,players,t) {
   if(player.id==='B8' && state.carrierId==='A8') return blend(goalSide('A8',2.8,-1.0),.68);
   if(player.id==='B5' && state.carrierId==='A11') return blend(goalSide('A11',2.6,1.4),.64);
   if(player.id==='B8' && state.carrierId==='A10') return blend(goalSide('A10',2.8,-2.0),.72);
-  if(player.id==='B2' && state.carrierId==='A7') return blend(goalSide('A7',2.6,-1.9),.62);
+  if(player.id==='B2' && (state.carrierId==='A7'||state.action?.to==='A7')) return blend(goalSide('A7',2.6,-1.9),.62);
+  if(sceneId==='used' && player.id==='B2' && t>=4.3 && t<9.5) return blend(goalSide('A7',3.6,-.3),.55);
   if(sceneId==='unused' && player.id==='B2') return blend(goalSide('A7',3.1,1.7),.38);
   if(state.team==='B' && player.id==='A6' && state.carrierId==='B6') return blend({x:carrier.x-2.3,y:carrier.y+1.4},.65);
   if(state.team==='B' && player.id==='A2' && state.carrierId==='B7') return blend({x:carrier.x-2.6,y:carrier.y-1.6},.55);
@@ -393,7 +477,7 @@ export function generateScenario(id='used',seed=20261024) {
   for(const action of definition.actions){
     const releaseFrame=frames[Math.round(action.release/DT)],receiveFrame=frames[Math.round(action.receive/DT)];
     const passId=`${id}:${action.id}`;
-    const common={passId,releaseFrameId:releaseFrame.frameId};
+    const common={passId,releaseFrameId:releaseFrame.frameId,flightProfile:action.flightProfile};
     events.push({id:`${passId}:release`,type:action.type??'pass',t:action.release,frameIndex:releaseFrame.index,frameId:releaseFrame.frameId,playerId:action.from,targetId:action.intendedTarget??action.to,...common});
     events.push({id:`${passId}:arrival`,type:action.outcome??'reception',t:action.receive,frameIndex:receiveFrame.index,frameId:receiveFrame.frameId,playerId:action.to,fromId:action.from,...common});
   }
@@ -409,7 +493,7 @@ export function generateScenario(id='used',seed=20261024) {
       frame.ball={...foot(carrier),z:0,vx:carrier.vx,vy:carrier.vy,state:'possessed'};
     }
   }
-  return {metadata:{...spec,seed,synthetic:true,coordinateUnits:'m',timeUnits:'s',pitch:{...PITCH},attackingTeam:'A',attackDirection:1,motionLimits:{...MOTION_LIMITS},generatorVersion:'tactical-state-v2.0.1',source:'Independently authored synthetic tactical boards and bounded kinematic simulation; no recorded match tracking or third-party scene source.',seedUsage:'Provenance identifier; this authored version has no random motion.',labelsAreHypotheses:true,roles:Object.fromEntries(IDS.map(id=>[id,{role:ROLES[id][0],name:ROLES[id][1],nameZh:ROLES[id][2],rationale:ROLES[id][3]}])),stages:definition.phases.map(([title,titleZh,description],i)=>({id:`${id}:stage-${i+1}`,startTime:definition.times[i],endTime:definition.times[i+1],title,titleZh,description,roles:stageRoles(definition,id,i)}))},frames,events};
+  return {metadata:{...spec,seed,synthetic:true,coordinateUnits:'m',timeUnits:'s',pitch:{...PITCH},attackingTeam:'A',attackDirection:1,motionLimits:{...MOTION_LIMITS},ballFlightProfiles:clone(BALL_FLIGHT_PROFILES),ballFlightModel:'Authored action-specific constant horizontal flight speeds; release and control impulses. Profile bounds are simulator choices, not empirical football norms.',generatorVersion:GENERATOR_VERSION,source:'Independently authored synthetic tactical boards and bounded kinematic simulation; no recorded match tracking or third-party scene source.',seedUsage:'Provenance identifier; this authored version has no random motion.',labelsAreHypotheses:true,roles:Object.fromEntries(IDS.map(id=>[id,{role:ROLES[id][0],name:ROLES[id][1],nameZh:ROLES[id][2],rationale:ROLES[id][3]}])),observationCues:observationCues(id),stages:definition.phases.map(([title,titleZh,description],i)=>({id:`${id}:stage-${i+1}`,startTime:definition.times[i],endTime:definition.times[i+1],title,titleZh,description,roles:stageRoles(definition,id,i)}))},frames,events};
 }
 export const getScenario=generateScenario;
 /** Latest sample at or before t: never an interpolated or future metric frame. */

@@ -33,6 +33,8 @@ Only an onside, off-ball player on the team in possession gets a current AS/DAS 
 
 For visualization, the author's dangerous radial density is multiplied by its radial cell width to approximate C_iV, then interpolated onto 35×23 cell centres. It is a dimensionless intensity. Values are quantized against one fixed global range [0,0.1]. The renderer uses a fixed square-root display transfer for weak-field visibility, documented in the interface; it never rescales a frame to its own maximum. Official integrals remain separate from interpolation and quantization.
 
+`src/presentation.mjs` supplies the same fixed violet–orange–pale-yellow RGBA lookup for the field and its legend. For a quantized value q>0, colour uses sqrt(q/255) and opacity is 0.30+0.70×sqrt(q/255), rounded to an 8-bit channel. Zero is transparent. The fixed opacity floor makes weak nonzero fields more visible; it does not change their values. The custom sequential palette is not claimed to be perceptually uniform. Very small positive fields can quantize to transparent; that display limitation is distinct from unavailable metrics. Authored bilingual movement captions have their own observed-evidence time and player focus; they neither change AS/DAS nor count as model-generated explanations.
+
 Metrics, heatmap and citations refer to one exact analysis frame. Only animation positions interpolate between tracking frames. Curves break at unavailable samples and carrier/team changes. A new flight at an intermediate tracking frame suppresses an outdated valid heatmap.
 
 ## 5. Detect opportunities using only the observed prefix

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {SCENARIOS,generateScenario,frameAt,stepMotion,MOTION_LIMITS} from '../src/scenarios.mjs';
+import {SCENARIOS,generateScenario,frameAt,stepMotion,MOTION_LIMITS,GENERATOR_VERSION} from '../src/scenarios.mjs';
 import {auditScenario,geometricallyOffside,shotGoalLineProjection} from '../scripts/validate.mjs';
 
 const scenes=new Map(SCENARIOS.map(spec=>[spec.id,generateScenario(spec.id)]));
@@ -10,7 +10,7 @@ for(const spec of SCENARIOS){
     const scene=scenes.get(spec.id),audit=auditScenario(scene);
     assert.deepEqual(audit.issues,[]);
     assert.deepEqual(scene,generateScenario(spec.id));
-    assert.equal(scene.metadata.generatorVersion,'tactical-state-v2.0.1');
+    assert.equal(scene.metadata.generatorVersion,GENERATOR_VERSION);
     assert.ok(audit.maxPositionIntegrationResidual<1e-7);
     assert.ok(audit.minimumPlayerSeparationLowerBound>1.2);
     assert.ok(audit.flights.every(f=>f.minimumNonParticipantClearance>=1.2));
@@ -44,15 +44,15 @@ test('frame IDs and event IDs are unique across all independent clips',()=>{
 
 test('actual outcomes use events: A7 receives, another option receives, interception starts a counterattack',()=>{
   const used=scenes.get('used'),unused=scenes.get('unused'),blocked=scenes.get('blocked');
-  assert.ok(used.events.some(e=>e.type==='reception'&&e.playerId==='A7'&&e.t===12.4));
+  assert.ok(used.events.some(e=>e.type==='reception'&&e.playerId==='A7'&&e.t===12.1));
   assert.equal(unused.events.some(e=>e.type==='reception'&&e.playerId==='A7'),false);
-  assert.ok(unused.events.some(e=>e.type==='reception'&&e.playerId==='A10'&&e.t===13));
+  assert.ok(unused.events.some(e=>e.type==='reception'&&e.playerId==='A10'&&e.t===12.6));
   const interception=blocked.events.find(e=>e.type==='interception');
-  assert.equal(interception.playerId,'B6');assert.equal(interception.t,20.2);
+  assert.equal(interception.playerId,'B6');assert.equal(interception.t,20);
   const release=blocked.events.find(e=>e.passId===interception.passId&&e.type==='pass');
   assert.equal(release.playerId,'A10');assert.equal(release.targetId,'A9');
-  assert.equal(frameAt(blocked,20.2).attackingTeam,'B');assert.equal(frameAt(blocked,20.2).attackDirection,-1);
-  assert.ok(blocked.events.some(e=>e.type==='reception'&&e.playerId==='B7'&&e.t===25.4));
+  assert.equal(frameAt(blocked,20).attackingTeam,'B');assert.equal(frameAt(blocked,20).attackDirection,-1);
+  assert.ok(blocked.events.some(e=>e.type==='reception'&&e.playerId==='B7'&&e.t===25.2));
   assert.equal(blocked.frames.at(-1).carrierId,'B7');
   for(const scene of [used,unused])assert.equal(scene.events.at(-1).type,'save');
 });
@@ -117,9 +117,10 @@ test('both saved ground shots would cross the goal mouth after the save point',(
   }
 });
 
-test('audit rejects the former wide used-shot ray even though the keeper receives the ball',()=>{
+test('audit rejects a wide shot ray even though the keeper receives the ball',()=>{
   const bad=structuredClone(scenes.get('used'));
-  bad.frames[296].ball.vy=-15.735332186609655;
+  const ball=bad.frames[296].ball;
+  ball.vy=(-6.437253617124128-ball.y)/((52.5-ball.x)/ball.vx);
   const projection=shotGoalLineProjection(bad.frames[296]);
   assert.equal(projection.onTarget,false);
   assert.ok(Math.abs(projection.y+6.437253617124128)<1e-8);
@@ -128,8 +129,8 @@ test('audit rejects the former wide used-shot ray even though the keeper receive
 
 test('the authored misdirected interception reports target-to-ball-ray error separately',()=>{
   const interception=auditScenario(scenes.get('blocked')).flights.find(flight=>flight.outcome==='interception');
-  assert.ok(Math.abs(interception.intendedTargetDistanceFromActualBallRay-3.101862)<1e-5);
-  assert.ok(Math.abs(interception.interceptionDistanceFromIntendedLane-1.386899)<1e-5);
+  assert.ok(Math.abs(interception.intendedTargetDistanceFromActualBallRay-3.577986)<1e-5);
+  assert.ok(Math.abs(interception.interceptionDistanceFromIntendedLane-1.601487)<1e-5);
   assert.ok(interception.intendedTargetDistanceFromActualBallRay>interception.interceptionDistanceFromIntendedLane);
   assert.match(interception.interceptionModel,/Authored misdirected pass/);
 });

@@ -57,7 +57,8 @@ test('the model cannot borrow a sample before its chosen subwindow either', () =
 });
 
 test('the real blocked clip reports the occurred interception as a terminal result', () => {
-  const input = {...request,scenarioId:'blocked',playerId:'A9',asOfTime:20.2,windowSeconds:6};
+  const arrival = actualBundle().scenario.events.find(event => event.id === 'blocked:p4:arrival');
+  const input = {...request,scenarioId:'blocked',playerId:'A9',asOfTime:arrival.t,windowSeconds:6};
   const english = offlineExplain(input,actualBundle());
   const chinese = offlineExplain({...input,language:'zh'},actualBundle());
   const outcome = english.claims.find(claim => claim.kind === 'outcome');
@@ -66,7 +67,7 @@ test('the real blocked clip reports the occurred interception as a terminal resu
   assert(outcome.player_ids.includes('B6'));
   assert(outcome.evidence_ids.includes('EV:blocked:p4:arrival'));
   assert.match(chinese.claims.find(claim => claim.kind === 'outcome').text,/B6.*拦截/);
-  const before = offlineExplain({...input,asOfTime:20.1},actualBundle());
+  const before = offlineExplain({...input,asOfTime:arrival.t-.1},actualBundle());
   assert.match(before.claims.find(claim => claim.kind === 'outcome').text,/not yet confirmed/);
   assert(!before.evidence.some(item => item.event?.type === 'interception'));
 });

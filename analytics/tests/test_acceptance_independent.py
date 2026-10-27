@@ -187,10 +187,15 @@ def test_cross_platform_comparator_accepts_real_ci_deltas_but_rejects_corruption
         ("A11", "das", .002245584526940059, .002245584525335545),
     )
     _, _, analysis = read("used")
-    stored = analysis["frames"][0]
+    # Keep the historical cross-platform scalar pairs as a comparator fixture.
+    # Current choreography changes the current export; it must not overwrite
+    # these observed CI deltas or change the tolerance. Fresh export parity is
+    # checked separately above. Other fields supply only the current schema.
+    stored = deepcopy(analysis["frames"][0])
+    for pid, metric, mac_value, _ in differences:
+        stored["players"][pid][metric] = mac_value
     linux = deepcopy(stored)
     for pid, metric, mac_value, linux_value in differences:
-        assert stored["players"][pid][metric] == mac_value
         linux["players"][pid][metric] = linux_value
     assert linux != stored
     assert_export_frame_reproducible(linux, stored)

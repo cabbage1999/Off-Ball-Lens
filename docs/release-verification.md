@@ -1,5 +1,10 @@
 # Public v2 release verification
 
+## Current motion and interface revision
+
+The 27 October v3 motion and spectator-view refinement is documented in [replay-v3.md](replay-v3.md), including final input hashes, 176 JavaScript / 33 numerical Python / 52 MAF Python passing tests, independent acceptance, browser failure/recovery checks, and fresh real MAF receipts. The sections below describe earlier release stages; their timing numbers and screenshots are historical. Current receipts are linked from replay-v3.md.
+
+
 Checked on 24 October 2026 by the root integration role. This record supplements the independent local acceptance and adversarial reports; it does not extend those roles' claims to checks they did not perform.
 
 Initial application release: [`9b871a934bd125c20cd9df99c7c44c60f93857af`](https://github.com/cabbage1999/Off-Ball-Lens/commit/9b871a934bd125c20cd9df99c7c44c60f93857af). All 77 published files were compared by Git blob SHA against their local bytes before moving `main`; nine obsolete v1 files were removed, and v1 remains in commit history. The subsequent precision correction changed tests and documentation only. The later service and deployment-check changes are recorded separately below; model parameters, scenes, analysis and the original video remain unchanged.
@@ -67,9 +72,9 @@ The shared run limits are six model requests, ten native tool calls, one candida
 
 The team's original `azure_check.py` separately returned `OK` from `https://westus3.api.cognitive.microsoft.com/openai/v1/responses` with `gpt-5-mini`: 10 input tokens, 19 output tokens, 2.71 seconds. This establishes basic inference connectivity for the tested account. It does not establish the full MAF tool loop, and the exact service-side routing behind that regional endpoint is not inferred from the empty deployment list.
 
-**Real MAF acceptance passed on 27 October.** The root ran `smoke:agent` through the local HTTP service, real Python worker and configured Azure provider. The [basic receipt](../artifacts/agent-framework-trace.json) records three model requests, two native evidence tools, zero repairs and 9.778 seconds. It is separate from the earlier `azure_check.py` connectivity check.
+**Real MAF acceptance passed on 27 October.** The root ran `smoke:agent` through the local HTTP service, real Python worker and configured Azure provider. The [basic receipt](https://github.com/cabbage1999/Off-Ball-Lens/blob/3eb1a85cecb0bf1a8f202bc55c060b2e2ef13402/artifacts/agent-framework-trace.json) records three model requests, two native evidence tools, zero repairs and 9.778 seconds. It is separate from the earlier `azure_check.py` connectivity check.
 
-The initial eight-case suite passed its evidence/protocol checks, but independent artifact review found that a limitations question included distracting metric paragraphs. The Agent's instructions were refined to focus limitation-only questions on the canonical limitations clause, prioritize observed outcomes for pass questions, and prioritize availability for unsupported current states. No numerical model, data, validator or permitted evidence was changed. The final [eight-case suite](../artifacts/agent-framework-suite.json) passed both canonical-evidence and question-focus assertions:
+The initial eight-case suite passed its evidence/protocol checks, but independent artifact review found that a limitations question included distracting metric paragraphs. The Agent's instructions were refined to focus limitation-only questions on the canonical limitations clause, prioritize observed outcomes for pass questions, and prioritize availability for unsupported current states. No numerical model, data, validator or permitted evidence was changed. The final [eight-case suite](https://github.com/cabbage1999/Off-Ball-Lens/blob/3eb1a85cecb0bf1a8f202bc55c060b2e2ef13402/artifacts/agent-framework-suite.json) passed both canonical-evidence and question-focus assertions:
 
 | Case | Selection and verified focus |
 | --- | --- |
