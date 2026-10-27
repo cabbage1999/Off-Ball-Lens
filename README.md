@@ -4,7 +4,7 @@
 
 Off-Ball Lens replays three independently authored synthetic football attacks, follows any of the 22 players, and connects receiving-space heatmaps and past opportunity windows to exact evidence frames. Its numerical engine is the authors' [accessible-space 2.1.0](https://github.com/jonas-bischofberger/accessible-space), implementing individual Dangerous Accessible Space (DAS).
 
-**[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Replay refinement](docs/replay-v3.md) · [Acceptance](docs/acceptance.md)
+**[Interactive replay](https://cabbage1999.github.io/Off-Ball-Lens/)** · [Submission materials](docs/submission/README.md) · [Documentation index](docs/README.md) · [中文说明](docs/README.zh-CN.md) · [Method](docs/method.md) · [Walkthrough](docs/demo-guide.md) · [Replay refinement](docs/replay-v3.md) · [Acceptance](docs/acceptance.md)
 
 The default replay uses precomputed author-model results and works without an account or API key. The server includes **one genuine Microsoft Agent Framework (MAF) Agent** with native evidence tools. **On 27 October 2026, the complete local Node → MAF → Azure path passed a real smoke and all eight expanded cases**, using `gpt-5-mini` at `https://westus3.api.cognitive.microsoft.com/openai/v1/responses`. See the sanitized [single-run record](artifacts/agent-framework-trace.json) and [eight-case record](artifacts/agent-framework-suite.json), both marked `mock:false`. Public backend deployment, the final MAF video and human review remain pending. GitHub Pages continues to provide deterministic local explanations.
 
